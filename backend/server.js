@@ -1,65 +1,46 @@
-const fastify = require("fastify")({
-  logger: false,
-});
-// fastify.register(require("@fastify/formbody"));
-// fastify.register(require("@fastify/jwt"), {
-//   secret: "testkey123",
-// });
+const sqlite3 = require("sqlite3");
+const { open } = require("sqlite");
 
-const PORT = 5000;
+async function startServer() {
+  const db = await open({
+    filename: "./db/base.db",
+    driver: sqlite3.Database,
+  });
 
-fastify.get("/", (req, res) => {
-  console.log("Welcome in the First jwt auth");
-  return res.status(200).send({ message: "Welcome in the First jwt auth" });
-});
+  const createUsersTable = `
+    CREATE TABLE IF NOT EXISTS users (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      username TEXT NOT NULL UNIQUE,
+      password TEXT NOT NULL,
+      email TEXT NOT NULL UNIQUE,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );`;
 
-fastify.addSchema({
-  $id: "LoginValidator",
-  type: "object",
-  required: ["id", "email", "password"],
-  properties: {
-    id: { type: "string" },
-    email: { type: "string", format: "email" },
-    password: { type: "string" },
-  },
-});
+  await db.run(createUsersTable);
+  console.log("Table is ready");
 
-fastify.post(
-  "/login",
-  {
-    schema: { body: { $ref: "LoginValidator#" } },
-  },
-  (req, res) => {
-    res.send({ message: "Login Succesfuly" });
-  }
-);
+  const fastify = require("fastify")({ logger: false });
 
-fastify.addSchema({
-  $id: "RegisterValidator",
-  type: "object",
-  required: ["id", "name", "email", "password"],
-  properties: {
-    id: { type: "string" },
-    name: { type: "string" },
-    email: { type: "string", format: "email" },
-    password: { type: "string" },
-  },
-});
+  fastify.register(require("@fastify/jwt"), {
+    secret: "testkey123",
+  });
 
-fastify.post(
-  "/register",
-  {
-    schema: { body: { $ref: "RegisterValidator" } },
-  },
-  (req, res) => {
-    res.send({ message: "register Succesfuly" });
-  }
-);
+  fastify.decorate("db", db);
 
-fastify.listen({ port: PORT }, function (err, address) {
-  if (err) {
-    console.error(err.message);
-    process.exit(1);
-  }
-  console.log(`Server is listening on ${address}`);
+  fastify.register(require("./routes/auth-route"));
+
+  const PORT = 5000;
+
+  fastify.listen({ port: PORT }, function (err, address) {
+    if (err) {
+      console.error(err.message);
+      process.exit(1);
+    }
+    console.log(`Server is listening on ${address}`);
+  });
+}
+
+startServer().catch((err) => {
+  console.error("Failed to start server:", err);
 });
