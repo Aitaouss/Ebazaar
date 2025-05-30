@@ -22,6 +22,14 @@ async function startServer() {
 
   const fastify = require("fastify")({ logger: false });
 
+  fastify.decorate("authenticate", async (req, res) => {
+    try {
+      await req.jwtVerify();
+    } catch (err) {
+      res.status(401).send({ error: "Unauthorized" });
+    }
+  });
+
   fastify.register(require("@fastify/jwt"), {
     secret: "testkey123",
   });

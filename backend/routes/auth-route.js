@@ -2,7 +2,7 @@ async function routes(fastify, options) {
   fastify.addSchema({
     $id: "LoginValidator",
     type: "object",
-    required: ["id", "email", "password"],
+    required: ["email", "password"],
     properties: {
       id: { type: "string" },
       email: { type: "string", format: "email" },
@@ -12,7 +12,7 @@ async function routes(fastify, options) {
   fastify.addSchema({
     $id: "RegisterValidator",
     type: "object",
-    required: ["id", "username", "email", "password"],
+    required: ["username", "email", "password"],
     properties: {
       id: { type: "string" },
       username: { type: "string" },
@@ -36,8 +36,22 @@ async function routes(fastify, options) {
       schema: { body: { $ref: "LoginValidator#" } },
     },
     async (req, res) => {
-      // const User
-      res.send({ message: "Login Succesfuly" });
+      const userData = {
+        email: req.body.email,
+        password: req.body.password,
+      };
+      let emails = [];
+      user = await fastify.db.get(
+        `SELECT * FROM users WHERE email = ? and password = ?`,
+        [userData.email, userData.password]
+      );
+      const token = fastify.jwt.sign({ id: user.id, email: user.email });
+      if (user.length !== 0) {
+        console.log(`${user.username} Loged in`);
+        res.send(token);
+      } else {
+        res.status(404).send({ error: "User Not Found" });
+      }
     }
   );
   // Register Route
@@ -49,26 +63,51 @@ async function routes(fastify, options) {
     async (req, res) => {
       try {
         const userData = {
-          id: req.body.id,
           username: req.body.username,
-          emaill: req.body.email,
+          email: req.body.email,
           password: req.body.password,
         };
 
         await fastify.db.run(
           "INSERT INTO users (username, password, email) values(?, ?, ?)",
-          [userData.username, userData.password, userData.emaill]
+          [userData.username, userData.password, userData.email]
         );
-        const data = await fastify.db.all("SELECT * FROM users");
 
-        console.log("Data : ", data);
-        res.send({ message: "register Succesfuly" });
+        const token = fastify.jwt.sign({
+          id: userData.id,
+          email: userData.email,
+        });
+        res.send(token);
       } catch (err) {
         console.error("There is err : ", err.message);
-        return res.send({ error: "User Already In Database" });
+        return res.send({ error: err.message });
       }
     }
   );
+  // Profile route
+  fastify.get("/profile", async (req, res) => {
+    try {
+      const authHeader = req.headers.authorization;
+      if (!authHeader || !authHeader.startsWith("Bearer ")) {
+        return res.status(401).send({ error: "Missin token Or invalid" });
+      }
+      const token = authHeader.split(" ")[1];
+
+      const decodedToken = fastify.jwt.verify(token);
+      console.log("decoded token : ", decodedToken);
+
+      const user = await fastify.db.get(`SELECT * FROM users WHERE email = ?`, [
+        decodedToken.email,
+      ]);
+
+      res.send(user);
+      if (!user) {
+        res.status(404).send({ error: "User Not found" });
+      }
+    } catch (err) {
+      return res.status(401).send({ error: err.message });
+    }
+  });
 }
 
 module.exports = routes;
