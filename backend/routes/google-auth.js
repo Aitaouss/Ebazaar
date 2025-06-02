@@ -17,13 +17,11 @@ module.exports = async function (fastify) {
       }),
     },
     async (req, reply) => {
-      // Generate JWT token
       const token = fastify.jwt.sign({
         id: req.user.id,
         email: req.user.email,
       });
 
-      // You can redirect with token or return as JSON
       reply.send({ token, user: req.user });
     }
   );
