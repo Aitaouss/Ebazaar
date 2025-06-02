@@ -57,11 +57,25 @@ async function routes(fastify, options) {
   // Register Route
   fastify.post(
     "/register",
-    {
-      schema: { body: { $ref: "RegisterValidator" } },
-    },
+    // {
+    //   schema: { body: { $ref: "RegisterValidator" } },
+    // },
     async (req, res) => {
       try {
+        // const isGoogle = req.body.isGoogle;
+        // if (isGoogle) {
+        //   console.log("is google :  ", isGoogle);
+        //   return res.status(200).send({
+        //     status: isGoogle,
+        //     message: "The User try to register from google",
+        //   });
+        // } else {
+        //   console.log("is not google :  ", isGoogle);
+        //   return res.status(400).send({
+        //     status: isGoogle,
+        //     error: "The User try Not with google",
+        //   });
+        // }
         const userData = {
           username: req.body.username,
           email: req.body.email,
@@ -111,3 +125,5 @@ async function routes(fastify, options) {
 }
 
 module.exports = routes;
+
+// http://localhost:5000

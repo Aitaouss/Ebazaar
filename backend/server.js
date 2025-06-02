@@ -1,5 +1,9 @@
 const sqlite3 = require("sqlite3");
 const { open } = require("sqlite");
+require("dotenv").config();
+
+// allow oringin
+const cors = require("@fastify/cors");
 
 async function startServer() {
   const db = await open({
@@ -21,6 +25,11 @@ async function startServer() {
   console.log("Table is ready");
 
   const fastify = require("fastify")({ logger: false });
+  fastify.register(cors, {
+    origin: "*",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  });
 
   fastify.decorate("authenticate", async (req, res) => {
     try {
@@ -31,16 +40,14 @@ async function startServer() {
   });
 
   fastify.register(require("@fastify/jwt"), {
-    secret: "testkey123",
+    secret: process.env.JWT_KEY,
   });
 
   fastify.decorate("db", db);
 
   fastify.register(require("./routes/auth-route"));
 
-  const PORT = 5000;
-
-  fastify.listen({ port: PORT }, function (err, address) {
+  fastify.listen({ port: process.env.PORT }, function (err, address) {
     if (err) {
       console.error(err.message);
       process.exit(1);
