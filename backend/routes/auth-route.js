@@ -1,4 +1,4 @@
-const { loginController, RegisterController } = require("./user-controler");
+const { RegisterController, LoginController } = require("./user-controler");
 
 async function routes(fastify, options) {
   fastify.addSchema({
@@ -29,9 +29,9 @@ async function routes(fastify, options) {
   });
 
   // main route
-  fastify.get("/", async (req, res) => {
+  fastify.get("/", async (request, reply) => {
     console.log("Welcome in the First jwt auth");
-    return res.status(200).send({ message: "Welcome in the First jwt auth" });
+    return reply.status(200).send({ message: "Welcome in the First jwt auth" });
   });
 
   // Register Route
@@ -40,27 +40,29 @@ async function routes(fastify, options) {
     {
       schema: { body: { $ref: "RegisterValidator" } },
     },
-    RegisterController
+    (request, reply) => {
+      RegisterController(request, reply, fastify);
+    }
   );
 
   // Login Route
   fastify.post(
     "/login",
     {
-      schema: { body: { $ref: "LoginValidator#" } },
+      schema: { body: { $ref: "LoginValidator" } },
     },
-    (req, res) => {
-      return res.send({ message: "From /Login" });
+    (request, reply) => {
+      LoginController(request, reply, fastify);
     }
   );
 
   // Profile route
-  fastify.get("/api/me", (req, res) => {
-    return res.send({ message: "From Profile endpoint" });
+  fastify.get("/api/me", (request, reply) => {
+    return reply.send({ message: "From Profile endpoint" });
   });
 
-  fastify.get("/healthcheck", (req, res) => {
-    return res.status(200).send({ message: "The App is working" });
+  fastify.get("/healthcheck", (request, reply) => {
+    return reply.status(200).send({ message: "The App is working" });
   });
 }
 
