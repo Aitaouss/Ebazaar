@@ -40,7 +40,7 @@ async function LoginController(request, reply, fastify) {
       throw new Error("User Not found");
     }
     const password = request.body.password;
-    console.log(user);
+    console.log("user : ", user);
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       console.error("Password Incorrect");
@@ -57,7 +57,7 @@ async function LoginController(request, reply, fastify) {
     const token = fastify.jwt.sign(userData);
     console.log("Token generated successfully", token);
 
-    console.log(token);
+    console.log("Token : ", token);
 
     return reply.send({ success: true, token: token });
   } catch (err) {

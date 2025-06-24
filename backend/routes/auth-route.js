@@ -55,6 +55,22 @@ async function routes(fastify, options) {
       LoginController(request, reply, fastify);
     }
   );
+  // Add this preHandler hook to your route to verify the JWT token
+  fastify.route({
+    method: "GET",
+    url: "/dashboard",
+    preHandler: async (request, reply) => {
+      try {
+        await request.jwtVerify(); // verifies token from Authorization header or cookie
+      } catch (err) {
+        reply.code(401).send({ error: "Unauthorized" });
+      }
+    },
+    handler: async (request, reply) => {
+      // If token is valid, send dashboard data
+      reply.send({ message: "Welcome to your dashboard!" });
+    },
+  });
 
   // Profile route
   fastify.get("/api/me", (request, reply) => {
