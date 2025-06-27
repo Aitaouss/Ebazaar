@@ -1,4 +1,8 @@
-const { RegisterController, LoginController } = require("./user-controler");
+const {
+  RegisterController,
+  LoginController,
+  ProfileController,
+} = require("./user-controler");
 
 async function routes(fastify, options) {
   fastify.addSchema({
@@ -63,6 +67,7 @@ async function routes(fastify, options) {
       try {
         await request.jwtVerify(); // verifies token from Authorization header or cookie
       } catch (err) {
+        console.error("Unauthorized");
         reply.code(401).send({ error: "Unauthorized" });
       }
     },
@@ -74,8 +79,24 @@ async function routes(fastify, options) {
 
   // Profile route
   fastify.get("/api/me", (request, reply) => {
-    return reply.send({ message: "From Profile endpoint" });
+    ProfileController(request, reply, fastify);
   });
+
+  // fastify.route({
+  //   method: "GET",
+  //   url: "/api/me",
+  //   preHandler: async (request, reply) => {
+  //     try {
+  //       await request.jwtVerify();
+  //     } catch (err) {
+  //       console.error("Unauthorized");
+  //       reply.code(401).send({ error: "Unauthorized" });
+  //     }
+  //   },
+  //   handler: async (request, reply) => {
+  //     reply.send({ message: "From Profile endpoint" });
+  //   },
+  // });
 
   fastify.get("/healthcheck", (request, reply) => {
     return reply.status(200).send({ message: "The App is working" });

@@ -64,8 +64,28 @@ async function LoginController(request, reply, fastify) {
     return reply.status(400).send({ err: err.message });
   }
 }
+async function ProfileController(request, reply, fastify) {
+  let token;
+  try {
+    await request.jwtVerify();
+  } catch (err) {
+    console.error("Unauthorized");
+    return reply.status(401).send({ err: "Unauthorized" });
+  }
+  try {
+    const { id } = request.user;
+    const userData = await db.getAsync(`SELECT * FROM users WHERE id = ?`, [
+      id,
+    ]);
+    console.log(userData);
+    return reply.send(userData);
+  } catch (err) {
+    return reply.status(400).send({ err: err.message });
+  }
+}
 
 module.exports = {
   RegisterController,
   LoginController,
+  ProfileController,
 };
