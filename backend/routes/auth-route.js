@@ -101,6 +101,11 @@ async function routes(fastify, options) {
   fastify.get("/healthcheck", (request, reply) => {
     return reply.status(200).send({ message: "The App is working" });
   });
+  // GOOGLE route
+  fastify.get("/auth/google", (req, res) => {
+    const redirectUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.ID_CLIENT_GOOGLE}&redirect_uri=${process.env.CALL_BACK_URL}&response_type=code&scope=profile email&access_type=offline&prompt=consent`;
+    res.redirect(redirectUrl);
+  });
 }
 
 module.exports = routes;

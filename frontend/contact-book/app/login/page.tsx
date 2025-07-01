@@ -1,19 +1,26 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { FcGoogle } from "react-icons/fc";
 
 export default function Login() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [loading, setLoading] = useState(false);
   const [LogFail, setLogFail] = useState(false);
-
+  const [googleLogin, setGoogleLogin] = useState(false);
+  useEffect(() => {
+    const start = async () => {
+      await fetch("");
+    };
+    // start()
+  }, [googleLogin]);
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     setLoading(true);
 
-    const res = await fetch("http://localhost:5000/login", {
+    const res = await fetch("http://localhost:9000/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -86,6 +93,15 @@ export default function Login() {
             className="w-full bg-black py-2 rounded hover:bg-white transition duration-200 disabled:opacity-50 text-white hover:text-black hover:border-black border-2 text-lg font-semibold"
           >
             {loading ? "Logging in..." : "Login"}
+          </button>
+
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full  flex items-center justify-between px-12  bg-black py-2 rounded hover:bg-white transition duration-200 disabled:opacity-50 text-white hover:text-black hover:border-black border-2 text-lg font-semibold"
+          >
+            <FcGoogle size={30} />
+            {loading ? "Logging in..." : "Login with google"}
           </button>
           {LogFail && (
             <p className="text-red-500 text-sm mt-2">

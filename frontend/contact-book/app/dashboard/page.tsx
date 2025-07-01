@@ -17,7 +17,7 @@ export default function Home() {
     }
     const start = async () => {
       try {
-        const res = await fetch("http://localhost:5000/dashboard", {
+        const res = await fetch("http://localhost:9000/dashboard", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -52,7 +52,7 @@ export default function Home() {
       return;
     }
     const start = async () => {
-      const res = await fetch("http://localhost:5000/api/me", {
+      const res = await fetch("http://localhost:9000/api/me", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
