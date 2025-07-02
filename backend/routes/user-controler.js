@@ -65,7 +65,6 @@ async function LoginController(request, reply, fastify) {
   }
 }
 async function ProfileController(request, reply, fastify) {
-  let token;
   try {
     await request.jwtVerify();
   } catch (err) {
@@ -77,7 +76,6 @@ async function ProfileController(request, reply, fastify) {
     const userData = await db.getAsync(`SELECT * FROM users WHERE id = ?`, [
       id,
     ]);
-    console.log("Profile : ", userData);
     return reply.send(userData);
   } catch (err) {
     return reply.status(400).send({ err: err.message });
