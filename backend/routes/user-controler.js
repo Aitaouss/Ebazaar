@@ -77,7 +77,7 @@ async function ProfileController(request, reply, fastify) {
     const userData = await db.getAsync(`SELECT * FROM users WHERE id = ?`, [
       id,
     ]);
-    console.log(userData);
+    console.log("Profile : ", userData);
     return reply.send(userData);
   } catch (err) {
     return reply.status(400).send({ err: err.message });

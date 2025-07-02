@@ -3,7 +3,6 @@ const {
   LoginController,
   ProfileController,
 } = require("./user-controler");
-
 async function routes(fastify, options) {
   fastify.addSchema({
     $id: "LoginValidator",
@@ -82,22 +81,6 @@ async function routes(fastify, options) {
     ProfileController(request, reply, fastify);
   });
 
-  // fastify.route({
-  //   method: "GET",
-  //   url: "/api/me",
-  //   preHandler: async (request, reply) => {
-  //     try {
-  //       await request.jwtVerify();
-  //     } catch (err) {
-  //       console.error("Unauthorized");
-  //       reply.code(401).send({ error: "Unauthorized" });
-  //     }
-  //   },
-  //   handler: async (request, reply) => {
-  //     reply.send({ message: "From Profile endpoint" });
-  //   },
-  // });
-
   fastify.get("/healthcheck", (request, reply) => {
     return reply.status(200).send({ message: "The App is working" });
   });
@@ -108,9 +91,8 @@ async function routes(fastify, options) {
     res.redirect(redirectUrl);
   });
 
-  fastify.get("/auth/google/callback", async (req, res) => {
-    const code = req.query.code;
-
+  fastify.post("/auth/google/callback", async (req, res) => {
+    const code = req.body.code;
     try {
       const tokenRes = await fetch("https://oauth2.googleapis.com/token", {
         method: "POST",
@@ -123,27 +105,74 @@ async function routes(fastify, options) {
           grant_type: "authorization_code",
         }),
       });
-
       const tokenData = await tokenRes.json();
-
       if (!tokenData.access_token) {
         return res
-          .code(400)
+          .status(400)
           .send({ error: "Failed to exchange code for token" });
       }
-
       const userRes = await fetch(
         "https://www.googleapis.com/oauth2/v3/userinfo",
         {
           headers: { Authorization: `Bearer ${tokenData.access_token}` },
         }
       );
-
       const userInfo = await userRes.json();
+      console.log("userInfo : ", userInfo);
+      const userData = {
+        id: userInfo.id,
+        email: userInfo.email,
+        username: userInfo.name,
+        picture: userInfo.picture,
+      };
+      const tokenJwt = fastify.jwt.sign(userData, process.env.JWT_KEY);
+      return res.status(200).send({ token: tokenJwt });
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json({ error: "Internal server error" });
+    }
+  });
+  fastify.get("/auth/google/callback", async (req, res) => {
+    const code = req.query.code;
 
-      const redirectFrontendUrl = "http://localhost:3000";
-      console.log("im in the backend callback");
-      return res.redirect(redirectFrontendUrl);
+    const redirectFrontendUrl = `http://localhost:3000/auth/callback/google?code=${code}`;
+    return res.redirect(redirectFrontendUrl);
+    try {
+      //   const tokenRes = await fetch("https://oauth2.googleapis.com/token", {
+      //     method: "POST",
+      //     headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      //     body: new URLSearchParams({
+      //       code,
+      //       client_id: process.env.ID_CLIENT_GOOGLE,
+      //       client_secret: process.env.ID_SECRET,
+      //       redirect_uri: process.env.CALL_BACK_URL,
+      //       grant_type: "authorization_code",
+      //     }),
+      //   });
+      //   const tokenData = await tokenRes.json();
+      //   if (!tokenData.access_token) {
+      //     return res
+      //       .code(400)
+      //       .send({ error: "Failed to exchange code for token" });
+      //   }
+      //   const userRes = await fetch(
+      //     "https://www.googleapis.com/oauth2/v3/userinfo",
+      //     {
+      //       headers: { Authorization: `Bearer ${tokenData.access_token}` },
+      //     }
+      //   );
+      //   const userInfo = await userRes.json();
+      //   console.log("userInfo : ", userInfo);
+      //   const userData = {
+      //     id: userInfo.id,
+      //     email: userInfo.email,
+      //     username: userInfo.name,
+      //     picture: userInfo.picture,
+      //   };
+      //   const token = fastify.jwt.sign(userData, process.env.JWT_KEY);
+      //   // return res.status(200).send(token);
+      // const redirectFrontendUrl = `http://localhost:3000/auth/callback/google`;
+      // return res.redirect(redirectFrontendUrl);
     } catch (err) {
       console.error(err);
       return res.code(500).json({ error: "Internal server error" });
