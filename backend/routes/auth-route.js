@@ -104,7 +104,50 @@ async function routes(fastify, options) {
   // GOOGLE route
   fastify.get("/auth/google", (req, res) => {
     const redirectUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.ID_CLIENT_GOOGLE}&redirect_uri=${process.env.CALL_BACK_URL}&response_type=code&scope=profile email&access_type=offline&prompt=consent`;
+    console.log("Redirect URI:", redirectUrl);
     res.redirect(redirectUrl);
+  });
+
+  fastify.get("/auth/google/callback", async (req, res) => {
+    const code = req.query.code;
+
+    try {
+      const tokenRes = await fetch("https://oauth2.googleapis.com/token", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams({
+          code,
+          client_id: process.env.ID_CLIENT_GOOGLE,
+          client_secret: process.env.ID_SECRET,
+          redirect_uri: process.env.CALL_BACK_URL,
+          grant_type: "authorization_code",
+        }),
+      });
+
+      const tokenData = await tokenRes.json();
+
+      if (!tokenData.access_token) {
+        return res
+          .code(400)
+          .send({ error: "Failed to exchange code for token" });
+      }
+
+      const userRes = await fetch(
+        "https://www.googleapis.com/oauth2/v3/userinfo",
+        {
+          headers: { Authorization: `Bearer ${tokenData.access_token}` },
+        }
+      );
+
+      const userInfo = await userRes.json();
+
+      const redirectFrontendUrl = "http://localhost:3000";
+      console.log("im in the backend callback");
+      return res.redirect(redirectFrontendUrl);
+    } catch (err) {
+      console.error(err);
+      return res.code(500).json({ error: "Internal server error" });
+    }
   });
 }
 

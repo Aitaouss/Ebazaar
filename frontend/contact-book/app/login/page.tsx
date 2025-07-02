@@ -1,20 +1,31 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { FcGoogle } from "react-icons/fc";
+import { start } from "repl";
 
 export default function Login() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [loading, setLoading] = useState(false);
-  const [LogFail, setLogFail] = useState(false);
-  const [googleLogin, setGoogleLogin] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [LogFail, setLogFail] = useState<boolean>(false);
   useEffect(() => {
-    const start = async () => {
-      await fetch("");
-    };
-    // start()
-  }, [googleLogin]);
+    try {
+      setLogFail(false);
+      const start = async () => {
+        const token = localStorage.getItem("token");
+        if (token) {
+          window.location.href = "/dashboard";
+        }
+      };
+      start();
+    } catch (err) {
+      console.error(err);
+    }
+  });
+  const handleGoogleLogin = () => {
+    window.location.href = "http://localhost:9000/auth/google";
+  };
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -95,20 +106,20 @@ export default function Login() {
             {loading ? "Logging in..." : "Login"}
           </button>
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full  flex items-center justify-between px-12  bg-black py-2 rounded hover:bg-white transition duration-200 disabled:opacity-50 text-white hover:text-black hover:border-black border-2 text-lg font-semibold"
-          >
-            <FcGoogle size={30} />
-            {loading ? "Logging in..." : "Login with google"}
-          </button>
           {LogFail && (
             <p className="text-red-500 text-sm mt-2">
               Login failed. Please check your credentials.
             </p>
           )}
         </form>
+        <button
+          onClick={handleGoogleLogin}
+          disabled={loading}
+          className="w-full  flex items-center justify-between px-12  bg-black py-2 rounded hover:bg-white transition duration-200 disabled:opacity-50 text-white hover:text-black hover:border-black border-2 text-lg font-semibold"
+        >
+          <FcGoogle size={30} />
+          {loading ? "Logging in..." : "Login with google"}
+        </button>
       </div>
     </div>
   );
