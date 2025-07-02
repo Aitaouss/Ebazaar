@@ -10,10 +10,9 @@ export default function Login() {
   const [LogFail, setLogFail] = useState<boolean>(false);
   useEffect(() => {
     try {
-      // setLoading(true);
       const start = async () => {
         const token = localStorage.getItem("token");
-        if (token) {
+        if (token && token !== "undefined" && token !== "null") {
           window.location.href = "/dashboard";
         } else {
           setLoading(false);
@@ -30,32 +29,45 @@ export default function Login() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // setLoading(true);
+    try {
+      const res = await fetch("http://localhost:9000/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      });
+      if (!res.ok) {
+        throw new Error("Login failed");
+      }
+      const data = await res.json();
+      if (data.success === false) {
+        throw new Error("Login failed: " + data.err);
+      }
+      console.log(data);
+      if (data.err === "Password Incorrect") {
+        setLogFail(true);
+        console.error("Password Incorrect");
+        return;
+      }
+      if (data.success) {
+        console.log("Data token : ", data.token);
+        localStorage.setItem("token", data.token);
+        setLogFail(false);
+        window.location.href = "/dashboard";
+        console.log("Login successful");
+      } else {
+        setLogFail(true);
+        console.error("Login failed");
+      }
 
-    const res = await fetch("http://localhost:9000/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email,
-        password,
-      }),
-    });
-
-    const data = await res.json();
-    console.log(data);
-    if (data.success) {
-      setLogFail(false);
-      window.location.href = "/dashboard";
-      console.log("Login successful");
-    } else {
-      setLogFail(true);
-      console.error("Login failed");
+      setLoading(false);
+    } catch (err) {
+      console.error(err);
     }
-    console.log("Data token : ", data.token);
-    localStorage.setItem("token", data.token);
-    setLoading(false);
   };
 
   return (

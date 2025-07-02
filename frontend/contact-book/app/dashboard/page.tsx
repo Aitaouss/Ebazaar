@@ -87,7 +87,9 @@ export default function Home() {
               className="px-4 py-2 border rounded-md w-1/3"
             />
             <div className="space-x-4">
-              <h1 className="text-black font-bold">{userData?.username}</h1>
+              <h1 className="text-black font-bold">
+                {userData?.username || "default"}
+              </h1>
               <button className="text-sm font-medium hover:text-blue-500">
                 Cart
               </button>

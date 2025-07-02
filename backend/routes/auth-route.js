@@ -4,7 +4,7 @@ const {
   RegisterController,
   LoginController,
   ProfileController,
-} = require("./user-controler");
+} = require("../controller/user-controler");
 async function routes(fastify, options) {
   fastify.addSchema({
     $id: "LoginValidator",
@@ -68,7 +68,7 @@ async function routes(fastify, options) {
       try {
         await request.jwtVerify(); // verifies token from Authorization header or cookie
       } catch (err) {
-        console.error("Unauthorized");
+        console.error("Unauthorized from dashboard route:");
         reply.code(401).send({ error: "Unauthorized" });
       }
     },
@@ -140,7 +140,7 @@ async function routes(fastify, options) {
       return res.status(200).send({ token: tokenJwt });
     } catch (err) {
       console.error(err);
-      return res.status(500).json({ error: "Internal server error" });
+      return res.status(500).send({ error: "Internal server error" });
     }
   });
 }
