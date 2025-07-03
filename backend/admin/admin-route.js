@@ -6,11 +6,8 @@ async function adminRoutes(fastify, options) {
     preHandler: fastify.authenticate,
     handler: (request, reply) => {
       const decodedToken = request.user;
-      const isAdmin = decodedToken && decodedToken.username === "AimenRedx";
-      if (!decodedToken || !isAdmin) {
-        return reply
-          .status(403)
-          .send({ error: "Forbidden: Admin access required" });
+      if (!decodedToken || decodedToken.role !== "admin") {
+        return reply.status(403).send({ message: "Access denied" });
       }
       getAllUsers(request, reply, fastify);
     },

@@ -76,6 +76,7 @@ export default function Home() {
   if (userData) {
     console.log(userData);
   }
+
   return (
     <>
       {load && <LoadingSpinner />}
@@ -89,9 +90,14 @@ export default function Home() {
               placeholder="Search products..."
               className="px-4 py-2 border rounded-md w-1/3"
             />
-            <div className="space-x-4 flex justify-center items-center">
+            <div
+              className="space-x-4 flex justify-center items-center cursor-pointer"
+              onClick={() => {
+                window.location.href = "/profile";
+              }}
+            >
               <Image
-                className=" border border-black rounded-full w-12 h-12"
+                className="cursor-pointer border border-black rounded-full w-12 h-12"
                 src={
                   userData?.picture || "https://i.ibb.co/FLP25y4n/beard.webp"
                 }
@@ -102,9 +108,6 @@ export default function Home() {
               <h1 className="text-black font-bold">
                 {userData?.username || "default"}
               </h1>
-              <button className="text-sm font-medium hover:text-blue-500">
-                Cart
-              </button>
             </div>
           </nav>
 

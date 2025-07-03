@@ -169,6 +169,21 @@ async function routes(fastify, options) {
       return res.status(500).send({ error: "Internal server error" });
     }
   });
+  // fastify.get("/admin/users", async (request, reply) => {
+  //   try {
+  //     await request.jwtVerify();
+  //     const user = request.user;
+  //     if (user.role !== "admin") {
+  //       return reply.status(403).send({ error: "Forbidden" });
+  //     }
+  //     const query = `SELECT * FROM users`;
+  //     const users = await db.allAsync(query);
+  //     return reply.status(200).send(users);
+  //   } catch (err) {
+  //     console.error("Unauthorized from admin/users route:", err);
+  //     return reply.status(401).send({ error: "Unauthorized" });
+  //   }
+  // });
 }
 
 module.exports = routes;
