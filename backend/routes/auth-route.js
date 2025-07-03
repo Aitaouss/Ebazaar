@@ -134,8 +134,14 @@ async function routes(fastify, options) {
       let tokenJwt;
 
       if (!check_user) {
-        query = `INSERT INTO users (username, email, password) VALUES(?, ?, ?)`;
-        await db.runAsync(query, [userInfo.name, userInfo.email, "123"]);
+        query = `INSERT INTO users (username, email, password, picture) VALUES(?, ?, ?, ?)`;
+        await db.runAsync(query, [
+          userInfo.name,
+          userInfo.email,
+          "123",
+          userInfo.picture,
+        ]);
+        console.log("iser picture", userInfo.picture);
         query = `SELECT * FROM users WHERE email = ?`;
         const check_user = await db.getAsync(query, [userInfo.email]);
         const userData = {
@@ -143,18 +149,18 @@ async function routes(fastify, options) {
           email: userInfo.email,
           username: userInfo.name,
           picture: userInfo.picture,
+          role: check_user.role,
         };
         tokenJwt = fastify.jwt.sign(userData, process.env.JWT_KEY);
-        console.log(`User ${userData.username} registered.`);
       } else {
         const userData = {
           id: check_user.id,
           email: userInfo.email,
           username: userInfo.name,
           picture: userInfo.picture,
+          role: check_user.role,
         };
         tokenJwt = fastify.jwt.sign(userData, process.env.JWT_KEY);
-        console.log(`User ${userData.username} logged in.`);
       }
 
       return res.status(200).send({ token: tokenJwt });

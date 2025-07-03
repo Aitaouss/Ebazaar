@@ -1,9 +1,12 @@
 "use client";
 
+import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
+import LoadingSpinner from "../loading/page";
 interface usernterface {
   username: string;
   email: string;
+  picture: string;
 }
 
 export default function Home() {
@@ -75,7 +78,7 @@ export default function Home() {
   }
   return (
     <>
-      {load && <div>...Loading</div>}
+      {load && <LoadingSpinner />}
       {!load && (
         <div className="bg-gray-50 min-h-screen text-gray-800 w-full">
           {/* Navbar */}
@@ -86,7 +89,16 @@ export default function Home() {
               placeholder="Search products..."
               className="px-4 py-2 border rounded-md w-1/3"
             />
-            <div className="space-x-4">
+            <div className="space-x-4 flex justify-center items-center">
+              <Image
+                className=" border border-black rounded-full w-12 h-12"
+                src={
+                  userData?.picture || "https://i.ibb.co/FLP25y4n/beard.webp"
+                }
+                width={50}
+                height={12}
+                alt="profile Picture"
+              />
               <h1 className="text-black font-bold">
                 {userData?.username || "default"}
               </h1>

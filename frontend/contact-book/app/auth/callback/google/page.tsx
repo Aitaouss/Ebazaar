@@ -1,5 +1,6 @@
 "use client";
 
+import LoadingSpinner from "@/app/loading/page";
 import { useEffect } from "react";
 
 export default function GoogleAuth() {
@@ -42,7 +43,9 @@ export default function GoogleAuth() {
 
   return (
     <div className="h-full w-full bg-black flex items-center justify-center">
-      <h1 className="text-white text-4xl">Authentication with google ...</h1>
+      {/* <h1 className="text-white text-4xl">Authentication with google ...</h1> */}
+
+      <LoadingSpinner />
     </div>
   );
 }
