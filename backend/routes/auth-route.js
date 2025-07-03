@@ -89,7 +89,6 @@ async function routes(fastify, options) {
   // GOOGLE route
   fastify.get("/auth/google", (req, res) => {
     const redirectUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.ID_CLIENT_GOOGLE}&redirect_uri=${process.env.CALL_BACK_URL}&response_type=code&scope=profile email&access_type=offline&prompt=consent`;
-    console.log("Redirect URI:", redirectUrl);
     res.redirect(redirectUrl);
   });
 
@@ -127,16 +126,37 @@ async function routes(fastify, options) {
         }
       );
       const userInfo = await userRes.json();
-      const userData = {
-        id: userInfo.sub,
-        email: userInfo.email,
-        username: userInfo.name,
-        picture: userInfo.picture,
-      };
-      const tokenJwt = fastify.jwt.sign(userData, process.env.JWT_KEY);
-      const query = `INSERT INTO users (username, email, password) VALUES(?, ?, ?)`;
-      await db.runAsync(query, [userData.username, userData.email, "123"]);
-      console.log(`user ${userData.username} Set in db`);
+      console.log("user Info ===> ", userInfo);
+      let query;
+
+      query = `SELECT * FROM users WHERE email = ?`;
+      const check_user = await db.getAsync(query, [userInfo.email]);
+      let tokenJwt;
+
+      if (!check_user) {
+        query = `INSERT INTO users (username, email, password) VALUES(?, ?, ?)`;
+        await db.runAsync(query, [userInfo.name, userInfo.email, "123"]);
+        query = `SELECT * FROM users WHERE email = ?`;
+        const check_user = await db.getAsync(query, [userInfo.email]);
+        const userData = {
+          id: check_user.id,
+          email: userInfo.email,
+          username: userInfo.name,
+          picture: userInfo.picture,
+        };
+        tokenJwt = fastify.jwt.sign(userData, process.env.JWT_KEY);
+        console.log(`User ${userData.username} registered.`);
+      } else {
+        const userData = {
+          id: check_user.id,
+          email: userInfo.email,
+          username: userInfo.name,
+          picture: userInfo.picture,
+        };
+        tokenJwt = fastify.jwt.sign(userData, process.env.JWT_KEY);
+        console.log(`User ${userData.username} logged in.`);
+      }
+
       return res.status(200).send({ token: tokenJwt });
     } catch (err) {
       console.error(err);

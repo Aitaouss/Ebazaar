@@ -40,7 +40,7 @@ async function LoginController(request, reply, fastify) {
       throw new Error("User Not found");
     }
     const password = request.body.password;
-    console.log("user : ", user);
+    // console.log("user : ", user);
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       console.error("Password Incorrect");
@@ -75,9 +75,12 @@ async function ProfileController(request, reply, fastify) {
   }
   try {
     const { id } = request.user;
+    console.log("=====>", request.user);
     const userData = await db.getAsync(`SELECT * FROM users WHERE id = ?`, [
       id,
     ]);
+    console.log("id", id);
+    console.log("userData : ", userData);
     return reply.send(userData);
   } catch (err) {
     return reply.status(400).send({ err: err.message });

@@ -2,12 +2,17 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { FcGoogle } from "react-icons/fc";
+import { Toaster, toast } from "react-hot-toast";
 
 export default function Login() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
   const [LogFail, setLogFail] = useState<boolean>(false);
+
+  const handleClick = () => {
+    toast.success("Hello from toast!");
+  };
   useEffect(() => {
     try {
       const start = async () => {
@@ -40,6 +45,11 @@ export default function Login() {
           password,
         }),
       });
+      if (res.status === 404) {
+        console.log(res);
+        toast.error("Password incorrect!");
+        return;
+      }
       if (!res.ok) {
         throw new Error("Login failed");
       }
@@ -48,11 +58,6 @@ export default function Login() {
         throw new Error("Login failed: " + data.err);
       }
       console.log(data);
-      if (data.err === "Password Incorrect") {
-        setLogFail(true);
-        console.error("Password Incorrect");
-        return;
-      }
       if (data.success) {
         console.log("Data token : ", data.token);
         localStorage.setItem("token", data.token);
@@ -118,8 +123,11 @@ export default function Login() {
                   required
                 />
               </div>
+              <Toaster position="top-right" />
+
               <button
                 type="submit"
+                onSubmit={handleClick}
                 disabled={loading}
                 className="w-full bg-black py-2 rounded hover:bg-white transition duration-200 disabled:opacity-50 text-white hover:text-black hover:border-black border-2 text-lg font-semibold"
               >
