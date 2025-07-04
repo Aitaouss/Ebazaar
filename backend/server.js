@@ -3,8 +3,15 @@ require("dotenv").config();
 const db = require("./db");
 
 const cors = require("@fastify/cors");
+const migrate = require("./db/migrate");
 
 async function startServer() {
+  try {
+    await migrate();
+  } catch (err) {
+    console.error("❌ Migration failed:", err.message);
+    process.exit(1);
+  }
   const fastify = require("fastify")();
 
   fastify.register(cors, {
