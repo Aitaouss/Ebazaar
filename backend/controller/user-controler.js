@@ -105,66 +105,8 @@ async function ProfileController(request, reply, fastify) {
   }
 }
 
-async function AuthGoogleController(request, reply, fastify) {
-  const redirectUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.ID_CLIENT_GOOGLE}&redirect_uri=${process.env.CALL_BACK_URL}&response_type=code&scope=profile email&access_type=offline&prompt=consent`;
-  console.log("Redirect URI:", redirectUrl);
-  reply.redirect(redirectUrl);
-}
-async function GoogleControllerCallBack(request, reply, fastify) {
-  const code = request.query.code;
-
-  const redirectFrontendUrl = `http://localhost:3000/auth/callback/google?code=${code}`;
-  return reply.redirect(redirectFrontendUrl);
-}
-async function GoogleControllerCallBackPost(request, reply, fastify) {
-  const code = request.body.code;
-  try {
-    const tokenRes = await fetch("https://oauth2.googleapis.com/token", {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: new URLSearchParams({
-        code,
-        client_id: process.env.ID_CLIENT_GOOGLE,
-        client_secret: process.env.ID_SECRET,
-        redirect_uri: process.env.CALL_BACK_URL,
-        grant_type: "authorization_code",
-      }),
-    });
-    const tokenData = await tokenRes.json();
-    if (!tokenData.access_token) {
-      return reply
-        .status(400)
-        .send({ error: "Failed to exchange code for token" });
-    }
-    const userRes = await fetch(
-      "https://www.googleapis.com/oauth2/v3/userinfo",
-      {
-        headers: { Authorization: `Bearer ${tokenData.access_token}` },
-      }
-    );
-    const userInfo = await userRes.json();
-    const userData = {
-      id: userInfo.sub,
-      email: userInfo.email,
-      username: userInfo.name,
-      picture: userInfo.picture,
-    };
-    const tokenJwt = fastify.jwt.sign(userData, process.env.JWT_KEY);
-    const query = `INSERT INTO users (username, email, password) VALUES(?, ?, ?)`;
-    await db.runAsync(query, [userData.username, userData.email, "123"]);
-    console.log(`user ${userData.username} Set in db`);
-    return reply.status(200).send({ token: tokenJwt });
-  } catch (err) {
-    console.error(err);
-    return reply.status(500).json({ error: "Internal server error" });
-  }
-}
-
 module.exports = {
   RegisterController,
   LoginController,
   ProfileController,
-  GoogleControllerCallBack,
-  AuthGoogleController,
-  GoogleControllerCallBackPost,
 };

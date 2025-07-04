@@ -40,6 +40,17 @@ export default function Profile() {
 
     fetchUserData();
   }, []);
+  const handleLogout = async () => {
+    const response = await fetch("http://localhost:9000/logout", {
+      method: "POST",
+      credentials: "include",
+    });
+    if (response.ok) {
+      window.location.href = "/login";
+    } else {
+      console.error("Logout failed");
+    }
+  };
 
   console.log("User data:", userData);
   return (
@@ -73,7 +84,7 @@ export default function Profile() {
                   Go home
                 </button>
                 <button
-                  // onClick={handleLogout}
+                  onClick={handleLogout}
                   className="text-sm font-medium hover:bg-red-400 cursor-pointer bg-red-500 text-white px-12 py-3 rounded-full transition-colors duration-300"
                 >
                   Logout

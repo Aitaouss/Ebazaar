@@ -2,6 +2,7 @@
 
 import LoadingSpinner from "@/app/loading/page";
 import { useEffect } from "react";
+import { toast, Toaster } from "react-hot-toast";
 
 export default function GoogleAuth() {
   useEffect(() => {
@@ -29,6 +30,7 @@ export default function GoogleAuth() {
 
         // Optionally log the response message
         const res = await response.json();
+        toast.success("Login successful with google!");
         console.log("✅ Google login success:", res.message);
 
         // ✅ No need for localStorage when using cookies
@@ -44,6 +46,7 @@ export default function GoogleAuth() {
   return (
     <div className="h-full w-full bg-black flex items-center justify-center">
       <LoadingSpinner />
+      <Toaster position="top-right" />
     </div>
   );
 }

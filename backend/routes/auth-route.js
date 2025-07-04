@@ -163,8 +163,6 @@ async function routes(fastify, options) {
         tokenJwt = fastify.jwt.sign(userData, process.env.JWT_KEY);
       }
 
-      // set to cookie
-      console.log("Token JWT:", tokenJwt);
       return res
         .setCookie("token", tokenJwt, {
           httpOnly: true,
@@ -188,6 +186,19 @@ async function routes(fastify, options) {
     } catch (err) {
       console.error("Unauthorized from /me route:");
       return reply.status(401).send({ error: "Unauthorized" });
+    }
+  });
+  fastify.post("/logout", async (request, reply) => {
+    try {
+      reply.clearCookie("token", {
+        httpOnly: true,
+        secure: false,
+        sameSite: "lax",
+      });
+      return reply.status(200).send({ message: "Logout successful" });
+    } catch (err) {
+      console.error("Logout error:", err);
+      return reply.status(500).send({ error: "Internal server error" });
     }
   });
 }
