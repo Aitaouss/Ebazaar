@@ -14,6 +14,7 @@ export default function GoogleAuth() {
           "http://localhost:9000/auth/google/callback",
           {
             method: "POST",
+            credentials: "include", // ✅ sends and receives cookies
             headers: {
               "Content-Type": "application/json",
             },
@@ -22,16 +23,15 @@ export default function GoogleAuth() {
         );
 
         if (!response.ok) {
-          console.error("Error in fetching Google callback");
+          console.error("❌ Google callback failed");
           return;
         }
 
+        // Optionally log the response message
         const res = await response.json();
-        const token = res.token;
-        console.log("token:", token);
+        console.log("✅ Google login success:", res.message);
 
-        localStorage.setItem("token", token);
-        console.log("token set in localStorage");
+        // ✅ No need for localStorage when using cookies
         window.location.href = "/dashboard";
       } catch (err) {
         console.error("Google auth error:", err);
@@ -43,8 +43,6 @@ export default function GoogleAuth() {
 
   return (
     <div className="h-full w-full bg-black flex items-center justify-center">
-      {/* <h1 className="text-white text-4xl">Authentication with google ...</h1> */}
-
       <LoadingSpinner />
     </div>
   );

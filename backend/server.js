@@ -13,21 +13,27 @@ async function startServer() {
     process.exit(1);
   }
   const fastify = require("fastify")();
+  //  cookie
+  const cookie = require("@fastify/cookie");
 
+  fastify.register(cookie, {
+    secret: process.env.COOKIE_SECRET, // optional for signed cookies
+  });
   fastify.register(cors, {
     origin: "http://localhost:3000",
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
   });
-
+  // end
   fastify.register(require("@fastify/jwt"), {
     secret: process.env.JWT_KEY,
   });
 
   fastify.decorate("authenticate", async function (request, reply) {
     try {
-      await request.jwtVerify(); // will throw if token is invalid
+      const token = request.cookies.token; // 👈 get the token from cookies
+      request.user = fastify.jwt.verify(token); // verify it
     } catch (err) {
       reply.code(401).send({ error: "Unauthorized" });
     }

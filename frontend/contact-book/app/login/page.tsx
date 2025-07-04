@@ -11,27 +11,33 @@ export default function Login() {
   const [loading, setLoading] = useState<boolean>(true);
   const [LogFail, setLogFail] = useState<boolean>(false);
 
-  const handleClick = () => {
-    toast.success("Hello from toast!");
-  };
-  useEffect(() => {
-    try {
-      const start = async () => {
-        const token = localStorage.getItem("token");
-        if (token && token !== "undefined" && token !== "null") {
-          window.location.href = "/dashboard";
-        } else {
-          setLoading(false);
-        }
-      };
-      start();
-    } catch (err) {
-      console.error(err);
-    }
-  });
   const handleGoogleLogin = () => {
     window.location.href = "http://localhost:9000/auth/google";
   };
+
+  // ✅ Check login status using cookies
+  useEffect(() => {
+    const checkLogin = async () => {
+      try {
+        const res = await fetch("http://localhost:9000/me", {
+          method: "GET",
+          credentials: "include", // 👈 include cookies
+        });
+
+        if (res.ok) {
+          window.location.href = "/dashboard"; // already logged in
+        } else {
+          setLoading(false); // not logged in
+        }
+      } catch (err) {
+        console.error("Error checking login:", err);
+        setLoading(false);
+      }
+    };
+    checkLogin();
+  }, []);
+
+  // ✅ Submit login and rely on cookie for session
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -41,38 +47,29 @@ export default function Login() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          email,
-          password,
-        }),
+        credentials: "include", // 👈 important: include cookie
+        body: JSON.stringify({ email, password }),
       });
+
       if (res.status === 404) {
-        console.log(res);
         toast.error("Password incorrect!");
         return;
       }
-      if (!res.ok) {
-        throw new Error("Login failed");
-      }
+
       const data = await res.json();
-      if (data.success === false) {
-        throw new Error("Login failed: " + data.err);
-      }
-      console.log(data);
-      if (data.success) {
-        console.log("Data token : ", data.token);
-        localStorage.setItem("token", data.token);
-        setLogFail(false);
-        window.location.href = "/dashboard";
-        console.log("Login successful");
-      } else {
+      if (!res.ok || data.success === false) {
         setLogFail(true);
-        console.error("Login failed");
+        toast.error(data.message || "Login failed");
+        return;
       }
 
-      setLoading(false);
+      // No need to store token manually
+      setLogFail(false);
+      toast.success("Login successful!");
+      window.location.href = "/dashboard";
     } catch (err) {
-      console.error(err);
+      console.error("Login error:", err);
+      setLogFail(true);
     }
   };
 
@@ -85,6 +82,7 @@ export default function Login() {
             <h2 className="text-2xl font-semibold mb-6 text-center text-black">
               Login
             </h2>
+
             <form onSubmit={handleSubmit}>
               <div className="mb-4">
                 <label
@@ -124,7 +122,6 @@ export default function Login() {
 
               <button
                 type="submit"
-                onSubmit={handleClick}
                 disabled={loading}
                 className="w-full bg-black py-2 rounded hover:bg-white transition duration-200 disabled:opacity-50 text-white hover:text-black hover:border-black border-2 text-lg font-semibold"
               >
@@ -137,13 +134,14 @@ export default function Login() {
                 </p>
               )}
             </form>
+
             <button
               onClick={handleGoogleLogin}
               disabled={loading}
-              className="w-full  flex items-center justify-between px-12  bg-black py-2 rounded hover:bg-white transition duration-200 disabled:opacity-50 text-white hover:text-black hover:border-black border-2 text-lg font-semibold"
+              className="w-full flex items-center justify-between px-12 bg-black py-2 rounded hover:bg-white transition duration-200 disabled:opacity-50 text-white hover:text-black hover:border-black border-2 text-lg font-semibold"
             >
               <FcGoogle size={30} />
-              {loading ? "Logging in..." : "Login with google"}
+              {loading ? "Logging in..." : "Login with Google"}
             </button>
           </div>
         </div>

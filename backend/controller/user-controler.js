@@ -23,7 +23,16 @@ async function RegisterController(request, reply, fastify) {
 
     const token = fastify.jwt.sign(newUser);
 
-    return reply.status(201).send({ token: token });
+    return reply
+      .setCookie("token", token, {
+        httpOnly: true,
+        secure: false,
+        sameSite: "lax",
+        path: "/",
+        maxAge: 60 * 60 * 24,
+      })
+      .status(200)
+      .send({ message: "Register successful", token: token });
   } catch (err) {
     console.error(err.message);
     reply.status(400).send({ err: err.message });
@@ -54,14 +63,26 @@ async function LoginController(request, reply, fastify) {
       email: user.email,
       password: user.password,
       username: user.username,
+      role: user.role, // Default role if not set
+      picture: user.picture || null, // Optional picture field
     };
 
     const token = fastify.jwt.sign(userData);
     console.log("Token generated successfully", token);
 
     console.log("Token : ", token);
+    // Set the token in a cookie
+    reply
+      .setCookie("token", token, {
+        httpOnly: true, // Can't be accessed by JS
+        secure: false, // Set to true in production (HTTPS)
+        sameSite: "lax", // CSRF protection
+        path: "/", // Cookie path
+        maxAge: 60 * 60 * 24, // 1 day
+      })
+      .send({ message: "Logged in", user });
 
-    return reply.send({ success: true, token: token });
+    // return reply.send({ success: true, token: token });
   } catch (err) {
     return reply.status(400).send({ err: err.message });
   }
