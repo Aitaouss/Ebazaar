@@ -1,26 +1,51 @@
+@import url("https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap");
 @import "tailwindcss";
 
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --font-cairo: "Cairo", sans-serif;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --font-sans: var(--font-cairo);
   --font-mono: var(--font-geist-mono);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #fdf9f4;
+    --foreground: #13120f;
   }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
 }
+
+.bg-overlay::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("https://i.ibb.co/CKR4RHsW/ZELIJ.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.04; /* Adjust the opacity as needed */
+  z-index: 0;
+}
+
+.bg-overlay > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* color Red #A44A3F */
+/* color White #FDF9F4 */
+/* color Black #13120F */
+/* Color Green : #015B46 */
+/* Color Beige : #C9A66B */
