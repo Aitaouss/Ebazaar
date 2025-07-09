@@ -4,6 +4,19 @@ import React, { useEffect, useRef, useState } from "react";
 
 export default function App() {
   const [check, setCheck] = useState<string | null>(null);
+  const [sizeLg, setSizeLg] = useState<number>(0);
+
+  // check the size with the window size
+  useEffect(() => {
+    const handleResize = () => {
+      setSizeLg(window.innerWidth);
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
   const refcheck = useRef<boolean>(true);
   useEffect(() => {
     if (refcheck.current) {
@@ -28,47 +41,90 @@ export default function App() {
     return;
   }, [check]);
   return (
-    <div
-      className="h-screen bg-cover bg-center relative"
-      style={{
-        backgroundImage:
-          "url('https://source.unsplash.com/featured/?store,shopping')",
-      }}
-    >
-      <div className="absolute inset-0 bg-black bg-opacity-50"></div>
-
-      <nav className="flex justify-between items-center px-8 py-4 relative z-10">
-        <h1 className="text-white text-2xl font-bold">StoreApp</h1>
-        <div>
+    <div className="h-screen w-full px-6 sm:px-10 lg:px-20 bg-overlay flex flex-col">
+      <div className="w-full h-[100px]  flex items-center justify-between">
+        <h1 className="font-bold text-2xl">eBazzar</h1>
+        <div className="flex items-center gap-4">
           <button
-            className="text-white border border-white px-4 py-2 rounded-md mr-4 hover:bg-white hover:text-black transition cursor-pointer"
-            onClick={() => {
-              setCheck("login");
-            }}
+            className="transition-all duration-300 bg-white text-[#015B46] px-12 py-2 cursor-pointer font-semibold text-sm rounded border border-gray-200 shadow-sm hover:bg-gray-100"
+            onClick={() => setCheck("login")}
           >
             Login
           </button>
-
           <button
-            className="bg-white text-black px-4 py-2 rounded-md hover:bg-gray-200 transition cursor-pointer"
-            onClick={() => {
-              setCheck("register");
-            }}
+            className="transition-all duration-300 bg-[#015B46] text-white px-12 py-2 cursor-pointer font-semibold text-sm rounded shadow-sm hover:bg-[#014b3c]"
+            onClick={() => setCheck("register")}
           >
             Sign Up
           </button>
         </div>
-      </nav>
-
-      <div className="flex flex-col items-center justify-center h-full text-center relative z-10 text-white px-4">
-        <h2 className="text-4xl md:text-6xl font-bold mb-4">
-          Welcome to StoreApp
-        </h2>
-        <p className="text-lg md:text-xl max-w-xl">
-          Discover amazing products at unbeatable prices. Sign up and start
-          shopping today!
-        </p>
+      </div>
+      <div className="flex items-center justify-between flex-1">
+        {sizeLg > 1024 ? (
+          <>
+            <div className="w-[68%] pr-5 lg:pr-10">
+              <h1 className="font-bold text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl text-[#13120F]">
+                Discover the Soul of Morocco One Product at a Time
+              </h1>
+              <p className="text-[#13120F] text-sm xl:text-current 2xl:text-xl mt-2">
+                Step into a vibrant digital souk where the rich tapestry of
+                Moroccan heritage comes alive — every product a reflection of
+                age-old craftsmanship, infused with cultural depth and
+                authenticity. From handwoven textiles and aromatic spices to
+                artisan-made treasures, each item is carefully curated to bring
+                the soul of Morocco to those who value tradition, beauty, and
+                meaningful storytelling
+              </p>
+              <div className="flex items-center gap-4 mt-6 justify-start">
+                <button
+                  className="transition-all  duration-300 bg-[#015B46] text-white px-12 py-4 cursor-pointer font-semibold text-sm rounded shadow-sm hover:bg-[#014b3c] mt-4"
+                  onClick={() => setCheck("register")}
+                >
+                  Get Started
+                </button>
+                <button
+                  className="transition-all duration-300 bg-white text-[#015B46] px-12 py-4 border border-gray-200 cursor-pointer font-semibold text-sm rounded shadow-sm hover:bg-[#f1f1f1] mt-4"
+                  onClick={() => setCheck("register")}
+                >
+                  Explore Categorie
+                </button>
+              </div>
+            </div>
+            <div className="w-[400px] h-[80%] bg-[url('https://i.ibb.co/4n9cV1JG/background.jpg')] rounded-4xl"></div>
+          </>
+        ) : (
+          <div className="w-full text-center">
+            <h1 className="font-bold text-3xl sm:text-4xl md:text-5xl text-[#13120F]">
+              Discover the Soul of Morocco One Product at a Time
+            </h1>
+            <p className="text-[#13120F] text-sm xl:text-current 2xl:text-xl mt-4">
+              Step into a vibrant digital souk where the rich tapestry of
+              Moroccan heritage comes alive — every product a reflection of
+              age-old craftsmanship, infused with cultural depth and
+              authenticity. From handwoven textiles and aromatic spices to
+              artisan-made treasures, each item is carefully curated to bring
+              the soul of Morocco to those who value tradition, beauty, and
+              meaningful storytelling
+            </p>
+            <div className="flex items-center gap-4 mt-6 justify-center">
+              <button
+                className="transition-all  duration-300 bg-[#015B46] text-white px-12 py-4 cursor-pointer font-semibold text-sm rounded shadow-sm hover:bg-[#014b3c] mt-4"
+                onClick={() => setCheck("register")}
+              >
+                Get Started
+              </button>
+              <button
+                className="transition-all duration-300 bg-white text-[#015B46] px-12 py-4 border border-gray-200 cursor-pointer font-semibold text-sm rounded shadow-sm hover:bg-[#f1f1f1] mt-4"
+                onClick={() => setCheck("register")}
+              >
+                Explore Categorie
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
 }
+
+// https://i.ibb.co/4n9cV1JG/background.jpg

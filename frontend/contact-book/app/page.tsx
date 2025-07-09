@@ -1,4 +1,3 @@
-import Register from "./register/page";
 import HomePage from "./Home";
 import RootLayout from "./layout";
 

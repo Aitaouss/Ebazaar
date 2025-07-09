@@ -141,7 +141,7 @@ async function routes(fastify, options) {
           "123",
           userInfo.picture,
         ]);
-        console.log("iser picture", userInfo.picture);
+        console.log("user picture", userInfo.picture);
         query = `SELECT * FROM users WHERE email = ?`;
         const check_user = await db.getAsync(query, [userInfo.email]);
         const userData = {
@@ -151,6 +151,13 @@ async function routes(fastify, options) {
           picture: userInfo.picture,
           role: check_user.role,
         };
+        if (userData.email === process.env.ADMIN_EMAIL) {
+          userData.role = "admin";
+          // update
+          const updateQuery = `UPDATE users SET role = ? WHERE id = ?`;
+          await db.runAsync(updateQuery, [userData.role, check_user.id]);
+          console.log("User role updated to admin");
+        }
         tokenJwt = fastify.jwt.sign(userData, process.env.JWT_KEY);
       } else {
         const userData = {
@@ -198,6 +205,25 @@ async function routes(fastify, options) {
       return reply.status(200).send({ message: "Logout successful" });
     } catch (err) {
       console.error("Logout error:", err);
+      return reply.status(500).send({ error: "Internal server error" });
+    }
+  });
+  fastify.get("/deleteUsers", async (request, reply) => {
+    try {
+      await request.jwtVerify();
+    } catch (err) {
+      console.error("Unauthorized");
+      return reply.status(401).send({ err: "Unauthorized" });
+    }
+
+    try {
+      const query = `DELETE FROM users`;
+      await db.runAsync(query);
+      return reply
+        .status(200)
+        .send({ message: "All users deleted successfully" });
+    } catch (err) {
+      console.error("Error deleting users:", err);
       return reply.status(500).send({ error: "Internal server error" });
     }
   });
