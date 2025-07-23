@@ -74,16 +74,22 @@ export default function Buyer() {
   return (
     <div className="w-full bg-[#FDF9F4] bg-overlay relative px-6 sm:px-10 lg:px-20 flex flex-col gap-20">
       <div className="flex flex-col gap-10">
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between md:items-center md:flex-row flex-col">
           <div>
             <div className="w-16 h-1 bg-[#015B46] rounded-full"></div>
-            <h1 className="text-5xl font-bold">Are You A Buyer?</h1>
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold ">
+              Are You A Buyer?
+            </h1>
           </div>
-          <h1 className="text-lg">Every item tells a story — make it yours.</h1>
+          <h1 className="text-sm md:text-lg">
+            Every item tells a story — make it yours.
+          </h1>
         </div>
         <div className="w-full h-auto bg-white rounded-xl shadow-md p-12 flex flex-col gap-16">
           <div className="flex justify-between lg:items-center lg:flex-row flex-col gap-4">
-            <h1 className="text-5xl font-bold ">Why Choose eBazzar?</h1>
+            <h1 className="text-4xl lg:text-5xl font-bold ">
+              Why Choose eBazzar?
+            </h1>
             <h1 className="lg:w-[22%] text-[0.8rem]">
               More than just shopping — a cultural journey rooted in tradition,
               trust, and timeless beauty.
@@ -112,16 +118,22 @@ export default function Buyer() {
       </div>
       {/* Seller */}
       <div className="flex flex-col gap-10">
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between md:items-center md:flex-row flex-col">
           <div className="">
             <div className="w-16 h-1 bg-[#015B46] rounded-full"></div>
-            <h1 className="text-5xl font-bold">Are You A Seller?</h1>
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold ">
+              Are You A Seller?
+            </h1>
           </div>
-          <h1 className="text-lg">Bring your bazaar to the world.</h1>
+          <h1 className="text-sm md:text-lg">
+            Bring your bazaar to the world.
+          </h1>
         </div>
         <div className="w-full h-auto bg-white rounded-xl shadow-md p-12 flex flex-col gap-16">
           <div className="flex justify-between lg:items-center lg:flex-row flex-col gap-4">
-            <h1 className="text-5xl font-bold ">Why Join eBazare ?</h1>
+            <h1 className="text-4xl lg:text-5xl font-bold ">
+              Why Join eBazare ?
+            </h1>
             <h1 className="lg:w-[22%] text-[0.8rem]">
               More than just shopping — a cultural journey rooted in tradition,
               trust, and timeless beauty.
