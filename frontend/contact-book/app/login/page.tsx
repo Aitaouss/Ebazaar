@@ -136,7 +136,7 @@ export default function Login() {
       {!loading && (
         <div className="h-full w-full flex items-center justify-center ">
           <div className="relative flex-1 h-full flex flex-col items-center justify-center gap-12 bg-overlay">
-            <h1 className="font-bold text-4xl text-[#13120F]">eBazzar</h1>
+            <h1 className="font-bold text-4xl text-[#13120F]">eBazaar</h1>
             <div className="flex items-center gap-16">
               <div className="flex flex-col items-center transition-all duration-300">
                 <button

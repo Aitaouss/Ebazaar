@@ -2,6 +2,11 @@ import React from "react";
 import { TbNeedleThread } from "react-icons/tb";
 import { FaTruckFast } from "react-icons/fa6";
 import { BiSupport } from "react-icons/bi";
+import { GiWorld } from "react-icons/gi";
+import { RiToolsFill } from "react-icons/ri";
+import { FaSackDollar } from "react-icons/fa6";
+import { IoMdCamera } from "react-icons/io";
+import { BiSolidPackage } from "react-icons/bi";
 
 interface ItemInterface {
   id: number;
@@ -40,35 +45,35 @@ export default function Buyer() {
       title: "Sell Your Products Worldwide",
       description:
         "Reach customers across the globe and grow your presence beyond the souk — eBazare helps you sell internationally with ease.",
-      icon: "TbNeedleThread",
+      icon: "GiWorld",
     },
     {
       id: 2,
       title: "Easy-to-Use Seller Dashboard",
       description:
         "Manage your products, orders, and inventory in one place. Our intuitive dashboard is designed to support artisans, not overwhelm them.",
-      icon: "FaTruckFast",
+      icon: "RiToolsFill",
     },
     {
       id: 3,
       title: "Fair Pricing, No Hidden Fees",
       description:
         "Keep more of what you earn. We offer transparent pricing with no surprises — because your work deserves fair rewards.",
-      icon: "BiSupport",
+      icon: "FaSackDollar",
     },
     {
       id: 4,
       title: "Personalized Store Support",
       description:
         "We help showcase your shop beautifully — with high-quality images, storytelling, and custom guidance to make your storefront stand out.",
-      icon: "BiSupport",
+      icon: "IoMdCamera",
     },
     {
       id: 5,
       title: "Integrated Shipping Assistance",
       description:
         "Manage your products, orders, and inventory in one place. Our intuitive dashboard is designed to support artisans, not overwhelm them.",
-      icon: "BiSupport",
+      icon: "BiSolidPackage",
     },
   ];
   return (
@@ -88,7 +93,7 @@ export default function Buyer() {
         <div className="w-full h-auto bg-white rounded-xl shadow-md p-12 flex flex-col gap-16">
           <div className="flex justify-between lg:items-center lg:flex-row flex-col gap-4">
             <h1 className="text-4xl lg:text-5xl font-bold ">
-              Why Choose eBazzar?
+              Why Choose eBazaar?
             </h1>
             <h1 className="lg:w-[22%] text-[0.8rem]">
               More than just shopping — a cultural journey rooted in tradition,
@@ -142,15 +147,22 @@ export default function Buyer() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-20">
             {itemsSeller.map((item) => (
               <div key={item.id} className="flex flex-col gap-4">
-                {item.icon === "TbNeedleThread" && (
-                  <TbNeedleThread size={50} color="#015B46" />
+                {item.icon === "GiWorld" && (
+                  <GiWorld size={50} color="#015B46" />
                 )}
-                {item.icon === "FaTruckFast" && (
-                  <FaTruckFast size={50} color="#015B46" />
+                {item.icon === "RiToolsFill" && (
+                  <RiToolsFill size={50} color="#015B46" />
                 )}
-                {item.icon === "BiSupport" && (
-                  <BiSupport size={50} color="#015B46" />
+                {item.icon === "FaSackDollar" && (
+                  <FaSackDollar size={50} color="#015B46" />
                 )}
+                {item.icon === "IoMdCamera" && (
+                  <IoMdCamera size={50} color="#015B46" />
+                )}
+                {item.icon === "BiSolidPackage" && (
+                  <BiSolidPackage size={50} color="#015B46" />
+                )}
+
                 <div>
                   <h1 className="text-xl font-bold">{item.title}</h1>
                   <p>{item.description}</p>

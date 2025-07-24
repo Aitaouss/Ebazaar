@@ -13,9 +13,17 @@ export default function ExploreTreasure() {
             of the kingdom
           </p>
         </div>
-        <Seller />
-        <Seller />
-        <Seller />
+        <div className="w-full flex flex-nowrap overflow-x-auto gap-x-4 px-4">
+          <Seller />
+          <Seller />
+          <Seller />
+          <Seller />
+          <Seller />
+          <Seller />
+          <Seller />
+          <Seller />
+          <Seller />
+        </div>
       </div>
     </div>
   );
