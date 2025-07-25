@@ -13,7 +13,7 @@ export default function App() {
       <MainPage />
       <UserLanding />
       <ExploreTreasure />
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 }

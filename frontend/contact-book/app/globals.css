@@ -20,6 +20,10 @@
     --foreground: #13120f;
   }
 }
+html,
+body {
+  overflow-x: hidden;
+}
 
 body {
   background: var(--background);

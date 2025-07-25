@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import Seller from "../Card/CardSeller";
 import CustomerReviews from "../CustomerReviews/CustomerReviews";
+import Footer from "../Footer/Footer";
 
 interface ItemInterface {
   id: number;
@@ -150,6 +151,7 @@ export default function ExploreTreasure() {
         </div>
         <CustomerReviews />
       </div>
+      <Footer />
     </div>
   );
 }
