@@ -45,10 +45,11 @@ export default function MainPage() {
       {modalActive && sizeLg < 640 && (
         <div className="w-full h-full bg-[#13120F]/80 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50">
           <div className="w-[80%] h-[300px] bg-[#FDF9F4] fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 p-5 rounded-lg ">
-            <div className="w-full h-full flex justify-end ">
-              {/* <div
+            <div className="w-full h-full flex flex-col items-center justify-center relative gap-10">
+              <div className="bg-[url(https://i.ibb.co/CKR4RHsW/ZELIJ.png)] absolute w-full h-full z-1 opacity-5"></div>
+              <div
                 onClick={() => setModalActive(false)}
-                className="w-[30px] h-[30px] bg-[#015B46] rounded-sm flex items-center justify-center hover:bg-[#014b3c] transition-all duration-300 cursor-pointer"
+                className="w-[30px] h-[30px] bg-[#015B46] rounded-sm flex items-center justify-center hover:bg-[#014b3c] transition-all duration-300 cursor-pointer absolute z-2 top-0 right-0"
               >
                 <div>
                   <IoCloseSharp
@@ -56,11 +57,14 @@ export default function MainPage() {
                     className="text-[#FDF9F4] hover:text-[#FDF9F4]/80 cursor-pointer"
                   />
                 </div>
-              </div> */}
+              </div>
+              <div className="flex items-center justify-center flex-col gap-2">
+                <h1 className="text-2xl font-bold">Log In | Sign Up</h1>
+              </div>
+              <button className=" h-[30px] bg-[#015B46] rounded-sm text-[#FDF9F4] text-sm px-20 py-6 flex items-center justify-center">
+                <h1>Get Started</h1>
+              </button>
             </div>
-            <button className="w-[90px] h-[30px] bg-[#015B46] rounded-sm text-[#FDF9F4] text-sm">
-              Login
-            </button>
           </div>
           {/* modal content */}
         </div>
