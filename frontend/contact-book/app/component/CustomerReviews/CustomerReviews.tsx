@@ -93,7 +93,7 @@ export default function CustomerReviews() {
     },
   ];
   return (
-    <div className=" flex flex-col gap-10 relative">
+    <div className=" flex flex-col gap-10 relative transition-all duration-300">
       <div className="px-6 sm:px-10 lg:px-20">
         <div className="bg-[#015B46] w-[70px] h-[6px] rounded-full"></div>
         <h1 className="text-3xl lg:text-4xl font-bold w-[300px] xs:w-[350px] sm:w-[400px] lg:w-[460px]">
@@ -103,7 +103,7 @@ export default function CustomerReviews() {
       </div>
       <div
         ref={scrollRef}
-        className="flex gap-10 overflow-x-auto px-6 sm:px-10 lg:px-20 pt-6 relative scroll-hide py-8"
+        className="flex gap-10 overflow-x-auto px-6 sm:px-10 lg:px-20 pt-6 relative scroll-hide py-8 transition-all duration-300"
       >
         {DummyData.map((review) => (
           <ReviewsCard
