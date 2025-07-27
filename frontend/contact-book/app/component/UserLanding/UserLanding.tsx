@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { TbNeedleThread } from "react-icons/tb";
 import { FaTruckFast } from "react-icons/fa6";
@@ -7,6 +9,8 @@ import { RiToolsFill } from "react-icons/ri";
 import { FaSackDollar } from "react-icons/fa6";
 import { IoMdCamera } from "react-icons/io";
 import { BiSolidPackage } from "react-icons/bi";
+import { useRef } from "react";
+import { motion, useInView } from "framer-motion";
 
 interface ItemInterface {
   id: number;
@@ -76,8 +80,17 @@ export default function Buyer() {
       icon: "BiSolidPackage",
     },
   ];
+
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true });
   return (
-    <div className="w-full bg-[#FDF9F4] bg-overlay relative px-6 sm:px-10 lg:px-20 flex flex-col gap-20">
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 50 }}
+      animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.8, ease: "easeOut" }}
+      className="w-full bg-[#FDF9F4] bg-overlay relative px-6 sm:px-10 lg:px-20 flex flex-col gap-20"
+    >
       <div className="flex flex-col gap-10">
         <div className="flex justify-between md:items-center md:flex-row flex-col">
           <div>
@@ -175,6 +188,6 @@ export default function Buyer() {
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }

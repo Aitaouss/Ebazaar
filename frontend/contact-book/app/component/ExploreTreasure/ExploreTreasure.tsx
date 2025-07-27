@@ -1,7 +1,10 @@
+"use client";
+
 import { useEffect, useRef } from "react";
 import Seller from "../Card/CardSeller";
 import CustomerReviews from "../CustomerReviews/CustomerReviews";
 import Footer from "../Footer/Footer";
+import { motion, useInView } from "framer-motion";
 
 interface ItemInterface {
   id: number;
@@ -115,9 +118,16 @@ export default function ExploreTreasure() {
       category: "Lamps",
     },
   ];
-
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true });
   return (
-    <div className="bg-[#FDF9F4] h-full w-full pt-20 bg-overlay relative mb-20">
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 50 }}
+      animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 2, ease: "easeOut" }}
+      className="bg-[#FDF9F4] min-h-screen w-full pt-20 bg-overlay relative mb-20"
+    >
       <div className="flex flex-col gap-30">
         <div className="text-center flex flex-col gap-4">
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-center px-6 sm:px-10 lg:px-20">
@@ -152,6 +162,6 @@ export default function ExploreTreasure() {
         <CustomerReviews />
       </div>
       <Footer />
-    </div>
+    </motion.div>
   );
 }

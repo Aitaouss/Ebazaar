@@ -129,7 +129,7 @@ export default function MainPage() {
                   </button>
                 </div>
               </div>
-              <div className="w-[400px] h-[80%] bg-[url('https://i.ibb.co/4n9cV1JG/background.jpg')] rounded-4xl"></div>
+              <div className="w-[400px] h-[800px] bg-[url('https://i.ibb.co/4n9cV1JG/background.jpg')] rounded-4xl"></div>
             </>
           ) : (
             <div className="w-full text-center">

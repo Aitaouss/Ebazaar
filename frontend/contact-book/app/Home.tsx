@@ -13,9 +13,7 @@ export default function App() {
       <MainPage />
       <UserLanding />
       <ExploreTreasure />
-      {/* <Footer /> */}
     </>
   );
 }
 
-// https://i.ibb.co/4n9cV1JG/background.jpg
