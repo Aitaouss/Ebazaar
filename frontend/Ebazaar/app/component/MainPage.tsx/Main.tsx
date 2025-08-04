@@ -110,7 +110,8 @@ export default function MainPage() {
       )}
 
       {/* Main Content with Enhanced Background */}
-      <div className="relative min-h-screen w-full bg-gradient-to-br from-[#FDF9F4] via-white to-[#FDF9F4] overflow-hidden">
+      <div className="relative min-h-screen w-full bg-[#FDF9F4] overflow-hidden">
+        <div className="bg-overlay"></div>
         {/* Decorative Background Elements */}
         <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-bl from-[#015B46]/5 to-transparent rounded-full blur-3xl"></div>
         <div className="absolute bottom-0 left-0 w-96 h-96 bg-gradient-to-tr from-[#C9A66B]/5 to-transparent rounded-full blur-3xl"></div>
@@ -132,13 +133,13 @@ export default function MainPage() {
             {sizeLg > 640 ? (
               <div className="flex items-center space-x-4">
                 <button
-                  className="group relative overflow-hidden bg-white text-[#015B46] px-8 py-2.5 font-semibold text-sm rounded-xl border-2 border-[#015B46] transition-all duration-300 hover:bg-[#015B46] hover:text-white shadow-lg hover:shadow-xl"
+                  className="group relative overflow-hidden bg-white text-[#015B46] px-10 py-2.5 font-semibold text-sm rounded-lg border border-[#015B46] transition-all duration-300 hover:bg-[#015B46] hover:text-white shadow-lg hover:shadow-xl cursor-pointer"
                   onClick={() => setCheck("login")}
                 >
                   <span className="relative z-10">Login</span>
                 </button>
                 <button
-                  className="group bg-[#015B46] text-white px-8 py-2.5 font-semibold text-sm rounded-xl transition-all duration-300 hover:bg-[#014b3c] shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+                  className="group bg-[#015B46] text-white px-10 py-2.5 font-semibold text-sm rounded-lg transition-all duration-300 hover:bg-[#014b3c] shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 cursor-pointer"
                   onClick={() => setCheck("register")}
                 >
                   Sign Up
@@ -169,7 +170,7 @@ export default function MainPage() {
 
                   <h1 className="font-bold text-5xl lg:text-6xl xl:text-7xl text-[#13120F] leading-tight">
                     Discover the{" "}
-                    <span className="bg-gradient-to-r from-[#015B46] to-[#C9A66B] bg-clip-text text-transparent">
+                    <span className=" bg-[#015B46] bg-clip-text text-transparent">
                       Soul of Morocco
                     </span>{" "}
                     One Product at a Time
@@ -185,15 +186,15 @@ export default function MainPage() {
 
                   <div className="flex flex-col sm:flex-row gap-4">
                     <button
-                      className="group bg-[#015B46] hover:bg-[#014b3c] text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center space-x-2 transform hover:-translate-y-1"
-                      onClick={() => setCheck("register")}
+                      className="group bg-[#015B46] hover:bg-[#014b3c] text-white px-8 py-4 rounded-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center space-x-2 transform hover:-translate-y-1 cursor-pointer"
+                      onClick={() => setCheck("login")}
                     >
                       <span>Get Started</span>
                       <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
                     </button>
                     <button
-                      className="group bg-white hover:bg-gray-50 text-[#015B46] px-8 py-4 rounded-xl font-semibold border-2 border-[#015B46] transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center space-x-2 transform hover:-translate-y-1"
-                      onClick={() => setCheck("register")}
+                      className="group bg-white hover:bg-gray-50 text-[#015B46] px-8 py-4 rounded-lg font-semibold border-2 border-[#015B46] transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center space-x-2 transform hover:-translate-y-1 cursor-pointer"
+                      onClick={() => setCheck("login")}
                     >
                       <Heart className="h-5 w-5 group-hover:scale-110 transition-transform" />
                       <span>Explore Categories</span>
@@ -282,7 +283,7 @@ export default function MainPage() {
 
                 <h1 className="font-bold text-3xl sm:text-4xl md:text-5xl text-[#13120F] leading-tight">
                   Discover the{" "}
-                  <span className="bg-gradient-to-r from-[#015B46] to-[#C9A66B] bg-clip-text text-transparent">
+                  <span className=" bg-[#015B46] bg-clip-text text-transparent">
                     Soul of Morocco
                   </span>{" "}
                   One Product at a Time

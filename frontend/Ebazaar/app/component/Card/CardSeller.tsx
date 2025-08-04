@@ -34,7 +34,12 @@ export default function Seller({
           <h1 className="text-[0.8rem] sm:text-sm">{location}</h1>
         </div>
         <div>
-          <button className="bg-[#015B46] text-white py-1 px-7 sm:px-10 sm:py-2 rounded mt-2">
+          <button
+            className="bg-[#015B46] text-white py-1 px-7 sm:px-10 sm:py-2 rounded mt-2 cursor-pointer hover:bg-[#014B3F] transition-colors duration-300"
+            onClick={() => {
+              window.location.href = `/dashboard`;
+            }}
+          >
             <h1 className="text-sm sm:text-base">View</h1>
           </button>
         </div>
