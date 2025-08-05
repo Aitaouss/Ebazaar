@@ -44,7 +44,7 @@ export default function EbazaarDashboard() {
       try {
         const res = await fetch("http://localhost:9000/me", {
           method: "GET",
-          credentials: "include", // 🔥 required to send cookies
+          credentials: "include",
         });
 
         if (!res.ok) {
@@ -93,7 +93,7 @@ export default function EbazaarDashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   // Check if user is admin/seller
-  const isAdmin = userData?.role === "admin";
+  const isAdmin = (userData as any)?.role === "admin";
 
   // Dynamic sidebar items based on user role
   const sellerSidebarItems = [
@@ -309,7 +309,7 @@ export default function EbazaarDashboard() {
     },
   ];
 
-  const getStatusColor = (status) => {
+  const getStatusColor = (status: any) => {
     switch (status) {
       case "Completed":
       case "Delivered":
@@ -430,7 +430,7 @@ export default function EbazaarDashboard() {
               </Button>
               <div>
                 <h2 className="text-2xl font-bold text-[#13120F]">
-                  Welcome back, {userData?.username || "User"}!
+                  Welcome back, {(userData as any)?.username || "User"}!
                 </h2>
                 <p className="text-gray-600">
                   {isAdmin
@@ -451,9 +451,12 @@ export default function EbazaarDashboard() {
                   }}
                   className="cursor-pointer"
                 >
-                  <AvatarImage src={userData?.picture || "/placeholder.svg"} />
+                  <AvatarImage
+                    src={(userData as any)?.picture || "/placeholder.svg"}
+                  />
                   <AvatarFallback className="bg-[#015B46] text-[#FDF9F4]">
-                    {userData?.username?.charAt(0)?.toUpperCase() || "U"}
+                    {(userData as any)?.username?.charAt(0)?.toUpperCase() ||
+                      "U"}
                   </AvatarFallback>
                 </div>
               </Avatar>
@@ -529,7 +532,9 @@ export default function EbazaarDashboard() {
                               </Badge>
                             </div>
                             <p className="text-sm text-gray-600">
-                              {isAdmin ? order.customer : order.seller}
+                              {isAdmin
+                                ? (order as any).customer
+                                : (order as any).seller}
                             </p>
                             <p className="text-sm font-medium text-[#13120F]">
                               {order.product}
@@ -576,17 +581,17 @@ export default function EbazaarDashboard() {
                               <div className="flex items-center gap-2 mt-1">
                                 {isAdmin ? (
                                   <span className="text-xs text-gray-600">
-                                    {product.sales} sales
+                                    {(product as any).sales} sales
                                   </span>
                                 ) : (
                                   <>
                                     <span className="text-xs text-gray-600">
-                                      {product.seller}
+                                      {(product as any).seller}
                                     </span>
                                     <div className="flex items-center gap-1">
                                       <MapPin className="h-3 w-3 text-gray-400" />
                                       <span className="text-xs text-gray-600">
-                                        {product.location}
+                                        {(product as any).location}
                                       </span>
                                     </div>
                                   </>
@@ -601,7 +606,9 @@ export default function EbazaarDashboard() {
                             </div>
                             <div className="text-right">
                               <p className="font-bold text-[#015B46] text-sm">
-                                {isAdmin ? product.revenue : product.price}
+                                {isAdmin
+                                  ? (product as any).revenue
+                                  : (product as any).price}
                               </p>
                               {!isAdmin && (
                                 <Button
@@ -915,7 +922,9 @@ export default function EbazaarDashboard() {
                             {isAdmin ? "Customer" : "Seller"}
                           </p>
                           <p className="text-sm font-medium text-[#13120F]">
-                            {isAdmin ? order.customer : order.seller}
+                            {isAdmin
+                              ? (order as any).customer
+                              : (order as any).seller}
                           </p>
                         </div>
 
@@ -984,7 +993,9 @@ export default function EbazaarDashboard() {
                               {order.id}
                             </td>
                             <td className="p-4 text-[#13120F]">
-                              {isAdmin ? order.customer : order.seller}
+                              {isAdmin
+                                ? (order as any).customer
+                                : (order as any).seller}
                             </td>
                             <td className="p-4 text-[#13120F]">
                               {order.product}
