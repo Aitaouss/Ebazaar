@@ -1,4 +1,5 @@
-https://i.ibb.co/XfBP8TLt/Screen-Shot-2025-08-05-at-1-09-18-PM-3.png
+![Ebazaar Screenshot](https://i.ibb.co/XfBP8TLt/Screen-Shot-2025-08-05-at-1-09-18-PM-3.png)
+
 # 🌐 Ebazaar
 
 Ebazaar is an online marketplace inspired by platforms like Fiverr — but with a twist. In Ebazaar, **sellers can create their own customizable stores ("bazaars")** where they offer services or digital products. Buyers can browse, explore stores, and place orders directly.
