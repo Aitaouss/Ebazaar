@@ -17,6 +17,7 @@ export default function MainPage() {
   const [check, setCheck] = useState<string | null>(null);
   const [sizeLg, setSizeLg] = useState<number>(0);
   const [modalActive, setModalActive] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
   const refcheck = useRef<boolean>(true);
 
   useEffect(() => {
@@ -28,6 +29,14 @@ export default function MainPage() {
     return () => {
       window.removeEventListener("resize", handleResize);
     };
+  }, []);
+
+  // sleep 2 sec the make the loading false
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 500);
+    return () => clearTimeout(timer);
   }, []);
 
   useEffect(() => {
@@ -42,13 +51,13 @@ export default function MainPage() {
       );
 
       if (check === "login") {
-        window.location.href = "http://localhost:3000/login";
+        window.location.href = "/login";
       } else if (check === "register") {
-        window.location.href = "http://localhost:3000/register";
+        window.location.href = "/register";
       }
     } else {
       console.log(`${token} Token found, redirecting to dashboard page`);
-      window.location.href = "http://localhost:3000/dashboard";
+      window.location.href = "/dashboard";
     }
     return;
   }, [check]);
@@ -62,6 +71,12 @@ export default function MainPage() {
 
   return (
     <>
+      {/* Loading Spinner */}
+      {loading && (
+        <div className="fixed inset-0 bg-white flex items-center justify-center z-50">
+          <div className="w-16 h-16 border-4 border-t-4 border-[#015B46] rounded-full animate-spin"></div>
+        </div>
+      )}
       {/* Enhanced Mobile Modal */}
       {modalActive && sizeLg < 640 && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-in fade-in duration-300">
@@ -140,7 +155,7 @@ export default function MainPage() {
                 </button>
                 <button
                   className="group bg-[#015B46] text-white px-10 py-2.5 font-semibold text-sm rounded-lg transition-all duration-300 hover:bg-[#014b3c] shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 cursor-pointer"
-                  onClick={() => setCheck("register")}
+                  onClick={() => setCheck("login")}
                 >
                   Sign Up
                 </button>
