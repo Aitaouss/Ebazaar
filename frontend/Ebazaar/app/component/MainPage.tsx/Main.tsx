@@ -59,6 +59,7 @@ export default function MainPage() {
       console.log(`${token} Token found, redirecting to dashboard page`);
       window.location.href = "/dashboard";
     }
+    console.log("button cliked");
     return;
   }, [check]);
 
