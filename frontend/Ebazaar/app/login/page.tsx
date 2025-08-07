@@ -6,6 +6,7 @@ import { Toaster, toast } from "react-hot-toast";
 import LoadingSpinner from "../loading/page";
 import Image from "next/image";
 import { IoEyeSharp } from "react-icons/io5";
+import { IoIosArrowBack } from "react-icons/io";
 
 export default function Login() {
   const [email, setEmail] = useState<string>("");
@@ -134,7 +135,16 @@ export default function Login() {
       <Toaster position="top-right" />
       {loading && <LoadingSpinner />}
       {!loading && (
-        <div className="h-full w-full flex items-center justify-center ">
+        <div className="h-full w-full flex items-center justify-center relative">
+          <button
+            className="absolute w-[50px] h-[50px] bg-[#015B46] top-5 left-5 rounded-full flex items-center justify-center cursor-pointer z-50"
+            onClick={() => {
+              console.log("Back button clicked");
+              window.location.href = "/";
+            }}
+          >
+            <IoIosArrowBack size={20} color="#FDF9F4" />
+          </button>
           <div className="relative flex-1 h-full flex flex-col items-center justify-center gap-12 bg-overlay">
             <h1 className="font-bold text-3xl sm:text-4xl text-[#13120F] animate-pulse">
               eBazaar
