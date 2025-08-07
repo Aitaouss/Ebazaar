@@ -108,7 +108,7 @@ export default function MainPage() {
 
               <div className="space-y-3">
                 <button
-                  onClick={() => setCheck("register")}
+                  onClick={() => setCheck("login")}
                   className="w-full bg-[#015B46] hover:bg-[#014b3c] text-white py-3 px-6 rounded-xl font-semibold transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
                 >
                   Get Started
@@ -315,14 +315,14 @@ export default function MainPage() {
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <button
                     className="group bg-[#015B46] hover:bg-[#014b3c] text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center space-x-2 transform hover:-translate-y-1"
-                    onClick={() => setCheck("register")}
+                    onClick={() => setCheck("login")}
                   >
                     <span>Get Started</span>
                     <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
                   </button>
                   <button
                     className="group bg-white hover:bg-gray-50 text-[#015B46] px-8 py-4 rounded-xl font-semibold border-2 border-[#015B46] transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center space-x-2 transform hover:-translate-y-1"
-                    onClick={() => setCheck("register")}
+                    onClick={() => setCheck("login")}
                   >
                     <Heart className="h-5 w-5 group-hover:scale-110 transition-transform" />
                     <span>Explore Categories</span>
