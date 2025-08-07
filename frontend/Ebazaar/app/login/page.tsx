@@ -136,7 +136,7 @@ export default function Login() {
       {!loading && (
         <div className="h-full w-full flex items-center justify-center ">
           <div className="relative flex-1 h-full flex flex-col items-center justify-center gap-12 bg-overlay">
-            <h1 className="font-bold text-4xl text-[#13120F] animate-pulse">
+            <h1 className="font-bold text-3xl sm:text-4xl text-[#13120F] animate-pulse">
               eBazaar
             </h1>
             <div className="flex items-center gap-16">
@@ -145,7 +145,7 @@ export default function Login() {
                   onClick={() => setIsInLogin(true)}
                   className={`font-bold ${
                     isInLogIn ? "text-[#13120F]" : "text-[#13120F] opacity-50"
-                  }  cursor-pointer text-xl transition-all duration-300`}
+                  }  cursor-pointer text-lg sm:text-xl transition-all duration-300`}
                 >
                   Log in
                 </button>
@@ -158,7 +158,7 @@ export default function Login() {
                   onClick={() => setIsInLogin(false)}
                   className={`font-bold ${
                     !isInLogIn ? "text-[#13120F]" : "text-[#13120F] opacity-50"
-                  } cursor-pointer text-xl transition-all duration-300`}
+                  } cursor-pointer text-lg sm:text-xl transition-all duration-300`}
                 >
                   Sign Up
                 </button>
@@ -168,28 +168,28 @@ export default function Login() {
               </div>
             </div>
             {isInLogIn ? (
-              <form className="w-[420px] transition-all duration-300">
+              <form className="w-[320px] sm:w-[320px] sm:w-[420px] transition-all duration-300">
                 <div className="text-[#13120F] mb-4">
-                  <label className="block font-semibold text-[#13120F] mb-1">
+                  <label className="block  text-sm sm:text-base font-semibold text-[#13120F] mb-1">
                     Email Adress
                   </label>
                   <input
                     type="text"
                     id="name"
-                    className="w-full  px-2 h-[45px] border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#015B46] bg-white"
+                    className="w-full text-sm sm:text-base  px-2 h-[45px] border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#015B46] bg-white"
                     placeholder="Enter your email address ..."
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                   />
                 </div>
                 <div className="text-[#13120F] mb-4 relative">
-                  <label className="block font-semibold text-[#13120F] mb-1">
+                  <label className="block  text-sm sm:text-base font-semibold text-[#13120F] mb-1">
                     Password
                   </label>
                   <input
                     type="password"
                     id="pass"
-                    className="w-full h-[45px] px-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#015B46] bg-white"
+                    className="w-full text-sm sm:text-base h-[45px] px-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#015B46] bg-white"
                     placeholder="Enter your password ..."
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
@@ -245,41 +245,41 @@ export default function Login() {
                 </div>
               </form>
             ) : (
-              <form className="w-[420px] transition-all duration-300">
+              <form className="w-[320px] sm:w-[420px] transition-all duration-300">
                 <div className="text-[#13120F] mb-4">
-                  <label className="block font-semibold text-[#13120F] mb-1">
+                  <label className="block  text-sm sm:text-base font-semibold text-[#13120F] mb-1">
                     Name
                   </label>
                   <input
                     type="text"
                     id="name"
-                    className="w-full  px-2 h-[45px] border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#015B46] bg-white"
+                    className="w-full text-sm sm:text-base  px-2 h-[45px] border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#015B46] bg-white"
                     placeholder="Enter your name ..."
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                   />
                 </div>
                 <div className="text-[#13120F] mb-4">
-                  <label className="block font-semibold text-[#13120F] mb-1">
+                  <label className="block  text-sm sm:text-base font-semibold text-[#13120F] mb-1">
                     Email Adress
                   </label>
                   <input
                     type="text"
                     id="name"
-                    className="w-full  px-2 h-[45px] border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#015B46] bg-white"
+                    className="w-full text-sm sm:text-base  px-2 h-[45px] border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#015B46] bg-white"
                     placeholder="Enter your email address ..."
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                   />
                 </div>
                 <div className="text-[#13120F] mb-4 relative">
-                  <label className="block font-semibold text-[#13120F] mb-1">
+                  <label className="block  text-sm sm:text-base font-semibold text-[#13120F] mb-1">
                     Password
                   </label>
                   <input
                     type="password"
                     id="pass"
-                    className="w-full h-[45px] px-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#015B46] bg-white"
+                    className="w-full text-sm sm:text-base h-[45px] px-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#015B46] bg-white"
                     placeholder="Enter your password ..."
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
@@ -336,7 +336,7 @@ export default function Login() {
               </form>
             )}
           </div>
-          <div className="h-full w-[40%] bg-[url('https://i.ibb.co/fdZBFRtF/Bazaaro.jpg')] bg-cover bg-center bg-no-repeat flex items-center justify-center">
+          <div className="h-full w-[40%] bg-[url('https://i.ibb.co/fdZBFRtF/Bazaaro.jpg')] bg-cover bg-center bg-no-repeat items-center justify-center hidden lg:flex">
             {/* content */}
           </div>
         </div>
