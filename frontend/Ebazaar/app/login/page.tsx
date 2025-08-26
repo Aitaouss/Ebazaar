@@ -95,23 +95,18 @@ export default function Login() {
     e.preventDefault();
 
     try {
-      const res = await fetch("http://localhost:9000/register", {
+      const res = await fetch("http://localhost:9000/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         credentials: "include",
         body: JSON.stringify({
-          username: name,
+          name: name,
           email: email,
           password: password,
         }),
       });
-
-      // if (res.status === 404) {
-      //   toast.error("Password incorrect!");
-      //   return;
-      // }
 
       const data = await res.json();
       if (!res.ok || data.success === false) {
