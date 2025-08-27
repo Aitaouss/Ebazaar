@@ -205,7 +205,7 @@ export default function Buyer() {
 
             {/* CTA */}
             <div className="flex justify-center col-span-full">
-              <button className="bg-gradient-to-r from-[#015B46] to-[#05775c] text-white px-8 py-3 rounded-xl font-semibold hover:scale-105 shadow-md transition-all duration-300">
+              <button className="cursor-pointer bg-gradient-to-r from-[#015B46] to-[#05775c] text-white px-8 py-3 rounded-xl font-semibold hover:scale-105 shadow-md transition-all duration-300">
                 Become a Seller
               </button>
             </div>
