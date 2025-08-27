@@ -1,5 +1,6 @@
 import React from "react";
 import { FaMapMarkerAlt } from "react-icons/fa";
+import { FaStar } from "react-icons/fa6";
 
 interface ItemProps {
   id: number;
@@ -7,6 +8,8 @@ interface ItemProps {
   description: string;
   location: string;
   category: string;
+  name: string;
+  reviews: number;
 }
 
 export default function Seller({
@@ -15,34 +18,65 @@ export default function Seller({
   description,
   location,
   category,
+  name,
+  reviews,
 }: ItemProps) {
   return (
-    <div className="w-[270px] h-[330px] sm:w-[320px] sm:h-[380px] lg:w-[370px] lg:h-[430px] rounded-2xl bg-white shadow-md p-2 flex flex-col gap-3 flex-shrink-0">
-      <div className="bg-[url(https://i.ibb.co/4n9cV1JG/background.jpg)] w-full h-[50%] rounded-t-2xl relative">
-        <div className="flex items-center justify-center w-[30%] h-[25px] bg-[#A44A3F] absolute bottom-0 right-0 rounded-tl-lg">
-          <h1 className="text-[#FDF9F4] text-sm">{category}</h1>
+    <div className="w-[320px] sm:w-[340px] lg:w-[360px] rounded-2xl bg-white shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col flex-shrink-0">
+      {/* Image */}
+      <div className="relative w-full h-[180px] sm:h-[200px] bg-gray-200 overflow-hidden">
+        <img
+          src="https://i.ibb.co/4n9cV1JG/background.jpg"
+          alt={title}
+          className="w-full h-full object-cover hover:scale-105 transition-all duration-600"
+        />
+        <span className="absolute top-4 right-4 bg-gradient-to-r from-[#A44A3F] to-[#b55448] text-white text-xs font-medium px-3 py-1 rounded-full shadow-md">
+          {category}
+        </span>
+        <div className="flex items-center gap-1 absolute bottom-4 left-4 bg-white bg-opacity-90 px-3 py-1 rounded-full shadow-md">
+          <FaStar className="inline text-yellow-500" size={10} />
+          <p className="text-[0.78rem]">{reviews}</p>
         </div>
       </div>
-      <div className="rounded-full w-[30px] h-[30px] sm:w-[40px] sm:h-[40px] overflow-hidden bg-cover bg-[url(https://i.ibb.co/4n9cV1JG/background.jpg)] flex-shrink-0"></div>
-      <div className="">
-        <h1 className="text-[0.93rem] sm:text-lg font-bold">{title}</h1>
-        <p className="text-[0.7rem] sm:text-sm text-gray-600">{description}</p>
-      </div>
-      <div className="flex justify-between items-center">
-        <div className="flex items-center gap-1">
-          <FaMapMarkerAlt color="#13120F" size={12} />
-          <h1 className="text-[0.8rem] sm:text-sm">{location}</h1>
+
+      {/* Content */}
+      <div className="p-4 flex flex-col gap-4 flex-1">
+        {/* Seller Info */}
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <img
+              src="https://i.ibb.co/4n9cV1JG/background.jpg"
+              alt={name}
+              className="w-10 h-10 rounded-full object-cover"
+            />
+            <h1 className="font-semibold text-gray-800 text-sm sm:text-base">
+              {name}
+            </h1>
+          </div>
+
+          <div className="flex items-center gap-1 text-gray-500 text-[0.78rem] sm:text-sm">
+            <FaMapMarkerAlt size={12} />
+            <span>{location}</span>
+          </div>
         </div>
-        <div>
-          <button
-            className="bg-[#015B46] text-white py-1 px-7 sm:px-10 sm:py-2 rounded mt-2 cursor-pointer hover:bg-[#014B3F] transition-colors duration-300"
-            onClick={() => {
-              window.location.href = `/dashboard`;
-            }}
-          >
-            <h1 className="text-sm sm:text-base">View</h1>
-          </button>
+
+        {/* Title + Description */}
+        <div className="text-center flex flex-col gap-2">
+          <h1 className="text-lg font-bold text-gray-900">{title}</h1>
+          <p className="text-sm text-gray-600 leading-snug line-clamp-3">
+            {description}
+          </p>
         </div>
+
+        {/* Button */}
+        <button
+          className="cursor-pointer w-full py-2 rounded-xl mt-auto bg-gradient-to-r from-[#015B46] to-[#05775c] text-white font-semibold shadow-md hover:shadow-lg hover:scale-[1.02] transition-all duration-300"
+          onClick={() => {
+            window.location.href = `/dashboard`;
+          }}
+        >
+          View
+        </button>
       </div>
     </div>
   );

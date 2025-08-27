@@ -1,15 +1,13 @@
 "use client";
 
-import React from "react";
+import React, { useRef } from "react";
 import { TbNeedleThread } from "react-icons/tb";
 import { FaTruckFast } from "react-icons/fa6";
-import { BiSupport } from "react-icons/bi";
+import { BiSupport, BiSolidPackage } from "react-icons/bi";
 import { GiWorld } from "react-icons/gi";
 import { RiToolsFill } from "react-icons/ri";
 import { FaSackDollar } from "react-icons/fa6";
 import { IoMdCamera } from "react-icons/io";
-import { BiSolidPackage } from "react-icons/bi";
-import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 
 interface ItemInterface {
@@ -83,108 +81,134 @@ export default function Buyer() {
 
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true });
+
   return (
     <motion.div
       ref={ref}
       initial={{ opacity: 0, y: 50 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.8, ease: "easeOut" }}
-      className="w-full bg-[#FDF9F4] bg-overlay relative px-6 sm:px-10 lg:px-20 flex flex-col gap-20"
+      className="w-full bg-[#FDF9F4] relative px-6 sm:px-10 lg:px-20 flex flex-col gap-20 py-16 bg-overlay"
     >
+      {/* Buyer */}
       <div className="flex flex-col gap-10">
-        <div className="flex justify-between md:items-center md:flex-row flex-col">
+        <div className="flex justify-between md:items-center md:flex-row flex-col gap-4">
           <div>
             <div className="w-16 h-1 bg-[#015B46] rounded-full"></div>
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold ">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold">
               Are You A Buyer?
             </h1>
+            <p className="text-gray-600 mt-2 text-sm md:text-base">
+              Every item tells a story — make it yours.
+            </p>
           </div>
-          <h1 className="text-sm md:text-lg">
-            Every item tells a story — make it yours.
-          </h1>
         </div>
-        <div className="w-full h-auto bg-white rounded-xl shadow-md p-12 flex flex-col gap-16">
-          <div className="flex justify-between lg:items-center lg:flex-row flex-col gap-4">
-            <h1 className="text-4xl lg:text-5xl font-bold ">
+
+        <div className="bg-white rounded-2xl shadow-lg p-10 flex flex-col gap-12">
+          <div className="flex justify-between lg:items-center lg:flex-row flex-col gap-6">
+            <h1 className="text-4xl lg:text-5xl font-bold">
               Why Choose eBazaar?
             </h1>
-            <h1 className="lg:w-[22%] text-[0.8rem]">
+            <p className="lg:w-[25%] text-gray-600 text-sm md:text-base">
               More than just shopping — a cultural journey rooted in tradition,
               trust, and timeless beauty.
-            </h1>
+            </p>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-20">
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12">
             {itemsBuyer.map((item) => (
-              <div key={item.id} className="flex flex-col gap-4">
-                {item.icon === "TbNeedleThread" && (
-                  <TbNeedleThread size={50} color="#015B46" />
-                )}
-                {item.icon === "FaTruckFast" && (
-                  <FaTruckFast size={50} color="#015B46" />
-                )}
-                {item.icon === "BiSupport" && (
-                  <BiSupport size={50} color="#015B46" />
-                )}
-                <div>
-                  <h1 className="text-xl font-bold">{item.title}</h1>
-                  <p>{item.description}</p>
+              <motion.div
+                key={item.id}
+                whileHover={{ scale: 1.05 }}
+                className="p-6 bg-gradient-to-br from-gray-50 to-white shadow-md rounded-xl flex flex-col gap-4 hover:shadow-lg transition-all"
+              >
+                <div className="w-14 h-14 flex items-center justify-center rounded-full bg-[#E7F3F0]">
+                  {item.icon === "TbNeedleThread" && (
+                    <TbNeedleThread size={28} color="#015B46" />
+                  )}
+                  {item.icon === "FaTruckFast" && (
+                    <FaTruckFast size={28} color="#015B46" />
+                  )}
+                  {item.icon === "BiSupport" && (
+                    <BiSupport size={28} color="#015B46" />
+                  )}
                 </div>
-              </div>
+                <h2 className="text-lg font-semibold text-gray-800">
+                  {item.title}
+                </h2>
+                <p className="text-sm text-gray-600 leading-relaxed">
+                  {item.description}
+                </p>
+              </motion.div>
             ))}
           </div>
         </div>
       </div>
+
       {/* Seller */}
       <div className="flex flex-col gap-10">
-        <div className="flex justify-between md:items-center md:flex-row flex-col">
-          <div className="">
+        <div className="flex justify-between md:items-center md:flex-row flex-col gap-4">
+          <div>
             <div className="w-16 h-1 bg-[#015B46] rounded-full"></div>
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold ">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold">
               Are You A Seller?
             </h1>
+            <p className="text-gray-600 mt-2 text-sm md:text-base">
+              Bring your bazaar to the world.
+            </p>
           </div>
-          <h1 className="text-sm md:text-lg">
-            Bring your bazaar to the world.
-          </h1>
         </div>
-        <div className="w-full h-auto bg-white rounded-xl shadow-md p-12 flex flex-col gap-16">
-          <div className="flex justify-between lg:items-center lg:flex-row flex-col gap-4">
-            <h1 className="text-4xl lg:text-5xl font-bold ">
-              Why Join eBazare ?
+
+        <div className="bg-white rounded-2xl shadow-lg p-10 flex flex-col gap-12">
+          <div className="flex justify-between lg:items-center lg:flex-row flex-col gap-6">
+            <h1 className="text-4xl lg:text-5xl font-bold">
+              Why Join eBazaar?
             </h1>
-            <h1 className="lg:w-[22%] text-[0.8rem]">
+            <p className="lg:w-[25%] text-gray-600 text-sm md:text-base">
               More than just shopping — a cultural journey rooted in tradition,
               trust, and timeless beauty.
-            </h1>
+            </p>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-20">
-            {itemsSeller.map((item) => (
-              <div key={item.id} className="flex flex-col gap-4">
-                {item.icon === "GiWorld" && (
-                  <GiWorld size={50} color="#015B46" />
-                )}
-                {item.icon === "RiToolsFill" && (
-                  <RiToolsFill size={50} color="#015B46" />
-                )}
-                {item.icon === "FaSackDollar" && (
-                  <FaSackDollar size={50} color="#015B46" />
-                )}
-                {item.icon === "IoMdCamera" && (
-                  <IoMdCamera size={50} color="#015B46" />
-                )}
-                {item.icon === "BiSolidPackage" && (
-                  <BiSolidPackage size={50} color="#015B46" />
-                )}
 
-                <div>
-                  <h1 className="text-xl font-bold">{item.title}</h1>
-                  <p>{item.description}</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12">
+            {itemsSeller.map((item) => (
+              <motion.div
+                key={item.id}
+                whileHover={{ scale: 1.05 }}
+                className="p-6 bg-gradient-to-br from-gray-50 to-white shadow-md rounded-xl flex flex-col gap-4 hover:shadow-lg transition-all"
+              >
+                <div className="w-14 h-14 flex items-center justify-center rounded-full bg-[#E7F3F0]">
+                  {item.icon === "GiWorld" && (
+                    <GiWorld size={28} color="#015B46" />
+                  )}
+                  {item.icon === "RiToolsFill" && (
+                    <RiToolsFill size={28} color="#015B46" />
+                  )}
+                  {item.icon === "FaSackDollar" && (
+                    <FaSackDollar size={28} color="#015B46" />
+                  )}
+                  {item.icon === "IoMdCamera" && (
+                    <IoMdCamera size={28} color="#015B46" />
+                  )}
+                  {item.icon === "BiSolidPackage" && (
+                    <BiSolidPackage size={28} color="#015B46" />
+                  )}
                 </div>
-              </div>
+                <h2 className="text-lg font-semibold text-gray-800">
+                  {item.title}
+                </h2>
+                <p className="text-sm text-gray-600 leading-relaxed">
+                  {item.description}
+                </p>
+              </motion.div>
             ))}
-            <button className="bg-[#015B46] text-[#FDF9F4] h-12 w-40 rounded self-center font-semibold cursor-pointer justify-self-center hover:bg-[#014b3c] transition-all duration-300">
-              Become Seller
-            </button>
+
+            {/* CTA */}
+            <div className="flex justify-center col-span-full">
+              <button className="bg-gradient-to-r from-[#015B46] to-[#05775c] text-white px-8 py-3 rounded-xl font-semibold hover:scale-105 shadow-md transition-all duration-300">
+                Become a Seller
+              </button>
+            </div>
           </div>
         </div>
       </div>

@@ -7,6 +7,7 @@ import LoadingSpinner from "../loading/page";
 import Image from "next/image";
 import { IoEyeSharp } from "react-icons/io5";
 import { IoIosArrowBack } from "react-icons/io";
+import { GrHomeRounded } from "react-icons/gr";
 
 export default function Login() {
   const [email, setEmail] = useState<string>("");
@@ -138,12 +139,17 @@ export default function Login() {
               window.location.href = "/";
             }}
           >
-            <IoIosArrowBack size={20} color="#FDF9F4" />
+            <GrHomeRounded size={15} color="#FDF9F4" />
           </button>
           <div className="relative flex-1 h-full flex flex-col items-center justify-center gap-12 bg-overlay">
-            <h1 className="font-bold text-3xl sm:text-4xl text-[#13120F] animate-pulse">
+            <button
+              className="font-bold text-3xl sm:text-4xl text-[#13120F] animate-pulse cursor-pointer"
+              onClick={() => {
+                window.location.href = "/";
+              }}
+            >
               eBazaar
-            </h1>
+            </button>
             <div className="flex items-center gap-16">
               <div className="flex flex-col items-center transition-all duration-300">
                 <button
