@@ -12,6 +12,7 @@ import {
   Sparkles,
   Heart,
 } from "lucide-react";
+import LoadingSpinner from "@/app/loading/page";
 
 export default function MainPage() {
   const [check, setCheck] = useState<string | null>(null);
@@ -73,11 +74,7 @@ export default function MainPage() {
   return (
     <>
       {/* Loading Spinner */}
-      {loading && (
-        <div className="fixed inset-0 bg-white flex items-center justify-center z-50">
-          <div className="w-16 h-16 border-4 border-t-4 border-[#015B46] rounded-full animate-spin"></div>
-        </div>
-      )}
+      {loading && <LoadingSpinner />}
       {/* Enhanced Mobile Modal */}
       {modalActive && sizeLg < 640 && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-in fade-in duration-300">

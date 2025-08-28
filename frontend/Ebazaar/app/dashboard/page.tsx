@@ -25,38 +25,89 @@ export default function EbazaarDashboard() {
     undefined
   );
   const [loading, setLoading] = useState(true);
+  const [isBetaUser, setIsBetaUser] = useState(false);
 
   useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const res = await fetch("http://localhost:9000/me", {
-          method: "GET",
-          credentials: "include",
-        });
-        console.log("response:", res);
-        if (!res.ok) {
-          window.location.href = "/login";
-          return;
-        }
+    console.log("Fetching user data...");
+    const email = localStorage.getItem("email");
+    const password = localStorage.getItem("password");
 
-        const data = await res.json();
-        if (data?.user) {
-          setUserData(data.user); // ✅ set user data
-        } else {
-          console.error("Invalid response structure", data);
+    if (email === "beta@gmail.com" && password === "beta123") {
+      setIsBetaUser(true);
+      setUserData({
+        id: 0,
+        name: "Beta Tester",
+        email: "beta@gmail.com",
+        role: "Beta User",
+      });
+      setUserProducts([
+        {
+          id: 1,
+          name: "Sample Product 1",
+          owner: "Beta Tester",
+          title: "Amazing Gadget",
+          imageUrl:
+            "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0",
+          content: "This is an amazing gadget that you will love!",
+          price: 49.99,
+        },
+        {
+          id: 2,
+          name: "Sample Product 2",
+          owner: "Beta Tester",
+          title: "Incredible Widget",
+          imageUrl:
+            "https://images.unsplash.com/photo-1503602642458-232111445657?q=80&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0",
+          content: "An incredible widget that makes life easier.",
+          price: 29.99,
+        },
+        {
+          id: 3,
+          name: "Sample Product 3",
+          owner: "Beta Tester",
+          title: "Fantastic Device",
+          imageUrl:
+            "https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0",
+          content: "A fantastic device for all your needs.",
+          price: null,
+        },
+      ]);
+      console.log("Beta user logged in");
+      setLoading(false);
+      return;
+    }
+    if (!isBetaUser) {
+      const fetchUserData = async () => {
+        try {
+          const res = await fetch("http://localhost:9000/me", {
+            method: "GET",
+            credentials: "include",
+          });
+          console.log("response:", res);
+          if (!res.ok) {
+            window.location.href = "/login";
+            return;
+          }
+
+          const data = await res.json();
+          if (data?.user) {
+            setUserData(data.user); // ✅ set user data
+          } else {
+            console.error("Invalid response structure", data);
+            window.location.href = "/login";
+          }
+          if (data?.products) {
+            setUserProducts(data.products); // ✅ set user data
+          }
+          setLoading(false); // ✅ set loading to false after data is fetched
+        } catch (err) {
+          console.error("Fetch error:", err);
           window.location.href = "/login";
         }
-        if (data?.products) {
-          setUserProducts(data.products); // ✅ set user data
-        }
-        setLoading(false); // ✅ set loading to false after data is fetched
-      } catch (err) {
-        console.error("Fetch error:", err);
-        window.location.href = "/login";
-      }
-    };
+      };
 
-    fetchUserData();
+      fetchUserData();
+    }
   }, []);
 
   const logoutFunction = async () => {

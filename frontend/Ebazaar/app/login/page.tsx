@@ -54,6 +54,14 @@ export default function Login() {
       toast.error("Please fill in all fields");
       return;
     }
+    if (email === "beta@gmail.com" && password === "beta123") {
+      toast.success("Login with beta account successful!");
+      localStorage.setItem("email", email);
+      localStorage.setItem("password", password);
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+      window.location.href = "/dashboard";
+      return;
+    }
     // check if the email is valid
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
@@ -187,7 +195,7 @@ export default function Login() {
                   <input
                     type="text"
                     id="name"
-                    className="w-full text-sm sm:text-base  px-2 h-[45px] border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#015B46] bg-white"
+                    className="w-full text-sm sm:text-base  px-2 h-[45px] border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#015B46] bg-[#fff]/60"
                     placeholder="Enter your email address ..."
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
@@ -200,7 +208,7 @@ export default function Login() {
                   <input
                     type="password"
                     id="pass"
-                    className="w-full text-sm sm:text-base h-[45px] px-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#015B46] bg-white"
+                    className="w-full text-sm sm:text-base h-[45px] px-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#015B46] bg-[#fff]/60"
                     placeholder="Enter your password ..."
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
