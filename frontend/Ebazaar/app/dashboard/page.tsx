@@ -9,6 +9,8 @@ import { IoIosArrowDown } from "react-icons/io";
 import { RiSearchLine } from "react-icons/ri";
 import { FaFilter } from "react-icons/fa6";
 import NavBar from "../component/NavBar/NavBar";
+import { IoLogOut } from "react-icons/io5";
+import HomeNav from "../component/navComponents/HomeNav";
 
 export default function EbazaarDashboard() {
   interface User {
@@ -33,6 +35,8 @@ export default function EbazaarDashboard() {
   );
   const [loading, setLoading] = useState(true);
   const [isBetaUser, setIsBetaUser] = useState(false);
+
+  const [naveSection, setNavSection] = useState<string>("Home");
 
   useEffect(() => {
     console.log("Fetching user data...");
@@ -149,44 +153,64 @@ export default function EbazaarDashboard() {
   return loading ? (
     <LoadingSpinner />
   ) : (
-    <div className="relative bg-[#FDF9F4] bg-overlay flex flex-col w-full h-full p-10">
-      <header className="flex items-center justify-between gap-16">
-        <h1 className="font-bold text-2xl text-[#13120F]">eBazaar</h1>
-        <div className="flex items-center bg-[#FDF9F4] h-[50px] rounded-full shadow-lg px-4 w-full">
-          <RiSearchLine size={20} className="text-gray-800 mr-2" />
-          <input
-            type="text"
-            className="flex-1 bg-transparent outline-none"
-            placeholder="items to search ..."
-          />
-          <FaFilter size={16} className="text-[#13120F] ml-2 cursor-pointer" />
-        </div>
-        <div className="flex items-center gap-3  rounded-3xl">
-          <button className="cursor-pointer">
-            <IoNotifications size={27} className="text-[#015B46]" />
-          </button>
-          <button className="cursor-pointer">
-            <HiMail size={27} className="text-[#015B46] ml-4" />
-          </button>
-          <div className="flex items-center cursor-pointer ml-4">
-            <h1 className="text-lg font-bold">EN</h1>
-            <IoIosArrowDown size={16} className="inline-block ml-1" />
+    <>
+      {/* <div className="fixed top-0 left-0 w-full bg-[#FDF9F4] z-50 p-6 shadow-md"></div> */}
+      <div className=" cursor-pointer fixed z-10 bg-[#fff] rounded-full p-2 bottom-10 right-10 shadow-lg border border-[#A44A3F]/20 hover:scale-110 transition-transform duration-300">
+        <IoLogOut
+          size={50}
+          className="text-[#A44A3F]  "
+          onClick={logoutFunction}
+        />
+      </div>
+      <div className="relative bg-[#FDF9F4] bg-overlay flex flex-col w-full h-full p-10">
+        <header className="flex items-center justify-between gap-16">
+          <h1 className="font-bold text-2xl text-[#13120F]">eBazaar</h1>
+          <div className="flex items-center bg-[#FDF9F4] h-[50px] rounded-full shadow-lg px-4 w-full">
+            <RiSearchLine size={20} className="text-gray-800 mr-2" />
+            <input
+              type="text"
+              className="flex-1 bg-transparent outline-none"
+              placeholder="items to search ..."
+            />
+            <FaFilter
+              size={16}
+              className="text-[#13120F] ml-2 cursor-pointer"
+            />
           </div>
-        </div>
-        <div className="flex items-center gap-4  rounded-3xl">
-          <div className="w-16 h-16 bg-[url('https://i.ibb.co/p6HDtfsk/me-real.jpg')] rounded-full bg-cover"></div>
-          <div className="flex flex-col">
-            <h1 className="font-bold text-xl">{userData?.name}</h1>
-            <div className="flex items-center gap-2">
-              <h1 className="text-sm">@aimenTaoussi</h1>
-              <div className="py-1 bg-[#A44A3F]/70 text-[#FDF9F4] rounded-full text-xs px-4">
-                {userData?.role}
+          <div className="flex items-center gap-3  rounded-3xl">
+            <button className="cursor-pointer">
+              <IoNotifications size={27} className="text-[#015B46]" />
+            </button>
+            <button className="cursor-pointer">
+              <HiMail size={27} className="text-[#015B46] ml-4" />
+            </button>
+            <div className="flex items-center cursor-pointer ml-4">
+              <h1 className="text-lg font-bold">EN</h1>
+              <IoIosArrowDown size={16} className="inline-block ml-1" />
+            </div>
+          </div>
+          <div className="flex items-center gap-4  rounded-3xl">
+            <div className="w-16 h-16 bg-[url('https://i.ibb.co/p6HDtfsk/me-real.jpg')] rounded-full bg-cover"></div>
+            <div className="flex flex-col">
+              <h1 className="font-bold text-xl">{userData?.name}</h1>
+              <div className="flex items-center gap-2">
+                <h1 className="text-sm">@aimenTaoussi</h1>
+                <div className="py-1 bg-[#A44A3F]/70 text-[#FDF9F4] rounded-full text-xs px-4">
+                  {userData?.role}
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </header>
-      <NavBar />
-    </div>
+        </header>
+        <NavBar navSection={naveSection} setNavSection={setNavSection} />
+        {/* <NavBar /> */}
+        {/* Main dashboard body content */}
+        {naveSection === "Home" && <HomeNav />}
+        {naveSection === "Dashboard" && <div>Dashboard Section</div>}
+        {naveSection === "Orders" && <div>Orders Section</div>}
+        {naveSection === "Messages" && <div>Messages Section</div>}
+        {naveSection === "Settings" && <div>Settings Section</div>}
+      </div>
+    </>
   );
 }
