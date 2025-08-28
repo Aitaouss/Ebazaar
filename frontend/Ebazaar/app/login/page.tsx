@@ -139,7 +139,23 @@ export default function Login() {
       <Toaster position="top-right" />
       {loading && <LoadingSpinner />}
       {!loading && (
-        <div className="h-full w-full flex items-center justify-center relative">
+        <div className=" h-full w-full flex items-center justify-center relative">
+          <div className="bg-overlay  absolute top-12 right-10 w-[320px] p-6 rounded-2xl shadow-xl bg-gradient-to-br from-white to-gray-50 border border-gray-200 animate-bounce">
+            <h2 className="text-lg font-semibold text-gray-800 mb-3">
+              🔑 Beta Testing Access
+            </h2>
+            <div className="space-y-2 text-sm text-gray-600">
+              <p>
+                <span className="text-gray-700 font-bold">Email:</span>{" "}
+                beta@gmail.com
+              </p>
+              <p>
+                <span className="font-bold text-gray-700">Password:</span>{" "}
+                beta123
+              </p>
+            </div>
+          </div>
+
           <button
             className="absolute w-[50px] h-[50px] bg-[#015B46] top-5 left-5 rounded-full flex items-center justify-center cursor-pointer z-50"
             onClick={() => {
@@ -208,7 +224,7 @@ export default function Login() {
                   <input
                     type="password"
                     id="pass"
-                    className="w-full text-sm sm:text-base h-[45px] px-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#015B46] bg-[#fff]/60"
+                    className="w-full text-sm sm:text-base h-[45px] px-2 border border-gray-300 rounded  focus:outline-none focus:ring-2 focus:ring-[#015B46] bg-[#fff]/60"
                     placeholder="Enter your password ..."
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}

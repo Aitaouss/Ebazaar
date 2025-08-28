@@ -11,6 +11,10 @@ import { FaFilter } from "react-icons/fa6";
 import NavBar from "../component/NavBar/NavBar";
 import { IoLogOut } from "react-icons/io5";
 import HomeNav from "../component/navComponents/HomeNav";
+import SettingNav from "../component/navComponents/SettingsNav";
+import MailNav from "../component/navComponents/MailNav";
+import OrderNav from "../component/navComponents/OrderNav";
+import DashboardNav from "../component/navComponents/DashboardNav";
 
 export default function EbazaarDashboard() {
   interface User {
@@ -206,10 +210,10 @@ export default function EbazaarDashboard() {
         {/* <NavBar /> */}
         {/* Main dashboard body content */}
         {naveSection === "Home" && <HomeNav />}
-        {naveSection === "Dashboard" && <div>Dashboard Section</div>}
-        {naveSection === "Orders" && <div>Orders Section</div>}
-        {naveSection === "Messages" && <div>Messages Section</div>}
-        {naveSection === "Settings" && <div>Settings Section</div>}
+        {naveSection === "Dashboard" && <DashboardNav />}
+        {naveSection === "Orders" && <OrderNav />}
+        {naveSection === "Messages" && <MailNav />}
+        {naveSection === "Settings" && <SettingNav />}
       </div>
     </>
   );
