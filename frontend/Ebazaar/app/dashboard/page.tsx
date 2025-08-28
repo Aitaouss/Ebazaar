@@ -2,6 +2,13 @@
 
 import { useState, useEffect } from "react";
 import LoadingSpinner from "../loading/page";
+import toast from "react-hot-toast";
+import { HiMail } from "react-icons/hi";
+import { IoNotifications } from "react-icons/io5";
+import { IoIosArrowDown } from "react-icons/io";
+import { RiSearchLine } from "react-icons/ri";
+import { FaFilter } from "react-icons/fa6";
+import NavBar from "../component/NavBar/NavBar";
 
 export default function EbazaarDashboard() {
   interface User {
@@ -38,7 +45,7 @@ export default function EbazaarDashboard() {
         id: 0,
         name: "Beta Tester",
         email: "beta@gmail.com",
-        role: "Beta User",
+        role: "Beta",
       });
       setUserProducts([
         {
@@ -111,6 +118,16 @@ export default function EbazaarDashboard() {
   }, []);
 
   const logoutFunction = async () => {
+    if (isBetaUser) {
+      toast.success("Beta user logged out");
+      setUserData(undefined);
+      setUserProducts(undefined);
+      setIsBetaUser(false);
+      localStorage.removeItem("email");
+      localStorage.removeItem("password");
+      window.location.href = "/login";
+      return;
+    }
     try {
       const res = await fetch("http://localhost:9000/logout", {
         method: "POST",
@@ -132,75 +149,44 @@ export default function EbazaarDashboard() {
   return loading ? (
     <LoadingSpinner />
   ) : (
-    <div className="h-full w-full bg-gradient-to-br from-gray-50 to-gray-100 flex flex-col items-center">
-      {/* Header Section */}
-      <header className="w-full bg-white shadow-md py-6 px-10 flex justify-between items-center">
-        <div className="flex flex-col gap-3">
-          <div>
-            <h1 className="text-3xl font-bold text-gray-800">Dashboard</h1>
-            <p className="text-gray-500">
-              Welcome back,{" "}
-              <span className="font-semibold">{userData?.name}</span>
-            </p>
-          </div>
-          <button
-            className="px-6 py-2 bg-[#015B46] hover:bg-[#027a5c] text-white rounded-xl shadow-md transition-all duration-200 cursor-pointer"
-            onClick={logoutFunction}
-          >
-            Logout
-          </button>
+    <div className="relative bg-[#FDF9F4] bg-overlay flex flex-col w-full h-full p-10">
+      <header className="flex items-center justify-between gap-16">
+        <h1 className="font-bold text-2xl text-[#13120F]">eBazaar</h1>
+        <div className="flex items-center bg-[#FDF9F4] h-[50px] rounded-full shadow-lg px-4 w-full">
+          <RiSearchLine size={20} className="text-gray-800 mr-2" />
+          <input
+            type="text"
+            className="flex-1 bg-transparent outline-none"
+            placeholder="items to search ..."
+          />
+          <FaFilter size={16} className="text-[#13120F] ml-2 cursor-pointer" />
         </div>
-
-        {/* User Info */}
-        <section className=" text-center">
-          <h2 className="text-4xl font-semibold text-gray-800 animate-bounce">
-            <span className="animate-bounce">👋</span> Hello {userData?.name}
-          </h2>
-          <p className="text-lg text-white mt-2 px-12 bg-[#A44A3F] rounded-lg">
-            <span className="font-medium">{userData?.role}</span>
-          </p>
-        </section>
-      </header>
-
-      {/* Products Grid */}
-      <section className="mt-12 w-full max-w-6xl px-6 flex-1 overflow-auto pb-10">
-        {userProucts && userProucts.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8">
-            {userProucts.map((product) => (
-              <div
-                key={product.id}
-                className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 relative flex flex-col justify-between "
-              >
-                <div className="overflow-hidden">
-                  <img
-                    src={
-                      product.imageUrl ||
-                      "https://images.unsplash.com/photo-1530435622277-39544076a5f8?q=80&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0"
-                    }
-                    alt={product.title}
-                    className="w-full h-48 object-cover hover:scale-110 transition-transform duration-300"
-                  />
-                </div>
-                <div className="p-5">
-                  <h3 className="text-xl font-semibold text-gray-800">
-                    {product.title}
-                  </h3>
-                  <p className="text-gray-600 mt-2 line-clamp-3">
-                    {product.content}
-                  </p>
-                </div>
-                <button className="w-[30%] bg-[#A44A3F] hover:bg-[#c75c51] text-white py-3 text-center font-medium transition-colors duration-200 rounded-lg self-end m-3 cursor-pointer">
-                  {product.price ? `$${product.price}` : "Free"}
-                </button>
+        <div className="flex items-center gap-3  rounded-3xl">
+          <button className="cursor-pointer">
+            <IoNotifications size={27} className="text-[#015B46]" />
+          </button>
+          <button className="cursor-pointer">
+            <HiMail size={27} className="text-[#015B46] ml-4" />
+          </button>
+          <div className="flex items-center cursor-pointer ml-4">
+            <h1 className="text-lg font-bold">EN</h1>
+            <IoIosArrowDown size={16} className="inline-block ml-1" />
+          </div>
+        </div>
+        <div className="flex items-center gap-4  rounded-3xl">
+          <div className="w-16 h-16 bg-[url('https://i.ibb.co/p6HDtfsk/me-real.jpg')] rounded-full bg-cover"></div>
+          <div className="flex flex-col">
+            <h1 className="font-bold text-xl">{userData?.name}</h1>
+            <div className="flex items-center gap-2">
+              <h1 className="text-sm">@aimenTaoussi</h1>
+              <div className="py-1 bg-[#A44A3F]/70 text-[#FDF9F4] rounded-full text-xs px-4">
+                {userData?.role}
               </div>
-            ))}
+            </div>
           </div>
-        ) : (
-          <div className="text-center text-gray-500 mt-20 text-lg">
-            No products found.
-          </div>
-        )}
-      </section>
+        </div>
+      </header>
+      <NavBar />
     </div>
   );
 }
