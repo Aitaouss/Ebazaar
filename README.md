@@ -2,7 +2,7 @@
 
 # 🌐 Ebazaar
 
-Ebazaar is an online marketplace inspired by platforms like Fiverr — but with a twist. In Ebazaar, **sellers can create their own customizable stores ("bazaars")** where they offer services or digital products. Buyers can browse, explore stores, and place orders directly.
+Ebazaar is an online marketplace inspired by platforms like Fiverr — but with a twist. In Ebazaar, **sellers can create their own customizable stores ("bazaars")** where they offer services or digital products. Buyers can browse, explore stores, and place orders directly. https://ebazaar-beta.vercel.app/
 
 ---
 
