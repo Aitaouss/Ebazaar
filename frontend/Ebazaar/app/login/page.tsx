@@ -140,7 +140,7 @@ export default function Login() {
       {loading && <LoadingSpinner />}
       {!loading && (
         <div className=" h-full w-full flex items-center justify-center relative">
-          <div className="bg-overlay  absolute top-12 right-10 w-[320px] p-6 rounded-2xl shadow-xl bg-gradient-to-br from-white to-gray-50 border border-gray-200 animate-bounce">
+          <div className="bg-overlay  absolute top-12 right-10  sm:w-[200px] md:w-[250px] lg:w-[320px] p-6 rounded-2xl shadow-xl bg-gradient-to-br from-white to-gray-50 border border-gray-200 animate-bounce">
             <h2 className="text-lg font-semibold text-gray-800 mb-3">
               🔑 Beta Testing Access
             </h2>

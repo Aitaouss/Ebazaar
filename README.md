@@ -9,12 +9,14 @@ Ebazaar is an online marketplace inspired by platforms like Fiverr — but with 
 ## 🚀 Features
 
 ### 🛍 For Sellers:
+
 - Create and customize your own store ("bazaar")
 - Add, edit, and manage services or products
 - Track orders and communicate with buyers
 - Manage ratings, reviews, and store analytics
 
 ### 👤 For Buyers:
+
 - Browse bazaars and discover new talents
 - Search and filter by category, rating, or price
 - Secure checkout and order tracking
@@ -39,3 +41,4 @@ Ebazaar is an online marketplace inspired by platforms like Fiverr — but with 
    ```bash
    git clone https://github.com/your-username/ebazaar.git
    cd ebazaar
+   ```
