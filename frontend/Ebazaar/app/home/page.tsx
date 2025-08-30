@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 import { HiMail } from "react-icons/hi";
 import { IoNotifications } from "react-icons/io5";
 import { IoIosArrowDown } from "react-icons/io";
+import { IoIosArrowUp } from "react-icons/io";
 import { RiSearchLine } from "react-icons/ri";
 import { FaFilter } from "react-icons/fa6";
 import NavBar from "../component/NavBar/NavBar";
@@ -33,6 +34,12 @@ export default function EbazaarDashboard() {
     content: string;
     price: number | null;
   }
+
+  interface LanguagesInterface {
+    code: string;
+    name: string;
+    country_code: string;
+  }
   const [userData, setUserData] = useState<User | undefined>(undefined);
   const [userProucts, setUserProducts] = useState<userProducts[] | undefined>(
     undefined
@@ -41,6 +48,16 @@ export default function EbazaarDashboard() {
   const [isBetaUser, setIsBetaUser] = useState(false);
 
   const [naveSection, setNavSection] = useState<string>("Home");
+
+  const [languageModalOpen, setLanguageModalOpen] = useState(false);
+
+  const languages: LanguagesInterface[] = [
+    { code: "en", name: "English", country_code: "gb" },
+    { code: "fr", name: "French", country_code: "fr" },
+    { code: "de", name: "German", country_code: "de" },
+    { code: "es", name: "Spanish", country_code: "es" },
+    { code: "it", name: "Italian", country_code: "it" },
+  ];
 
   useEffect(() => {
     console.log("Fetching user data...");
@@ -188,9 +205,21 @@ export default function EbazaarDashboard() {
             <button className="cursor-pointer">
               <HiMail size={27} className="text-[#015B46] ml-4" />
             </button>
-            <div className="flex items-center cursor-pointer ml-4">
-              <h1 className="text-lg font-bold">EN</h1>
-              <IoIosArrowDown size={16} className="inline-block ml-1" />
+            <div className="flex items-center cursor-pointer ml-4 relative justify-center">
+              <div
+                className="flex items-center"
+                onClick={() => setLanguageModalOpen(!languageModalOpen)}
+              >
+                <h1 className="text-lg font-bold">EN</h1>
+                {languageModalOpen ? (
+                  <IoIosArrowUp size={16} className="inline-block ml-1" />
+                ) : (
+                  <IoIosArrowDown size={16} className="inline-block ml-1" />
+                )}
+              </div>
+              {languageModalOpen && (
+                <div className="w-[80px] h-[60px] bg-white absolute -bottom-16 rounded-2xl shadow-xl"></div>
+              )}
             </div>
           </div>
           <div className="flex items-center gap-4  rounded-3xl">
