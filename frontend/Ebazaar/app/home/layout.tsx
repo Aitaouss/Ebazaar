@@ -2,6 +2,7 @@
 import { useState, useEffect, createContext, useContext } from "react";
 import LayoutComp from "../component/LayoutComp/LayoutComp";
 import { User } from "../types/types";
+import LoadingSpinner from "../component/loading/page";
 
 // 1. Create a context
 const UserContext = createContext<User | null>(null);
@@ -17,8 +18,23 @@ export default function HomeLayout({
 }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isBetaUSer, setIsBetaUser] = useState(false);
 
   useEffect(() => {
+    const email = localStorage.getItem("email");
+    const password = localStorage.getItem("password");
+    if (email === "beta@gmail.com" && password === "beta123") {
+      setIsBetaUser(true);
+      setUser({
+        id: 0,
+        name: "Beta Tester",
+        email: "beta@gmail.com",
+        role: "Beta",
+      });
+      setLoading(false);
+      return;
+    }
+
     const fetchUser = async () => {
       try {
         const res = await fetch("http://localhost:9000/me", {
@@ -41,7 +57,7 @@ export default function HomeLayout({
     fetchUser();
   }, []);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <h1>Laoading ...</h1>;
 
   return (
     <UserContext.Provider value={user}>

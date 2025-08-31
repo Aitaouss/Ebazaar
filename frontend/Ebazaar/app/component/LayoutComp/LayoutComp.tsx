@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import LoadingSpinner from "../loading/page";
 import toast from "react-hot-toast";
 import { HiMail } from "react-icons/hi";
 import { IoNotifications } from "react-icons/io5";
@@ -10,7 +9,6 @@ import { IoIosArrowUp } from "react-icons/io";
 import { RiSearchLine } from "react-icons/ri";
 import { FaFilter } from "react-icons/fa6";
 import NavBar from "../NavBar/NavBar";
-import { IoLogOut } from "react-icons/io5";
 
 import { User, userProducts, LanguagesInterface } from "../../types/types";
 
@@ -33,7 +31,6 @@ export default function LayoutComp() {
     { code: "IT", name: "Italian", country_code: "it" },
   ];
   useEffect(() => {
-    console.log("Fetching user data...");
     const email = localStorage.getItem("email");
     const password = localStorage.getItem("password");
 
@@ -158,7 +155,12 @@ export default function LayoutComp() {
           <button className="cursor-pointer">
             <IoNotifications size={27} className="text-[#015B46]" />
           </button>
-          <button className="cursor-pointer">
+          <button
+            className="cursor-pointer"
+            onClick={() => {
+              window.location.href = "/home/inbox";
+            }}
+          >
             <HiMail size={27} className="text-[#015B46] ml-4" />
           </button>
           <div className="flex items-center cursor-pointer ml-4 relative justify-center">
