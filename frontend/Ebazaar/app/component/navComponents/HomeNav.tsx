@@ -1,8 +1,9 @@
 import { FiTrendingUp, FiStar, FiUsers, FiDollarSign } from "react-icons/fi";
 import { HiPlus } from "react-icons/hi";
 import { HiMail } from "react-icons/hi";
+import { User } from "../../types/types";
 
-export default function HomeNav() {
+export default function HomeNav({ userData }: { userData: User }) {
   const dashboardMetrics = {
     ordersInProgress: 12,
     totalEarnings: 3200,
@@ -94,7 +95,7 @@ export default function HomeNav() {
       {/* Welcome Section */}
       <div className="mb-8">
         <h1 className="text-4xl font-bold text-[#13120F] mb-2">
-          Welcome Aimen 👋
+          Welcome {userData?.name}
         </h1>
         <p className="text-gray-600">
           {"Here's an overview of your business today."}

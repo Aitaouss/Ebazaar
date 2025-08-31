@@ -16,30 +16,9 @@ import SettingNav from "../component/navComponents/SettingsNav";
 import MailNav from "../component/navComponents/MailNav";
 import OrderNav from "../component/navComponents/OrderNav";
 import DashboardNav from "../component/navComponents/DashboardNav";
+import { User, userProducts, LanguagesInterface } from "../types/types";
 
 export default function EbazaarDashboard() {
-  interface User {
-    id: number;
-    name: string;
-    email: string;
-    role: string;
-  }
-
-  interface userProducts {
-    id: number;
-    name: string;
-    owner: string;
-    title: string;
-    imageUrl: string | null;
-    content: string;
-    price: number | null;
-  }
-
-  interface LanguagesInterface {
-    code: string;
-    name: string;
-    country_code: string;
-  }
   const [userData, setUserData] = useState<User | undefined>(undefined);
   const [userProucts, setUserProducts] = useState<userProducts[] | undefined>(
     undefined
@@ -168,8 +147,6 @@ export default function EbazaarDashboard() {
       console.error("Logout error:", err);
     }
   };
-  console.log("userData:", userData);
-  console.log("userProduct:", userProucts);
 
   return loading ? (
     <LoadingSpinner />
@@ -238,7 +215,7 @@ export default function EbazaarDashboard() {
         <NavBar navSection={naveSection} setNavSection={setNavSection} />
         {/* <NavBar /> */}
         {/* Main dashboard body content */}
-        {naveSection === "Home" && <HomeNav />}
+        {naveSection === "Home" && <HomeNav userData={userData} />}
         {naveSection === "Dashboard" && <DashboardNav />}
         {naveSection === "Orders" && <OrderNav />}
         {naveSection === "Messages" && <MailNav />}
