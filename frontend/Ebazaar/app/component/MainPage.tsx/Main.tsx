@@ -130,9 +130,9 @@ export default function MainPage() {
         <div className="absolute bottom-0 left-0 w-96 h-96 bg-gradient-to-tr from-[#C9A66B]/5 to-transparent rounded-full blur-3xl"></div>
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-r from-[#015B46]/3 via-transparent to-[#C9A66B]/3 rounded-full blur-3xl"></div>
 
-        <div className="relative z-10 px-6 sm:px-10 lg:px-20 flex flex-col min-h-screen">
+        <div className="relative z-10 px-6 sm:px-10 lg:px-20 flex flex-col min-h-screen items-center">
           {/* Enhanced Header */}
-          <header className="w-full h-[100px] flex items-center justify-between relative">
+          <header className="w-full flex py-10 items-center justify-between relative">
             <div className="flex items-center space-x-3">
               <h1 className="font-bold text-2xl text-[#13120F]">eBazaar</h1>
               <div className="hidden sm:flex items-center space-x-1 bg-[#015B46]/10 px-3 py-1 rounded-full">
@@ -169,7 +169,7 @@ export default function MainPage() {
           </header>
 
           {/* Enhanced Hero Section */}
-          <div className="flex items-center justify-between flex-1 h-full py-12">
+          <div className="flex items-center self-center flex-1 justify-center">
             {sizeLg > 1024 ? (
               <div className="grid lg:grid-cols-2 gap-16 items-center w-full">
                 {/* Left Content */}

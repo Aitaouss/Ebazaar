@@ -3,7 +3,7 @@ import { HiPlus } from "react-icons/hi";
 import { HiMail } from "react-icons/hi";
 import { User } from "../../types/types";
 
-export default function HomeNav({ userData }: { userData: User }) {
+export default function HomeNav({ userData }: { userData: User | undefined }) {
   const dashboardMetrics = {
     ordersInProgress: 12,
     totalEarnings: 3200,
