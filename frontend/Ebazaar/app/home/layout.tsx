@@ -57,7 +57,7 @@ export default function HomeLayout({
     fetchUser();
   }, []);
 
-  if (loading) return <h1>Laoading ...</h1>;
+  if (loading) return <LoadingSpinner />;
 
   return (
     <UserContext.Provider value={user}>

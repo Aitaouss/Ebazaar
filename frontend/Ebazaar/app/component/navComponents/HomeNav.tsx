@@ -95,7 +95,7 @@ export default function HomeNav() {
   const userData = useUser() as User;
 
   return (
-    <main className="flex-1 mt-8">
+    <main className="flex-1 mt-8 mb-8">
       {/* Welcome Section */}
       <div className="mb-8">
         <h1 className="text-4xl font-bold text-[#13120F] mb-2">
@@ -217,7 +217,7 @@ export default function HomeNav() {
           <h2 className="text-2xl font-bold text-[#13120F]">
             Recent Orders Preview
           </h2>
-          <button className="text-[#015B46] hover:underline font-medium flex items-center gap-2">
+          <button className="text-[#015B46] hover:underline font-medium flex items-center gap-2 cursor-pointer">
             View All orders →
           </button>
         </div>
@@ -235,7 +235,7 @@ export default function HomeNav() {
                 />
                 <span className="font-medium text-[#13120F]">{order.name}</span>
               </div>
-              <div className="flex items-center gap-4">
+              <div className="flex items-center gap-4 justify-between w-[50%]">
                 <span
                   className={`px-4 py-1 rounded-full text-sm font-medium ${
                     order.status === "In Progress"
@@ -250,9 +250,6 @@ export default function HomeNav() {
                 <span className="font-bold text-[#13120F]">
                   ${order.amount}
                 </span>
-                <button className="w-8 h-8 bg-[#015B46] text-white rounded-full flex items-center justify-center hover:bg-[#014a39] transition-colors">
-                  <HiPlus size={16} />
-                </button>
               </div>
             </div>
           ))}
@@ -268,7 +265,7 @@ export default function HomeNav() {
               2 new <HiMail size={16} />
             </span>
           </div>
-          <button className="text-[#015B46] hover:underline font-medium flex items-center gap-2">
+          <button className="text-[#015B46] hover:underline font-medium flex items-center gap-2 cursor-pointer">
             View All messages →
           </button>
         </div>

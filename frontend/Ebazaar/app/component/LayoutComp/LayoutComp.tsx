@@ -142,7 +142,7 @@ export default function LayoutComp() {
     <div className="relative flex flex-col w-full">
       <header className="flex items-center justify-between gap-16">
         <h1 className="font-bold text-2xl text-[#13120F]">eBazaar</h1>
-        <div className="flex items-center bg-[#FDF9F4] h-[50px] rounded-full shadow-lg px-4 w-full">
+        <div className="flex items-center bg-[#fff] h-[50px] rounded-xl shadow-lg px-4 w-full">
           <RiSearchLine size={20} className="text-gray-800 mr-2" />
           <input
             type="text"
