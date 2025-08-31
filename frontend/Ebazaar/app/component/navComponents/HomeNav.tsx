@@ -1,9 +1,12 @@
+"use client";
+
 import { FiTrendingUp, FiStar, FiUsers, FiDollarSign } from "react-icons/fi";
 import { HiPlus } from "react-icons/hi";
 import { HiMail } from "react-icons/hi";
 import { User } from "../../types/types";
+import { useUser } from "../../../app/home/layout";
 
-export default function HomeNav({ userData }: { userData: User | undefined }) {
+export default function HomeNav() {
   const dashboardMetrics = {
     ordersInProgress: 12,
     totalEarnings: 3200,
@@ -89,13 +92,14 @@ export default function HomeNav({ userData }: { userData: User | undefined }) {
       isNew: false,
     },
   ];
+  const userData = useUser() as User;
 
   return (
-    <main className="flex-1 mt-8 overflow-auto">
+    <main className="flex-1 mt-8">
       {/* Welcome Section */}
       <div className="mb-8">
         <h1 className="text-4xl font-bold text-[#13120F] mb-2">
-          Welcome {userData?.name}
+          Welcome {userData.name}
         </h1>
         <p className="text-gray-600">
           {"Here's an overview of your business today."}

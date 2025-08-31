@@ -1,6 +1,6 @@
 "use client";
 
-import LoadingSpinner from "@/app/loading/page";
+import LoadingSpinner from "@/app/component/loading/page";
 import { useEffect } from "react";
 import { toast, Toaster } from "react-hot-toast";
 

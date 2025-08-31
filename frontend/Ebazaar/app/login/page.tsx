@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { Toaster, toast } from "react-hot-toast";
-import LoadingSpinner from "../loading/page";
+import LoadingSpinner from "../component/loading/page";
 import Image from "next/image";
 import { IoEyeSharp } from "react-icons/io5";
 import { IoIosArrowBack } from "react-icons/io";

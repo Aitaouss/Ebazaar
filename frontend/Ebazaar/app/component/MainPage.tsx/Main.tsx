@@ -12,7 +12,7 @@ import {
   Sparkles,
   Heart,
 } from "lucide-react";
-import LoadingSpinner from "@/app/loading/page";
+import LoadingSpinner from "@/app/component/loading/page";
 
 export default function MainPage() {
   const [check, setCheck] = useState<string | null>(null);
