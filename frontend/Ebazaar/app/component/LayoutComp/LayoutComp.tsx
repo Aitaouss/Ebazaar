@@ -175,6 +175,26 @@ export default function LayoutComp() {
                 <IoIosArrowDown size={16} className="inline-block ml-1" />
               )}
             </div>
+            <div className="flex items-center gap-2 ml-4">
+              {userData?.role === "admin" && (
+                <button
+                  className="py-1 px-2 bg-[#015B46] rounded-lg shadow-lg cursor-pointer text-white"
+                  onClick={() => {
+                    window.location.href = "/pannel";
+                  }}
+                >
+                  Pannel
+                </button>
+              )}
+              <button
+                className="py-1 px-2 bg-red-800 rounded-lg shadow-lg cursor-pointer"
+                onClick={() => {
+                  logoutFunction();
+                }}
+              >
+                <h1 className="text-white font-semibold">Logout</h1>
+              </button>
+            </div>
             {languageModalOpen && (
               <div className="w-[80px] bg-white absolute -bottom-45 rounded-2xl shadow-xl">
                 {languages.map((lang) => (
@@ -207,14 +227,6 @@ export default function LayoutComp() {
               <div className="py-1 bg-[#A44A3F]/70 text-[#FDF9F4] rounded-full text-xs px-4">
                 {userData?.role}
               </div>
-              <button
-                className="py-1 px-2 bg-red-800 rounded-lg shadow-lg cursor-pointer"
-                onClick={() => {
-                  logoutFunction();
-                }}
-              >
-                <h1 className="text-white font-semibold">Logout</h1>
-              </button>
             </div>
           </div>
         </div>

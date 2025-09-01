@@ -7,6 +7,7 @@ import { toast, Toaster } from "react-hot-toast";
 export default function GoogleAuth() {
   useEffect(() => {
     const code = new URLSearchParams(window.location.search).get("code");
+    console.log("Google auth code:", code);
     if (!code) return;
 
     const start = async () => {
@@ -15,7 +16,7 @@ export default function GoogleAuth() {
           "http://localhost:9000/auth/google/callback",
           {
             method: "POST",
-            credentials: "include", // ✅ sends and receives cookies
+            credentials: "include",
             headers: {
               "Content-Type": "application/json",
             },
@@ -24,6 +25,11 @@ export default function GoogleAuth() {
         );
 
         if (!response.ok) {
+          console.error(
+            "Google callback response not ok:",
+            response.statusText,
+            response.status
+          );
           console.error("❌ Google callback failed");
           return;
         }
@@ -34,7 +40,7 @@ export default function GoogleAuth() {
         console.log("✅ Google login success:", res.message);
 
         // ✅ No need for localStorage when using cookies
-        window.location.href = "/dashboard";
+        window.location.href = "/home";
       } catch (err) {
         console.error("Google auth error:", err);
       }

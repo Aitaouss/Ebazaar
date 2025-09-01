@@ -492,7 +492,7 @@ export default function AdminPanel() {
       </main>
 
       <footer className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 text-xs text-gray-500">
-        Built with ❤ — Styled to match your green/gray palette.
+        Built with ❤ — By Aimen Taoussi
       </footer>
     </div>
   );
