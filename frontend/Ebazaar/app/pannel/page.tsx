@@ -56,7 +56,7 @@ export default function AdminPanel() {
     try {
       const token =
         typeof window !== "undefined" ? localStorage.getItem("token") : null;
-      const res = await fetch("http://localhost:9000/users", {
+      const res = await fetch("http://localhost:9000/admin/users", {
         method: "GET",
         credentials: "include", // send cookies if token is cookie-based
         headers: token

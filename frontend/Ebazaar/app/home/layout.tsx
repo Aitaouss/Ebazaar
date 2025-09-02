@@ -30,6 +30,7 @@ export default function HomeLayout({
         name: "Beta Tester",
         email: "beta@gmail.com",
         role: "Beta",
+        picture: null,
       });
       setLoading(false);
       return;

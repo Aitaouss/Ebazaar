@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import toast from "react-hot-toast";
 import { HiMail } from "react-icons/hi";
 import { IoNotifications } from "react-icons/io5";
@@ -9,6 +9,7 @@ import { IoIosArrowUp } from "react-icons/io";
 import { RiSearchLine } from "react-icons/ri";
 import { FaFilter } from "react-icons/fa6";
 import NavBar from "../NavBar/NavBar";
+import { createPortal } from "react-dom";
 
 import { User, userProducts, LanguagesInterface } from "../../types/types";
 
@@ -41,6 +42,7 @@ export default function LayoutComp() {
         name: "Beta Tester",
         email: "beta@gmail.com",
         role: "Beta",
+        picture: null,
       });
       setUserProducts([
         {
@@ -93,6 +95,7 @@ export default function LayoutComp() {
 
           const data = await res.json();
           if (data?.user) {
+            console.log("Fetched user data:", data.user);
             setUserData(data.user); // ✅ set user data
           } else {
             console.error("Invalid response structure", data);
@@ -138,6 +141,7 @@ export default function LayoutComp() {
       console.error("Logout error:", err);
     }
   };
+
   return (
     <div className="relative flex flex-col w-full">
       <header className="flex items-center justify-between gap-16">
@@ -155,12 +159,7 @@ export default function LayoutComp() {
           <button className="cursor-pointer">
             <IoNotifications size={27} className="text-[#015B46]" />
           </button>
-          <button
-            className="cursor-pointer"
-            onClick={() => {
-              window.location.href = "/home/inbox";
-            }}
-          >
+          <button className="cursor-pointer relative flex items-center justify-center">
             <HiMail size={27} className="text-[#015B46] ml-4" />
           </button>
           <div className="flex items-center cursor-pointer ml-4 relative justify-center">
@@ -173,6 +172,27 @@ export default function LayoutComp() {
                 <IoIosArrowUp size={16} className="inline-block ml-1" />
               ) : (
                 <IoIosArrowDown size={16} className="inline-block ml-1" />
+              )}
+              {languageModalOpen && (
+                <div className="w-[80px] bg-white absolute -bottom-45 rounded-2xl shadow-xl">
+                  {languages.map((lang) => (
+                    <div
+                      key={lang.code}
+                      className="flex items-center gap-2 p-2 hover:bg-gray-100 rounded-2xl cursor-pointer"
+                      onClick={() => {
+                        setLanguage(lang.code);
+                        setLanguageModalOpen(false);
+                      }}
+                    >
+                      <img
+                        src={`https://flagcdn.com/w20/${lang.country_code}.png`}
+                        alt={lang.name}
+                        className="w-5 h-auto rounded-sm"
+                      />
+                      <h1 className="text-sm">{lang.code}</h1>
+                    </div>
+                  ))}
+                </div>
               )}
             </div>
             <div className="flex items-center gap-2 ml-4">
@@ -195,31 +215,26 @@ export default function LayoutComp() {
                 <h1 className="text-white font-semibold">Logout</h1>
               </button>
             </div>
-            {languageModalOpen && (
-              <div className="w-[80px] bg-white absolute -bottom-45 rounded-2xl shadow-xl">
-                {languages.map((lang) => (
-                  <div
-                    key={lang.code}
-                    className="flex items-center gap-2 p-2 hover:bg-gray-100 rounded-2xl cursor-pointer"
-                    onClick={() => {
-                      setLanguage(lang.code);
-                      setLanguageModalOpen(false);
-                    }}
-                  >
-                    <img
-                      src={`https://flagcdn.com/w20/${lang.country_code}.png`}
-                      alt={lang.name}
-                      className="w-5 h-auto rounded-sm"
-                    />
-                    <h1 className="text-sm">{lang.code}</h1>
-                  </div>
-                ))}
-              </div>
-            )}
           </div>
         </div>
         <div className="flex items-center gap-4  rounded-3xl">
-          <div className="w-16 h-16 bg-[url('https://i.ibb.co/p6HDtfsk/me-real.jpg')] rounded-full bg-cover"></div>
+          <div
+            className={`w-16 h-16 rounded-full bg-cover border-2 border-[#015B46] shadow`}
+          >
+            {userData?.picture ? (
+              <img
+                src={userData?.picture}
+                alt="Profile"
+                className="w-full h-full rounded-full object-cover"
+              />
+            ) : (
+              <div className="w-full h-full rounded-full bg-cover flex items-center justify-center bg-[#015B46]">
+                <h1 className="text-white font-semibold text-xl">
+                  {userData?.name[0].toUpperCase()}
+                </h1>
+              </div>
+            )}
+          </div>
           <div className="flex flex-col">
             <h1 className="font-bold text-xl">{userData?.name}</h1>
             <div className="flex items-center gap-2">
