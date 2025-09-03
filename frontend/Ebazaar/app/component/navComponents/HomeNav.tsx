@@ -5,7 +5,6 @@ import { HiPlus } from "react-icons/hi";
 import { HiMail } from "react-icons/hi";
 import { User } from "../../types/types";
 import { useUser } from "../../../app/home/layout";
-import UltraPCAssistant from "../Ultrapc/UltraPCAssistant";
 
 export default function HomeNav() {
   const dashboardMetrics = {
