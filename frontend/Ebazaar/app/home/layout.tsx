@@ -6,9 +6,14 @@ import LoadingSpinner from "../component/loading/page";
 
 // 1. Create a context
 const UserContext = createContext<User | null>(null);
+const chatOpenContext = createContext<boolean>(false);
 
 export function useUser() {
   return useContext(UserContext);
+}
+
+export function useChatOpen() {
+  return useContext(chatOpenContext);
 }
 
 export default function HomeLayout({
@@ -17,6 +22,7 @@ export default function HomeLayout({
   children: React.ReactNode;
 }) {
   const [user, setUser] = useState<User | null>(null);
+  const [chatOpen, setChatOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [isBetaUSer, setIsBetaUser] = useState(false);
 
@@ -62,10 +68,12 @@ export default function HomeLayout({
 
   return (
     <UserContext.Provider value={user}>
-      <div className="h-screen w-full flex flex-col p-10 bg-overlay">
-        <LayoutComp />
-        <main className="flex-1">{children}</main>
-      </div>
+      <chatOpenContext.Provider value={chatOpen}>
+        <div className="h-screen w-full flex flex-col gap-3 p-10 bg-overlay ">
+          <LayoutComp />
+          <div className="flex-1 overflow-auto">{children}</div>
+        </div>
+      </chatOpenContext.Provider>
     </UserContext.Provider>
   );
 }

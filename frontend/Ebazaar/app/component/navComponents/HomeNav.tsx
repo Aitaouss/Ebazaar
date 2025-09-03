@@ -95,7 +95,7 @@ export default function HomeNav() {
   const userData = useUser() as User;
 
   return (
-    <main className="flex-1 mt-8 mb-8">
+    <main className="mt-8 mb-8 flex-1 ">
       {/* Welcome Section */}
       <div className="mb-8">
         <h1 className="text-4xl font-bold text-[#13120F] mb-2">
