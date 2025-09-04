@@ -1,4 +1,24 @@
+"use client";
+
+import { useEffect, useState } from "react";
+
 export default function DashboardNav() {
+  const [becomeSeller, setBecomeSeller] = useState<boolean>(false);
+  useEffect(() => {
+    try {
+      const start = async () => {
+        const res = await fetch("http://localhost:9000/become-seller", {
+          method: "POST",
+          credentials: "include",
+          body: JSON.stringify({}),
+        });
+      };
+      console.log("Starting seller onboarding...");
+      start();
+    } catch (err) {
+      console.error(err);
+    }
+  }, [becomeSeller]);
   return (
     <div className="w-full flex flex-col items-center justify-center h-full p-10">
       <div className="bg-white shadow-xl rounded-2xl p-10 max-w-md text-center border border-gray-200">
@@ -10,9 +30,15 @@ export default function DashboardNav() {
           Your Dashboard details will appear here soon. We’re working on giving
           you a personalized dashboard.
         </p>
-        <button className="px-6 py-2 bg-[#A44A3F] text-white rounded-full shadow-md hover:scale-105 transition-transform duration-300">
-          Coming Soon 🚀
+        <button
+          className="px-6 py-2 bg-[#A44A3F] text-white rounded-full shadow-md hover:scale-105 transition-transform duration-300 cursor-pointer"
+          onClick={() => setBecomeSeller(!becomeSeller)}
+        >
+          Become seller 🚀
         </button>
+        {/* <button className="px-6 py-2 bg-[#A44A3F] text-white rounded-full shadow-md hover:scale-105 transition-transform duration-300">
+          Coming Soon 🚀
+        </button> */}
       </div>
     </div>
   );
