@@ -71,14 +71,21 @@ const chats = [
   },
 ];
 
-export default function InboxModal() {
+export default function InboxModal({
+  setChatModalOpen,
+}: {
+  setChatModalOpen: (open: boolean) => void;
+}) {
   return (
     <div className="fixed right-0 bottom-0 h-1/2 w-[400px] bg-white rounded-tl-2xl shadow-lg z-[50] flex flex-col">
       {/* Header */}
       <div className="flex items-center gap-2 px-4 py-3 bg-[#015B46] overflow-hidden rounded-tl-2xl">
         <FaEnvelope className="text-white text-xl" />
         <span className="text-white text-lg font-semibold flex-1">Inbox</span>
-        <button className="text-white cursor-pointer text-2xl font-bold">
+        <button
+          className="text-white cursor-pointer text-2xl font-bold"
+          onClick={() => setChatModalOpen(false)}
+        >
           &times;
         </button>
       </div>

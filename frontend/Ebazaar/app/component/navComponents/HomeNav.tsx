@@ -1,7 +1,6 @@
 "use client";
 
 import { FiTrendingUp, FiStar, FiUsers, FiDollarSign } from "react-icons/fi";
-import { HiPlus } from "react-icons/hi";
 import { HiMail } from "react-icons/hi";
 import { User } from "../../types/types";
 import { useUser } from "../../../app/home/layout";
@@ -95,7 +94,7 @@ export default function HomeNav() {
   const userData = useUser() as User;
 
   return (
-    <main className="mt-8 mb-8 flex-1 ">
+    <main className="flex-1 pr-5">
       {/* Welcome Section */}
       <div className="mb-8">
         <h1 className="text-4xl font-bold text-[#13120F] mb-2">

@@ -12,8 +12,13 @@ import NavBar from "../NavBar/NavBar";
 import { createPortal } from "react-dom";
 
 import { User, userProducts, LanguagesInterface } from "../../types/types";
+import InboxModal from "../InboxModal/InboxModal";
 
-export default function LayoutComp() {
+export default function LayoutComp({
+  setChatModalOpen,
+}: {
+  setChatModalOpen: (open: boolean) => void;
+}) {
   const [userData, setUserData] = useState<User | undefined>(undefined);
   const [userProucts, setUserProducts] = useState<userProducts[] | undefined>(
     undefined
@@ -159,7 +164,10 @@ export default function LayoutComp() {
           <button className="cursor-pointer">
             <IoNotifications size={27} className="text-[#015B46]" />
           </button>
-          <button className="cursor-pointer relative flex items-center justify-center">
+          <button
+            className="cursor-pointer relative flex items-center justify-center"
+            onClick={() => setChatModalOpen(true)}
+          >
             <HiMail size={27} className="text-[#015B46] ml-4" />
           </button>
           <div className="flex items-center cursor-pointer ml-4 relative justify-center">

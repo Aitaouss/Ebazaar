@@ -14,7 +14,7 @@ export default function NavBar() {
     href: string;
     icon?: React.ReactNode;
   }
-  const navItems = [
+  const navItems: NavItem[] = [
     { name: "Home", href: "/home", icon: <RiHome5Fill /> },
     { name: "Dashboard", href: "/home/dashboard", icon: <RiDashboardFill /> },
     { name: "Orders", href: "/home/orders", icon: <SiEventstore /> },
@@ -23,7 +23,7 @@ export default function NavBar() {
   ];
 
   return (
-    <nav className="mt-8 mb-6">
+    <nav className="mt-8 mb-6 flex items-center justify-center">
       <div className="flex items-center gap-8">
         {navItems.map((item) => {
           const isActive = pathname === item.href;

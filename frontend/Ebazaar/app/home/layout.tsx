@@ -3,17 +3,13 @@ import { useState, useEffect, createContext, useContext } from "react";
 import LayoutComp from "../component/LayoutComp/LayoutComp";
 import { User } from "../types/types";
 import LoadingSpinner from "../component/loading/page";
+import InboxModal from "../component/InboxModal/InboxModal";
 
 // 1. Create a context
 const UserContext = createContext<User | null>(null);
-const chatOpenContext = createContext<boolean>(false);
 
 export function useUser() {
   return useContext(UserContext);
-}
-
-export function useChatOpen() {
-  return useContext(chatOpenContext);
 }
 
 export default function HomeLayout({
@@ -22,9 +18,9 @@ export default function HomeLayout({
   children: React.ReactNode;
 }) {
   const [user, setUser] = useState<User | null>(null);
-  const [chatOpen, setChatOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [isBetaUSer, setIsBetaUser] = useState(false);
+  const [chatModalOpen, setChatModalOpen] = useState<boolean>(true);
 
   useEffect(() => {
     const email = localStorage.getItem("email");
@@ -68,12 +64,11 @@ export default function HomeLayout({
 
   return (
     <UserContext.Provider value={user}>
-      <chatOpenContext.Provider value={chatOpen}>
-        <div className="h-screen w-full flex flex-col gap-3 p-10 bg-overlay ">
-          <LayoutComp />
-          <div className="flex-1 overflow-auto">{children}</div>
-        </div>
-      </chatOpenContext.Provider>
+      <div className="h-screen w-full flex flex-col gap-3 p-10 bg-overlay ">
+        <LayoutComp setChatModalOpen={setChatModalOpen} />
+        <div className="flex-1 overflow-auto">{children}</div>
+      </div>
+      {chatModalOpen && <InboxModal setChatModalOpen={setChatModalOpen} />}
     </UserContext.Provider>
   );
 }
