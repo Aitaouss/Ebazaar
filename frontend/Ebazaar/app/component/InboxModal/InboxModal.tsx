@@ -9,7 +9,7 @@ const chats = [
     id: 1,
     name: "Aimen Taoussi",
     username: "@aitaoussi",
-    avatar: "/me hd.png",
+    avatar: "https://i.ibb.co/9Hr1K0x8/image.png",
     isNew: true,
     time: "2 minutes ago",
   },
@@ -17,7 +17,7 @@ const chats = [
     id: 2,
     name: "Aimen Taoussi",
     username: "@aitaoussi",
-    avatar: "/me hd.png",
+    avatar: "https://i.ibb.co/9Hr1K0x8/image.png",
     isNew: true,
     time: "2 minutes ago",
   },
@@ -25,7 +25,7 @@ const chats = [
     id: 3,
     name: "Aimen Taoussi",
     username: "@aitaoussi",
-    avatar: "/me hd.png",
+    avatar: "https://i.ibb.co/9Hr1K0x8/image.png",
     isNew: false,
     time: "2 minutes ago",
   },
@@ -33,7 +33,7 @@ const chats = [
     id: 4,
     name: "Aimen Taoussi",
     username: "@aitaoussi",
-    avatar: "/me hd.png",
+    avatar: "https://i.ibb.co/9Hr1K0x8/image.png",
     isNew: false,
     time: "2 minutes ago",
   },
@@ -41,7 +41,7 @@ const chats = [
     id: 5,
     name: "Aimen Taoussi",
     username: "@aitaoussi",
-    avatar: "/me hd.png",
+    avatar: "https://i.ibb.co/9Hr1K0x8/image.png",
     isNew: false,
     time: "2 minutes ago",
   },
@@ -49,7 +49,7 @@ const chats = [
     id: 6,
     name: "Aimen Taoussi",
     username: "@aitaoussi",
-    avatar: "/me hd.png",
+    avatar: "https://i.ibb.co/9Hr1K0x8/image.png",
     isNew: false,
     time: "2 minutes ago",
   },
@@ -57,7 +57,7 @@ const chats = [
     id: 7,
     name: "Aimen Taoussi",
     username: "@aitaoussi",
-    avatar: "/me hd.png",
+    avatar: "https://i.ibb.co/9Hr1K0x8/image.png",
     isNew: false,
     time: "2 minutes ago",
   },
@@ -65,7 +65,7 @@ const chats = [
     id: 8,
     name: "Aimen Taoussi",
     username: "@aitaoussi",
-    avatar: "/me hd.png",
+    avatar: "https://i.ibb.co/9Hr1K0x8/image.png",
     isNew: false,
     time: "2 minutes ago",
   },
@@ -77,7 +77,7 @@ export default function InboxModal({
   setChatModalOpen: (open: boolean) => void;
 }) {
   return (
-    <div className="fixed right-0 bottom-0 h-1/2 w-[400px] bg-white rounded-tl-2xl shadow-lg z-[50] flex flex-col">
+    <div className="fixed right-0 bottom-0 h-1/2 w-[400px] rounded-tl-2xl shadow-lg z-[50] flex flex-col bg-overlay bg-white">
       {/* Header */}
       <div className="flex items-center gap-2 px-4 py-3 bg-[#015B46] overflow-hidden rounded-tl-2xl">
         <FaEnvelope className="text-white text-xl" />
@@ -110,7 +110,7 @@ export default function InboxModal({
         </div>
       </div>
       {/* Chat List */}
-      <div className="flex-1 overflow-y-auto px-4 pb-4 space-y-4 bg-white">
+      <div className="flex-1 overflow-y-auto px-4 pb-4 space-y-4 ">
         {chats.length === 0 ? (
           <div className="h-full flex items-center justify-center">
             <p className="text-gray-500 text-sm animate-bounce">No messages</p>
@@ -120,7 +120,7 @@ export default function InboxModal({
             <div
               key={chat.id}
               className={`flex items-center ${
-                chat.isNew ? "bg-[#0A433D]/74" : "bg-[#011916]/74"
+                chat.isNew ? "bg-[#0A433D]/60" : "bg-[#011916]/60"
               }  rounded-xl px-3 py-3 shadow-sm`}
             >
               <div className="w-12 h-12 rounded-full overflow-hidden mr-3 border-2 border-white">
@@ -145,7 +145,14 @@ export default function InboxModal({
                 <span className="text-green-100 text-xs">{chat.username}</span>
               </div>
               <div className="flex flex-col items-end ml-2">
-                <FaRegCommentDots className="text-white text-lg mb-1" />
+                <button
+                  className="cursor-pointer"
+                  onClick={() => {
+                    window.location.href = `/home/inbox`;
+                  }}
+                >
+                  <FaRegCommentDots className="text-white text-lg mb-1" />
+                </button>
                 <span className="text-green-100 text-xs">{chat.time}</span>
               </div>
             </div>

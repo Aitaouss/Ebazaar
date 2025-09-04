@@ -20,7 +20,7 @@ export default function HomeLayout({
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [isBetaUSer, setIsBetaUser] = useState(false);
-  const [chatModalOpen, setChatModalOpen] = useState<boolean>(true);
+  const [chatModalOpen, setChatModalOpen] = useState<boolean>(false);
 
   useEffect(() => {
     const email = localStorage.getItem("email");

@@ -20,6 +20,7 @@ export default function NavBar() {
     { name: "Orders", href: "/home/orders", icon: <SiEventstore /> },
     { name: "Settings", href: "/home/settings", icon: <RiSettings4Fill /> },
     { name: "Inbox", href: "/home/inbox", icon: <IoMail /> },
+    { name: "Profile", href: "/home/profile", icon: <IoMail /> },
   ];
 
   return (

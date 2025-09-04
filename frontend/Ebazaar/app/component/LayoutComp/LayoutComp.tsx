@@ -9,10 +9,8 @@ import { IoIosArrowUp } from "react-icons/io";
 import { RiSearchLine } from "react-icons/ri";
 import { FaFilter } from "react-icons/fa6";
 import NavBar from "../NavBar/NavBar";
-import { createPortal } from "react-dom";
 
 import { User, userProducts, LanguagesInterface } from "../../types/types";
-import InboxModal from "../InboxModal/InboxModal";
 
 export default function LayoutComp({
   setChatModalOpen,
