@@ -3,7 +3,7 @@
 import { userInfo } from "os";
 import { useEffect, useRef, useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
-import { useUser } from "@/app/home/layout";
+import { useUser } from "@/app/eb/layout";
 
 export default function DashboardNav() {
   const [becomeSeller, setBecomeSeller] = useState<boolean>(false);

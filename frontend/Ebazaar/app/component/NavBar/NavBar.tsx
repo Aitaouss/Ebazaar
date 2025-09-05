@@ -6,6 +6,7 @@ import { RiDashboardFill } from "react-icons/ri";
 import { SiEventstore } from "react-icons/si";
 import { RiSettings4Fill } from "react-icons/ri";
 import { IoMail } from "react-icons/io5";
+import { FaUser } from "react-icons/fa";
 
 export default function NavBar() {
   const pathname = usePathname(); // current path
@@ -15,16 +16,16 @@ export default function NavBar() {
     icon?: React.ReactNode;
   }
   const navItems: NavItem[] = [
-    { name: "Home", href: "/home", icon: <RiHome5Fill /> },
-    { name: "Dashboard", href: "/home/dashboard", icon: <RiDashboardFill /> },
-    { name: "Orders", href: "/home/orders", icon: <SiEventstore /> },
-    { name: "Settings", href: "/home/settings", icon: <RiSettings4Fill /> },
-    { name: "Inbox", href: "/home/inbox", icon: <IoMail /> },
-    { name: "Profile", href: "/home/profile", icon: <IoMail /> },
+    { name: "Home", href: "/eb", icon: <RiHome5Fill /> },
+    { name: "Dashboard", href: "/eb/dashboard", icon: <RiDashboardFill /> },
+    { name: "Orders", href: "/eb/orders", icon: <SiEventstore /> },
+    { name: "Settings", href: "/eb/settings", icon: <RiSettings4Fill /> },
+    { name: "Inbox", href: "/eb/inbox", icon: <IoMail /> },
+    { name: "Profile", href: "/eb/profile", icon: <FaUser /> },
   ];
 
   return (
-    <nav className="mt-8 mb-6 flex items-center justify-center">
+    <nav className="mt-8 mb-6 flex">
       <div className="flex items-center gap-8">
         {navItems.map((item) => {
           const isActive = pathname === item.href;

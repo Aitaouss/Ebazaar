@@ -40,7 +40,7 @@ export default function GoogleAuth() {
         console.log("✅ Google login success:", res.message);
 
         // ✅ No need for localStorage when using cookies
-        window.location.href = "/home";
+        window.location.href = "/eb";
       } catch (err) {
         console.error("Google auth error:", err);
       }

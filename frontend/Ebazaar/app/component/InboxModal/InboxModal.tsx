@@ -148,7 +148,7 @@ export default function InboxModal({
                 <button
                   className="cursor-pointer"
                   onClick={() => {
-                    window.location.href = `/home/inbox`;
+                    window.location.href = `/eb/inbox`;
                   }}
                 >
                   <FaRegCommentDots className="text-white text-lg mb-1" />

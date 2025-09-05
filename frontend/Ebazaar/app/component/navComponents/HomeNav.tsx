@@ -3,7 +3,7 @@
 import { FiTrendingUp, FiStar, FiUsers, FiDollarSign } from "react-icons/fi";
 import { HiMail } from "react-icons/hi";
 import { User } from "../../types/types";
-import { useUser } from "../../../app/home/layout";
+import { useUser } from "../../eb/layout";
 
 export default function HomeNav() {
   const dashboardMetrics = {

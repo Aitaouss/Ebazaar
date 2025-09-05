@@ -33,7 +33,7 @@ export default function Login() {
         });
 
         if (res.ok) {
-          window.location.href = "/home"; // already logged in
+          window.location.href = "/eb"; // already logged in
         } else {
           setLoading(false); // not logged in
         }
@@ -59,7 +59,7 @@ export default function Login() {
       localStorage.setItem("email", email);
       localStorage.setItem("password", password);
       await new Promise((resolve) => setTimeout(resolve, 2000));
-      window.location.href = "/home";
+      window.location.href = "/eb";
       return;
     }
     // check if the email is valid
@@ -93,7 +93,7 @@ export default function Login() {
       // No need to store token manually
       setLogFail(false);
       toast.success("Login successful!");
-      window.location.href = "/home";
+      window.location.href = "/eb";
     } catch (err) {
       console.error("Login error:", err);
       setLogFail(true);
