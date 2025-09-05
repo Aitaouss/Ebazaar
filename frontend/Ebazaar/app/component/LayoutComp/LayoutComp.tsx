@@ -86,7 +86,7 @@ export default function LayoutComp({
     if (!isBetaUser) {
       const fetchUserData = async () => {
         try {
-          const res = await fetch("http://localhost:9000/me", {
+          const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/me`, {
             method: "GET",
             credentials: "include",
           });
@@ -128,7 +128,7 @@ export default function LayoutComp({
       return;
     }
     try {
-      const res = await fetch("http://localhost:9000/logout", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/logout`, {
         method: "POST",
         credentials: "include",
       });
@@ -204,7 +204,7 @@ export default function LayoutComp({
                 <button
                   className="py-1 px-2 bg-[#015B46] rounded-lg shadow-lg cursor-pointer text-white"
                   onClick={() => {
-                    window.location.href = "/pannel";
+                    window.location.href = "/admin/pannel";
                   }}
                 >
                   Pannel

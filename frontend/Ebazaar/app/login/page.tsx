@@ -20,14 +20,14 @@ export default function Login() {
   const handleGoogleLogin = () => {
     console.log("Google login clicked");
     // Redirect to your backend Google auth endpoint
-    window.location.href = "http://localhost:9000/auth/google";
+    window.location.href = `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/google`;
   };
 
   // ✅ Check login status using cookies
   useEffect(() => {
     const checkLogin = async () => {
       try {
-        const res = await fetch("http://localhost:9000/me", {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/me`, {
           method: "GET",
           credentials: "include", // 👈 include cookies
         });
@@ -69,7 +69,7 @@ export default function Login() {
       return;
     }
     try {
-      const res = await fetch("http://localhost:9000/login", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -104,7 +104,7 @@ export default function Login() {
     e.preventDefault();
 
     try {
-      const res = await fetch("http://localhost:9000/signup", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/signup`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

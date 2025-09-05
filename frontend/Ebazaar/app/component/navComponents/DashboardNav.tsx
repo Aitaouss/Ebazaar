@@ -15,11 +15,14 @@ export default function DashboardNav() {
     if (becomeSellerRef.current === becomeSeller) return;
     try {
       const start = async () => {
-        const res = await fetch("http://localhost:9000/become-seller", {
-          method: "POST",
-          credentials: "include",
-          body: JSON.stringify({}),
-        });
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/become-seller`,
+          {
+            method: "POST",
+            credentials: "include",
+            body: JSON.stringify({}),
+          }
+        );
         let dataError;
         await res.json().then((data) => (dataError = data.error));
         if (!res.ok) {

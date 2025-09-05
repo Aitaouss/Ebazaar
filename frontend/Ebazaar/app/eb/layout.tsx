@@ -41,7 +41,7 @@ export default function HomeLayout({
 
     const fetchUser = async () => {
       try {
-        const res = await fetch("http://localhost:9000/me", {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/me`, {
           method: "GET",
           credentials: "include",
         });

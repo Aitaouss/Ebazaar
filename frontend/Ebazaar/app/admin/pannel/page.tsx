@@ -56,15 +56,18 @@ export default function AdminPanel() {
     try {
       const token =
         typeof window !== "undefined" ? localStorage.getItem("token") : null;
-      const res = await fetch("http://localhost:9000/admin/users", {
-        method: "GET",
-        credentials: "include", // send cookies if token is cookie-based
-        headers: token
-          ? {
-              Authorization: `Bearer ${token}`,
-            }
-          : undefined,
-      });
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/admin/users`,
+        {
+          method: "GET",
+          credentials: "include", // send cookies if token is cookie-based
+          headers: token
+            ? {
+                Authorization: `Bearer ${token}`,
+              }
+            : undefined,
+        }
+      );
 
       if (!res.ok) {
         const text = await res.text();

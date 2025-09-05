@@ -13,7 +13,7 @@ export default function GoogleAuth() {
     const start = async () => {
       try {
         const response = await fetch(
-          "http://localhost:9000/auth/google/callback",
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/google/callback`,
           {
             method: "POST",
             credentials: "include",
