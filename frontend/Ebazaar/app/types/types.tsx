@@ -4,6 +4,13 @@ export interface User {
   email: string;
   role: string;
   picture: string | null;
+  username: string;
+  phone: number;
+  location: string;
+  language: string;
+  verified: boolean;
+  coverImage: string | null;
+  isOnline: boolean;
 }
 
 export interface userProducts {
