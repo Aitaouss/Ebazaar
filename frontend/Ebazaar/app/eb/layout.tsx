@@ -4,6 +4,7 @@ import LayoutComp from "../component/LayoutComp/LayoutComp";
 import { User } from "../types/types";
 import LoadingSpinner from "../component/loading/page";
 import InboxModal from "../component/InboxModal/InboxModal";
+import ProtectedPageWrapper from "../component/ProtectedPage/ProtectedPageWrapper";
 
 // 1. Create a context
 const UserContext = createContext<User | null>(null);
@@ -64,11 +65,13 @@ export default function HomeLayout({
 
   return (
     <UserContext.Provider value={user}>
-      <div className="h-screen w-full flex flex-col gap-3 p-10 bg-overlay ">
-        <LayoutComp setChatModalOpen={setChatModalOpen} />
-        <div className="flex-1 overflow-auto">{children}</div>
-      </div>
-      {chatModalOpen && <InboxModal setChatModalOpen={setChatModalOpen} />}
+      <ProtectedPageWrapper>
+        <div className="h-screen w-full flex flex-col gap-3 p-10 bg-overlay ">
+          <LayoutComp setChatModalOpen={setChatModalOpen} />
+          <div className="flex-1 overflow-auto">{children}</div>
+        </div>
+        {chatModalOpen && <InboxModal setChatModalOpen={setChatModalOpen} />}
+      </ProtectedPageWrapper>
     </UserContext.Provider>
   );
 }

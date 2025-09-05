@@ -90,7 +90,6 @@ export default function LayoutComp({
             method: "GET",
             credentials: "include",
           });
-          console.log("response:", res);
           if (!res.ok) {
             window.location.href = "/login";
             return;
@@ -98,7 +97,6 @@ export default function LayoutComp({
 
           const data = await res.json();
           if (data?.user) {
-            console.log("Fetched user data:", data.user);
             setUserData(data.user); // ✅ set user data
           } else {
             console.error("Invalid response structure", data);

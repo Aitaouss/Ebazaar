@@ -7,23 +7,39 @@ import { SiEventstore } from "react-icons/si";
 import { RiSettings4Fill } from "react-icons/ri";
 import { IoMail } from "react-icons/io5";
 import { FaUser } from "react-icons/fa";
+import { useUser } from "@/app/eb/layout";
+
+function removeSpaces(str: string) {
+  return str.replace(/\s+/g, "");
+}
 
 export default function NavBar() {
-  const pathname = usePathname(); // current path
+  const pathname = usePathname();
   interface NavItem {
     name: string;
     href: string;
     icon?: React.ReactNode;
   }
-  const navItems: NavItem[] = [
-    { name: "Home", href: "/eb", icon: <RiHome5Fill /> },
-    { name: "Dashboard", href: "/eb/dashboard", icon: <RiDashboardFill /> },
-    { name: "Orders", href: "/eb/orders", icon: <SiEventstore /> },
-    { name: "Settings", href: "/eb/settings", icon: <RiSettings4Fill /> },
-    { name: "Inbox", href: "/eb/inbox", icon: <IoMail /> },
-    { name: "Profile", href: "/eb/profile", icon: <FaUser /> },
-  ];
 
+  const user = useUser();
+  const base = `${encodeURIComponent(user?.name as string)}`;
+
+  const navItems: NavItem[] = [
+    { name: "Home", href: `/eb`, icon: <RiHome5Fill /> },
+    {
+      name: "Dashboard",
+      href: `/eb/${base}/dashboard`,
+      icon: <RiDashboardFill />,
+    },
+    { name: "Orders", href: `/eb/${base}/orders`, icon: <SiEventstore /> },
+    {
+      name: "Settings",
+      href: `/eb/${base}/settings`,
+      icon: <RiSettings4Fill />,
+    },
+    { name: "Inbox", href: `/eb/${base}/inbox`, icon: <IoMail /> },
+    { name: "Profile", href: `/eb/${base}/profile`, icon: <FaUser /> },
+  ];
   return (
     <nav className="mt-8 mb-6 flex">
       <div className="flex items-center gap-8">
