@@ -93,3 +93,22 @@ body {
   }
 }
  */
+
+@layer utilities {
+  /* Thin scrollbar */
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  /* Track color */
+  .scrollbar-track-gray-200::-webkit-scrollbar-track {
+    background: #e5e7eb; /* Tailwind gray-200 */
+  }
+
+  /* Thumb color */
+  .scrollbar-thumb-indigo-600::-webkit-scrollbar-thumb {
+    background-color: #015b46; /* Tailwind indigo-600 */
+    border-radius: 9999px; /* fully rounded */
+  }
+}

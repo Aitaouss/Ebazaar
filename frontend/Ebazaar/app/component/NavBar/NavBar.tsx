@@ -22,7 +22,7 @@ export default function NavBar() {
   }
 
   const user = useUser();
-  const base = `${encodeURIComponent(user?.name as string)}`;
+  const base = `${encodeURIComponent(user?.username as string)}`;
 
   const navItems: NavItem[] = [
     { name: "Home", href: `/eb`, icon: <RiHome5Fill /> },
@@ -41,7 +41,7 @@ export default function NavBar() {
     { name: "Profile", href: `/eb/${base}/profile`, icon: <FaUser /> },
   ];
   return (
-    <nav className="flex mt-2 mb-1">
+    <nav className="flex mt-2 mb-1 w-full overflow-auto scrollbar-thin scrollbar-thumb-indigo-600 scrollbar-track-gray-200 pb-2">
       <div className="flex items-center gap-8">
         {navItems.map((item) => {
           const isActive = pathname === item.href;
@@ -57,6 +57,7 @@ export default function NavBar() {
               }`}
             >
               {item.icon}
+              {/* {isActive && item.name} */}
               {item.name}
             </Link>
           );

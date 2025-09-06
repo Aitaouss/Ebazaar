@@ -19,8 +19,8 @@ export default function ProtectedPageWrapper({ children }: ProtectedProps) {
 
     // decode URL part to compare with plain username
     if (nameInPath === "eb" || !nameInPath) return; // allow /eb or /eb/
-    if (decodeURIComponent(nameInPath) !== user.name) {
-      console.log("Infos : ", decodeURIComponent(nameInPath), user.name);
+    if (decodeURIComponent(nameInPath) !== user.username) {
+      console.log("Infos : ", decodeURIComponent(nameInPath), user.username);
       notFound(); // render 404 page
     }
   }, [user, pathname]);

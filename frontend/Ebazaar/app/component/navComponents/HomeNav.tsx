@@ -94,7 +94,7 @@ export default function HomeNav() {
   const userData = useUser() as User;
 
   return (
-    <main className="flex-1 pr-5">
+    <main className="flex-1">
       {/* Welcome Section */}
       <div className="mb-8">
         <h1 className="text-4xl font-bold text-[#13120F] mb-2">
@@ -211,6 +211,7 @@ export default function HomeNav() {
       </div>
 
       {/* Recent Orders Preview */}
+
       <div className="mb-8">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-bold text-[#13120F]">
@@ -220,39 +221,45 @@ export default function HomeNav() {
             View All orders →
           </button>
         </div>
-        <div className="space-y-4">
-          {recentOrders.map((order) => (
-            <div
-              key={order.id}
-              className="flex items-center justify-between p-4 bg-white rounded-xl shadow-sm border border-gray-100"
-            >
-              <div className="flex items-center gap-4">
-                <img
-                  src={order.avatar || "/placeholder.svg"}
-                  alt={order.name}
-                  className="w-12 h-12 rounded-full object-cover"
-                />
-                <span className="font-medium text-[#13120F]">{order.name}</span>
+        {recentOrders.length > 0 ? (
+          <div className="space-y-4">
+            {recentOrders.map((order) => (
+              <div
+                key={order.id}
+                className="flex items-center justify-between p-4 bg-white rounded-xl shadow-sm border border-gray-100"
+              >
+                <div className="flex items-center gap-4">
+                  <img
+                    src={order.avatar || "/placeholder.svg"}
+                    alt={order.name}
+                    className="w-12 h-12 rounded-full object-cover"
+                  />
+                  <span className="font-medium text-[#13120F]">
+                    {order.name}
+                  </span>
+                </div>
+                <div className="flex items-center gap-4 justify-between w-[50%]">
+                  <span
+                    className={`px-4 py-1 rounded-full text-sm font-medium ${
+                      order.status === "In Progress"
+                        ? "bg-yellow-500 text-white"
+                        : order.status === "Completed"
+                        ? "bg-[#015B46] text-white"
+                        : "bg-red-500 text-white"
+                    }`}
+                  >
+                    {order.status}
+                  </span>
+                  <span className="font-bold text-[#13120F]">
+                    ${order.amount}
+                  </span>
+                </div>
               </div>
-              <div className="flex items-center gap-4 justify-between w-[50%]">
-                <span
-                  className={`px-4 py-1 rounded-full text-sm font-medium ${
-                    order.status === "In Progress"
-                      ? "bg-yellow-500 text-white"
-                      : order.status === "Completed"
-                      ? "bg-[#015B46] text-white"
-                      : "bg-red-500 text-white"
-                  }`}
-                >
-                  {order.status}
-                </span>
-                <span className="font-bold text-[#13120F]">
-                  ${order.amount}
-                </span>
-              </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        ) : (
+          <div className="text-gray-600">No recent orders available.</div>
+        )}
       </div>
 
       {/* Messages Section */}
@@ -268,43 +275,49 @@ export default function HomeNav() {
             View All messages →
           </button>
         </div>
-        <div className="space-y-4">
-          {messages.map((message) => (
-            <div
-              key={message.id}
-              className={`p-6 rounded-xl ${
-                message.isNew
-                  ? "bg-[#015B46] text-white"
-                  : "bg-gray-600 text-white"
-              }`}
-            >
-              <div className="flex items-start justify-between">
-                <div className="flex items-start gap-4">
-                  <img
-                    src={message.avatar || "/placeholder.svg"}
-                    alt={message.name}
-                    className="w-12 h-12 rounded-full object-cover"
-                  />
-                  <div className="flex-1">
-                    <div className="flex items-center gap-3 mb-2">
-                      <h3 className="font-bold">{message.name}</h3>
-                      {message.isNew && (
-                        <span className="bg-green-500 text-white px-2 py-1 rounded-full text-xs font-medium">
-                          New
-                        </span>
-                      )}
+        {messages.length > 0 ? (
+          <div className="space-y-4">
+            {messages.map((message) => (
+              <div
+                key={message.id}
+                className={`p-6 rounded-xl ${
+                  message.isNew
+                    ? "bg-[#015B46] text-white"
+                    : "bg-gray-600 text-white"
+                }`}
+              >
+                <div className="flex items-start justify-between">
+                  <div className="flex items-start gap-4">
+                    <img
+                      src={message.avatar || "/placeholder.svg"}
+                      alt={message.name}
+                      className="w-12 h-12 rounded-full object-cover"
+                    />
+                    <div className="flex-1">
+                      <div className="flex items-center gap-3 mb-2">
+                        <h3 className="font-bold">{message.name}</h3>
+                        {message.isNew && (
+                          <span className="bg-green-500 text-white px-2 py-1 rounded-full text-xs font-medium">
+                            New
+                          </span>
+                        )}
+                      </div>
+                      <p className="text-sm opacity-90 mb-2">
+                        {message.message}
+                      </p>
+                      <span className="text-xs opacity-75">{message.time}</span>
                     </div>
-                    <p className="text-sm opacity-90 mb-2">{message.message}</p>
-                    <span className="text-xs opacity-75">{message.time}</span>
                   </div>
+                  <button className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition-colors">
+                    <HiMail size={16} />
+                  </button>
                 </div>
-                <button className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition-colors">
-                  <HiMail size={16} />
-                </button>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        ) : (
+          <div className="text-gray-600">No new messages available.</div>
+        )}
       </div>
     </main>
   );

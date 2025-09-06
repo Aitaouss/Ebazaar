@@ -115,14 +115,14 @@ export default function LayoutComp({
                   Pannel
                 </button>
               )}
-              <button
+              {/* <button
                 className="py-1 px-2 bg-red-800 rounded-lg shadow-lg cursor-pointer"
                 onClick={() => {
                   logoutFunction();
                 }}
               >
                 <h1 className="text-white font-semibold">Logout</h1>
-              </button>
+              </button> */}
             </div>
           </div>
         </div>
@@ -144,11 +144,11 @@ export default function LayoutComp({
               </div>
             )}
           </div>
-          <div className="flex flex-col">
+          <div className="hidden flex-col 2xl:flex">
             <h1 className="font-bold text-xl">{userData?.name}</h1>
             <div className="flex items-center gap-2">
               <h1 className="text-sm">@{userData?.username}</h1>
-              <div className="py-1 bg-[#A44A3F]/70 text-[#FDF9F4] rounded-full text-xs px-4">
+              <div className="py-1 bg-[#A44A3F] text-[#FDF9F4] rounded-full text-xs px-4">
                 {userData?.role}
               </div>
             </div>
