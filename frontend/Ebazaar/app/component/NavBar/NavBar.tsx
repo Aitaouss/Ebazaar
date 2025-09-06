@@ -41,7 +41,7 @@ export default function NavBar() {
     { name: "Profile", href: `/eb/${base}/profile`, icon: <FaUser /> },
   ];
   return (
-    <nav className="mt-8 mb-6 flex">
+    <nav className="flex mt-2 mb-1">
       <div className="flex items-center gap-8">
         {navItems.map((item) => {
           const isActive = pathname === item.href;
