@@ -3,7 +3,7 @@ import HomeNav from "../component/navComponents/HomeNav";
 
 export default function EbazaarHome() {
   return (
-    <div className="flex-1 w-full">
+    <div className="flex-1 w-full mb-6">
       {/* <InboxModal /> */}
       <HomeNav />
     </div>

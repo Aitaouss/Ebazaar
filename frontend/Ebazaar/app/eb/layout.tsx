@@ -74,6 +74,9 @@ export default function HomeLayout({
 
   return (
     <UserContext.Provider value={user}>
+      {/* <div className="fixed top-0 left-0 right-0 z-50">
+        <LayoutComp setChatModalOpen={setChatModalOpen} />
+      </div> */}
       <ProtectedPageWrapper>
         <div className="h-screen w-full flex flex-col gap-3 p-10 bg-overlay ">
           <LayoutComp setChatModalOpen={setChatModalOpen} />

@@ -16,6 +16,10 @@ export default function Login() {
   const [loading, setLoading] = useState<boolean>(true);
   const [LogFail, setLogFail] = useState<boolean>(false);
   const [isInLogIn, setIsInLogin] = useState<boolean>(true);
+  const [username, setUsername] = useState<string>("");
+  const [location, setLocation] = useState<string>("");
+  const [phone, setPhone] = useState<string>("");
+  const [language, setLanguage] = useState<string>("");
 
   const handleGoogleLogin = () => {
     console.log("Google login clicked");
@@ -102,6 +106,17 @@ export default function Login() {
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
+    let toastMessage = "";
+    if (!email || !name || !password || !username || !phone) {
+      !email && (toastMessage += "Email, ");
+      !name && (toastMessage += "Name, ");
+      !password && (toastMessage += "Password, ");
+      !username && (toastMessage += "Username, ");
+      !phone && (toastMessage += "Phone, ");
+      toastMessage = toastMessage.slice(0, -2);
+      toast.error(`Please fill in the required fields: ${toastMessage}`);
+      return;
+    }
 
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/signup`, {
@@ -114,6 +129,10 @@ export default function Login() {
           name: name,
           email: email,
           password: password,
+          username: username,
+          location: location,
+          phone: phone,
+          language: language,
         }),
       });
 
@@ -281,35 +300,101 @@ export default function Login() {
               </form>
             ) : (
               <form className="w-[320px] sm:w-[420px] transition-all duration-300">
-                <div className="text-[#13120F] mb-4">
-                  <label className="block  text-sm sm:text-base font-semibold text-[#13120F] mb-1">
-                    Name
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    className="w-full text-sm sm:text-base  px-2 h-[45px] border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#015B46] bg-white"
-                    placeholder="Enter your name ..."
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                  />
+                <div className="flex gap-2 mb-4">
+                  <div className="flex-1">
+                    <label className="block text-sm sm:text-base font-semibold text-[#13120F] mb-1">
+                      Name *
+                    </label>
+                    <input
+                      type="text"
+                      id="name"
+                      className="w-full text-sm sm:text-base px-2 h-[45px] border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#015B46] bg-white"
+                      placeholder="Enter your name ..."
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                    />
+                  </div>
+                  <div className="flex-1">
+                    <label className="block text-sm sm:text-base font-semibold text-[#13120F] mb-1">
+                      Username *
+                    </label>
+                    <input
+                      type="text"
+                      id="username"
+                      className="w-full text-sm sm:text-base px-2 h-[45px] border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#015B46] bg-white"
+                      placeholder="Enter your username ..."
+                      value={username}
+                      onChange={(e) => setUsername(e.target.value)}
+                    />
+                  </div>
                 </div>
                 <div className="text-[#13120F] mb-4">
                   <label className="block  text-sm sm:text-base font-semibold text-[#13120F] mb-1">
-                    Email Adress
+                    Email Adress *
                   </label>
                   <input
                     type="text"
-                    id="name"
+                    id="email"
                     className="w-full text-sm sm:text-base  px-2 h-[45px] border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#015B46] bg-white"
                     placeholder="Enter your email address ..."
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                   />
                 </div>
+                <div className="text-[#13120F] mb-4">
+                  <label className="block  text-sm sm:text-base font-semibold text-[#13120F] mb-1">
+                    Location
+                  </label>
+                  <select
+                    id="location"
+                    className="w-full text-sm sm:text-base px-2 h-[45px] border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#015B46] bg-white"
+                    value={location}
+                    onChange={(e) => setLocation(e.target.value)}
+                  >
+                    <option value="">Select your country ...</option>
+                    <option value="Morocco">Morocco</option>
+                    <option value="United States">United States</option>
+                    <option value="Spain">Spain</option>
+                  </select>
+                </div>
+                <div className="text-[#13120F] mb-4">
+                  <label className="block  text-sm sm:text-base font-semibold text-[#13120F] mb-1">
+                    Phone *
+                  </label>
+                  <input
+                    type="tel"
+                    id="phone"
+                    pattern="[0-9]*"
+                    inputMode="numeric"
+                    className="w-full text-sm sm:text-base  px-2 h-[45px] border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#015B46] bg-white"
+                    placeholder="Enter your phone number ..."
+                    value={phone}
+                    onChange={(e) => {
+                      // Only allow numbers
+                      const value = e.target.value.replace(/[^0-9]/g, "");
+                      setPhone(value);
+                    }}
+                  />
+                </div>
+                <div className="text-[#13120F] mb-4">
+                  <label className="block  text-sm sm:text-base font-semibold text-[#13120F] mb-1">
+                    Language
+                  </label>
+                  <select
+                    id="language"
+                    className="w-full text-sm sm:text-base px-2 h-[45px] border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#015B46] bg-white"
+                    value={language}
+                    onChange={(e) => setLanguage(e.target.value)}
+                  >
+                    <option value="">Select your language ...</option>
+                    <option value="English">English</option>
+                    <option value="Arabic">Arabic</option>
+                    <option value="French">French</option>
+                  </select>
+                </div>
                 <div className="text-[#13120F] mb-4 relative">
                   <label className="block  text-sm sm:text-base font-semibold text-[#13120F] mb-1">
-                    Password
+                    Password *
                   </label>
                   <input
                     type="password"
