@@ -195,6 +195,70 @@ export default function AdminPanel() {
     }
   }
 
+  // ---- Delete Handlers ----
+  async function deleteUser(id: number) {
+    if (!window.confirm("Are you sure you want to delete this user?")) return;
+    setLoading(true);
+    setError(null);
+    try {
+      const token =
+        typeof window !== "undefined" ? localStorage.getItem("token") : null;
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/${id}`,
+        {
+          method: "DELETE",
+          credentials: "include",
+          headers: token
+            ? {
+                Authorization: `Bearer ${token}`,
+              }
+            : undefined,
+        }
+      );
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.error || "Failed to delete user");
+      }
+      load();
+    } catch (e: any) {
+      setError(e?.message || "Failed to delete user");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function deleteProduct(id: number) {
+    if (!window.confirm("Are you sure you want to delete this product?"))
+      return;
+    setLoading(true);
+    setError(null);
+    try {
+      const token =
+        typeof window !== "undefined" ? localStorage.getItem("token") : null;
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/products/${id}`,
+        {
+          method: "DELETE",
+          credentials: "include",
+          headers: token
+            ? {
+                Authorization: `Bearer ${token}`,
+              }
+            : undefined,
+        }
+      );
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.error || "Failed to delete product");
+      }
+      load();
+    } catch (e: any) {
+      setError(e?.message || "Failed to delete product");
+    } finally {
+      setLoading(false);
+    }
+  }
+
   return (
     <div className="min-h-screen w-full bg-[#F5F7F8] text-[#13120F]">
       {/* Header */}
@@ -314,7 +378,7 @@ export default function AdminPanel() {
                         <td className="px-4 py-3 align-top">
                           {roleBadge(u.role)}
                         </td>
-                        <td className="px-4 py-3 align-top">
+                        <td className="px-4 py-3 align-top flex gap-2 items-center">
                           <button
                             onClick={() =>
                               setExpandedUserId(expanded ? null : u.id)
@@ -322,6 +386,12 @@ export default function AdminPanel() {
                             className="text-sm inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-gray-200 hover:bg-gray-50"
                           >
                             {count} View
+                          </button>
+                          <button
+                            onClick={() => deleteUser(u.id)}
+                            className=" cursor-pointer text-sm inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-red-200 text-red-700 hover:bg-red-50"
+                          >
+                            Delete
                           </button>
                         </td>
                       </tr>
@@ -341,6 +411,7 @@ export default function AdminPanel() {
                                       <th className="px-4 py-3">Price</th>
                                       <th className="px-4 py-3">Status</th>
                                       <th className="px-4 py-3">Created</th>
+                                      <th className="px-4 py-3">Action</th>
                                     </tr>
                                   </thead>
                                   <tbody>
@@ -369,6 +440,16 @@ export default function AdminPanel() {
                                                 ).toLocaleString()
                                               : "—"}
                                           </td>
+                                          <td className="px-4 py-3">
+                                            <button
+                                              onClick={() =>
+                                                deleteProduct(p.id as number)
+                                              }
+                                              className="cursor-pointer text-xs px-3 py-1.5 rounded-lg border border-red-200 text-red-700 hover:bg-red-50"
+                                            >
+                                              Delete
+                                            </button>
+                                          </td>
                                         </tr>
                                       )
                                     )}
@@ -378,7 +459,7 @@ export default function AdminPanel() {
                                       <tr>
                                         <td
                                           className="px-4 py-6 text-gray-500 text-sm"
-                                          colSpan={5}
+                                          colSpan={6}
                                         >
                                           No products for this user.
                                         </td>
@@ -436,6 +517,7 @@ export default function AdminPanel() {
                   <th className="px-4 py-3">Price</th>
                   <th className="px-4 py-3">Status</th>
                   <th className="px-4 py-3">Created</th>
+                  <th className="px-4 py-3">Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -478,12 +560,20 @@ export default function AdminPanel() {
                           ? new Date(p.createdAt).toLocaleString()
                           : "—"}
                       </td>
+                      <td className="px-4 py-3">
+                        <button
+                          onClick={() => deleteProduct(p.id as number)}
+                          className="cursor-pointer text-xs px-3 py-1.5 rounded-lg border border-red-200 text-red-700 hover:bg-red-50"
+                        >
+                          Delete
+                        </button>
+                      </td>
                     </tr>
                   );
                 })}
                 {filteredProducts.length === 0 && (
                   <tr>
-                    <td className="px-4 py-6 text-gray-500 text-sm" colSpan={6}>
+                    <td className="px-4 py-6 text-gray-500 text-sm" colSpan={7}>
                       No products match your search.
                     </td>
                   </tr>

@@ -93,7 +93,6 @@ export default function ProfileComponent() {
       setSubmitting(false);
     }
   };
-  console.log("Products :", products);
   return (
     <div className="flex flex-col md:flex-row gap-6 w-full">
       <ProfileLeftSection userState={userState} setEditOpen={setEditOpen} />
