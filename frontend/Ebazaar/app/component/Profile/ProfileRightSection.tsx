@@ -1,0 +1,247 @@
+import Image from "next/image";
+import { FaMapMarkerAlt } from "react-icons/fa";
+import { useState } from "react";
+
+function ProductCreateModal({
+  isOpen,
+  onClose,
+  onCreate,
+  loading,
+  error,
+}: any) {
+  const [form, setForm] = useState({
+    title: "",
+    content: "",
+    imageUrl: "",
+    price: "",
+    category: "",
+    location: "",
+  });
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    onCreate(form);
+  };
+
+  if (!isOpen) return null;
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#111]/40 bg-opacity-40">
+      <div className="bg-white rounded-xl shadow-lg p-6 w-full max-w-md">
+        <h2 className="text-lg font-bold mb-4">Create Product</h2>
+        <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+          <input
+            name="title"
+            value={form.title}
+            onChange={handleChange}
+            placeholder="Title"
+            className="border rounded p-2"
+            required
+          />
+          <textarea
+            name="content"
+            value={form.content}
+            onChange={handleChange}
+            placeholder="Description"
+            className="border rounded p-2"
+            required
+          />
+          <input
+            name="imageUrl"
+            value={form.imageUrl}
+            onChange={handleChange}
+            placeholder="Image URL"
+            className="border rounded p-2"
+            required
+          />
+          <input
+            name="price"
+            value={form.price}
+            onChange={handleChange}
+            placeholder="Price"
+            type="number"
+            className="border rounded p-2"
+            required
+          />
+          <input
+            name="category"
+            value={form.category}
+            onChange={handleChange}
+            placeholder="Category"
+            className="border rounded p-2"
+            required
+          />
+          <input
+            name="location"
+            value={form.location}
+            onChange={handleChange}
+            placeholder="Location"
+            className="border rounded p-2"
+            required
+          />
+          {error && <p className="text-red-500 text-sm">{error}</p>}
+          <div className="flex gap-2 justify-end mt-2">
+            <button
+              type="button"
+              className="cursor-pointer px-4 py-1 rounded bg-gray-200"
+              onClick={onClose}
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="cursor-pointer px-4 py-1 rounded bg-[#015B46] text-white"
+              disabled={loading}
+            >
+              {loading ? "Creating..." : "Create"}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+}
+
+export default function ProfileRightSection({
+  products,
+  productsLoading,
+  productsError,
+  setEditOpen,
+  fetchProducts,
+}: any) {
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalLoading, setModalLoading] = useState(false);
+  const [modalError, setModalError] = useState("");
+
+  const handleCreateProduct = async (form: any) => {
+    setModalLoading(true);
+    setModalError("");
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/products`,
+        {
+          method: "POST",
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            ...form,
+            price: Number(form.price),
+          }),
+        }
+      );
+      const data = await res.json();
+      if (!res.ok) {
+        setModalError(data.error || "Failed to create product");
+      } else {
+        setModalOpen(false);
+        if (fetchProducts) fetchProducts();
+      }
+    } catch (err) {
+      setModalError("Failed to create product");
+    } finally {
+      setModalLoading(false);
+    }
+  };
+
+  return (
+    <div className="flex-1 flex flex-col gap-6 pt-6 min-w-0 overflow-auto">
+      {/* Store Cover & Description */}
+      <div className="bg-white relative bg-overlay rounded-4xl shadow border border-gray-200 mb-2 w-full">
+        <div className="w-full h-32 sm:h-48 rounded-t-2xl overflow-hidden relative">
+          <Image
+            src="/Background.jpg"
+            alt="Store Cover"
+            width={900}
+            height={144}
+            className="object-cover w-full h-full"
+          />
+        </div>
+        <div className="flex flex-col p-3 sm:p-6 gap-4 sm:gap-6">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+            <h1 className="text-lg sm:text-2xl font-bold text-gray-800">
+              Aimen Taoussi Bazaar
+            </h1>
+            <button className="cursor-pointer px-3 sm:px-4 py-1 bg-[#015B46] text-white rounded font-semibold hover:bg-[#013f3a] transition-colors">
+              Edit Store
+            </button>
+          </div>
+          <p className="text-gray-600 text-sm sm:text-lg">
+            Aimen Taoussi Bazaar offers a curated mix of handcrafted Moroccan
+            goods and modern lifestyle products. From traditional décor and
+            handmade accessories to everyday essentials, every item is chosen
+            with quality and authenticity in mind
+          </p>
+        </div>
+      </div>
+      {/* Products Section */}
+      <div className="bg-white relative bg-overlay rounded-2xl shadow p-3 sm:p-6 border border-gray-200 flex flex-col gap-5 w-full">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-2 gap-2">
+          <h2 className="text-lg sm:text-xl font-bold text-gray-800">
+            Products
+          </h2>
+          <button
+            className="cursor-pointer px-3 sm:px-4 py-1 bg-[#015B46] text-white rounded font-semibold hover:bg-[#013f3a] transition-colors"
+            onClick={() => setModalOpen(true)}
+          >
+            Create product
+          </button>
+        </div>
+        {productsLoading ? (
+          <p>Loading products...</p>
+        ) : productsError ? (
+          <p className="text-red-500">{productsError}</p>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 2xl:grid-cols-3 gap-4 sm:gap-6">
+            {products.map((product: any) => (
+              <div
+                key={product.id}
+                className="bg-white relative bg-overlay rounded-2xl shadow p-3 sm:p-4 border border-gray-200 flex flex-col"
+              >
+                <div className="relative w-full h-32 sm:h-40 rounded-xl overflow-hidden mb-3">
+                  <Image
+                    src={product.imageUrl || "/Background.jpg"}
+                    alt={product.title}
+                    fill
+                    className="object-cover hover:scale-105 transition-transform duration-300"
+                  />
+                  <span className="absolute top-2 left-1/2 -translate-x-1/2 px-3 bg-[#A44A3F] text-white text-xs  py-0.5 rounded font-semibold">
+                    {product.category}
+                  </span>
+                </div>
+                <h3 className="text-xs lg:text-sm sm:text-base font-bold text-[#13120F] mb-1">
+                  {product.title}
+                </h3>
+                <div className="flex items-center gap-1 text-xs text-gray-500 mb-2">
+                  <FaMapMarkerAlt className="text-base" />
+                  <span>{product.location}</span>
+                </div>
+                <div className="flex flex-col items-center justify-center gap-2">
+                  <div className="w-full bg-gray-200 rounded text-center py-1">
+                    <span className="text-base lg:text-lg font-bold text-[#13120F] ">
+                      ${product.price}
+                    </span>
+                  </div>
+                  <button className="cursor-pointer w-full py-1 text-base lg:text-lg bg-[#015B46] text-white rounded font-semibold hover:bg-[#013f3a] transition-colors">
+                    Edit
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+      <ProductCreateModal
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+        onCreate={handleCreateProduct}
+        loading={modalLoading}
+        error={modalError}
+      />
+    </div>
+  );
+}

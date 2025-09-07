@@ -9,9 +9,11 @@ import { IoIosArrowUp } from "react-icons/io";
 import { RiSearchLine } from "react-icons/ri";
 import { FaFilter } from "react-icons/fa6";
 import NavBar from "../NavBar/NavBar";
+import { MdOutlineLogout } from "react-icons/md";
 
 import { User, userProducts, LanguagesInterface } from "../../types/types";
 import { useUser } from "@/app/eb/layout";
+import Image from "next/image";
 
 export default function LayoutComp({
   setChatModalOpen,
@@ -115,14 +117,14 @@ export default function LayoutComp({
                   Pannel
                 </button>
               )}
-              {/* <button
+              <button
                 className="py-1 px-2 bg-red-800 rounded-lg shadow-lg cursor-pointer"
                 onClick={() => {
                   logoutFunction();
                 }}
               >
-                <h1 className="text-white font-semibold">Logout</h1>
-              </button> */}
+                <MdOutlineLogout size={20} className="text-white" />
+              </button>
             </div>
           </div>
         </div>
@@ -131,9 +133,11 @@ export default function LayoutComp({
             className={`w-16 h-16 rounded-full bg-cover border-2 border-[#015B46] shadow`}
           >
             {userData?.picture ? (
-              <img
-                src={userData?.picture}
+              <Image
+                src={userData.picture}
                 alt="Profile"
+                width={64}
+                height={64}
                 className="w-full h-full rounded-full object-cover"
               />
             ) : (
@@ -144,7 +148,7 @@ export default function LayoutComp({
               </div>
             )}
           </div>
-          <div className="hidden flex-col 2xl:flex">
+          <div className="hidden flex-col">
             <h1 className="font-bold text-xl">{userData?.name}</h1>
             <div className="flex items-center gap-2">
               <h1 className="text-sm">@{userData?.username}</h1>
