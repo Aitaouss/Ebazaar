@@ -3,6 +3,7 @@ import { FaMapMarkerAlt, FaTrash } from "react-icons/fa";
 import { useState } from "react";
 import { useUser } from "@/app/eb/layout";
 import { toast, Toaster } from "react-hot-toast";
+import { MdOutlineOpenInFull } from "react-icons/md";
 
 function ProductCreateModal({
   isOpen,
@@ -247,12 +248,17 @@ export default function ProfileRightSection({
                       }
                     }}
                   >
-                    <FaTrash className="text-red-600  text-base" />
+                    <FaTrash className="text-[#A44A3F]  text-base" />
                   </button>
                 </div>
-                <h3 className="text-xs lg:text-sm sm:text-base font-bold text-[#13120F] mb-1">
-                  {product.title}
-                </h3>
+                <div className="flex items-center justify-between mb-1">
+                  <h3 className="text-xs lg:text-sm sm:text-base font-bold text-[#13120F] mb-1">
+                    {product.title}
+                  </h3>
+                  <div className="cursor-pointer flex items-center justify-center w-6 h-6 rounded  bg-[#015B46] hover:bg-[#013f3a] transition-colors">
+                    <MdOutlineOpenInFull color="white" size={13} />
+                  </div>
+                </div>
                 <div className="flex items-center gap-1 text-xs text-gray-500 mb-2">
                   <FaMapMarkerAlt className="text-base" />
                   <span>{product.location}</span>
