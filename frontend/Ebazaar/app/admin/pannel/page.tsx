@@ -10,6 +10,7 @@ import {
   FiShield,
   FiDownload,
 } from "react-icons/fi";
+import { toast } from "react-hot-toast";
 
 // Single-file Admin Panel component
 // - Fetches /users (expects { users: User[], products?: Product[] })
@@ -23,6 +24,14 @@ interface UserRow {
   email: string;
   name: string;
   role: string; // "admin" | "user" | etc.
+  profileImage?: string;
+  username?: string;
+  location?: string;
+  verified?: boolean;
+  isOnline?: boolean;
+  phone?: string;
+  language?: string;
+  created_at?: string;
 }
 
 interface ProductRow {
@@ -195,7 +204,7 @@ export default function AdminPanel() {
     }
   }
 
-  // ---- Delete Handlers ----
+  // Delete user helper
   async function deleteUser(id: number) {
     if (!window.confirm("Are you sure you want to delete this user?")) return;
     setLoading(true);
@@ -204,56 +213,22 @@ export default function AdminPanel() {
       const token =
         typeof window !== "undefined" ? localStorage.getItem("token") : null;
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/${id}`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/admin/user/${id}`,
         {
           method: "DELETE",
           credentials: "include",
-          headers: token
-            ? {
-                Authorization: `Bearer ${token}`,
-              }
-            : undefined,
+          headers: token ? { Authorization: `Bearer ${token}` } : undefined,
         }
       );
+      const data = await res.json();
       if (!res.ok) {
-        const data = await res.json();
         throw new Error(data.error || "Failed to delete user");
       }
+      toast(data.message || "User deleted");
       load();
     } catch (e: any) {
       setError(e?.message || "Failed to delete user");
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  async function deleteProduct(id: number) {
-    if (!window.confirm("Are you sure you want to delete this product?"))
-      return;
-    setLoading(true);
-    setError(null);
-    try {
-      const token =
-        typeof window !== "undefined" ? localStorage.getItem("token") : null;
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/products/${id}`,
-        {
-          method: "DELETE",
-          credentials: "include",
-          headers: token
-            ? {
-                Authorization: `Bearer ${token}`,
-              }
-            : undefined,
-        }
-      );
-      if (!res.ok) {
-        const data = await res.json();
-        throw new Error(data.error || "Failed to delete product");
-      }
-      load();
-    } catch (e: any) {
-      setError(e?.message || "Failed to delete product");
+      toast(e?.message || "Failed to delete user");
     } finally {
       setLoading(false);
     }
@@ -347,14 +322,22 @@ export default function AdminPanel() {
             </div>
           </div>
 
-          <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white">
-            <table className="w-full text-left">
+          <div className=" overflow-auto rounded-2xl border border-gray-200 bg-white pb-3 scrollbar-thin scrollbar-thumb-indigo-600 scrollbar-track-gray-200">
+            <table className="w-screen text-left">
               <thead className="bg-gray-50 text-sm text-gray-600">
                 <tr>
                   <th className="px-4 py-3">ID</th>
+                  <th className="px-4 py-3">Profile</th>
                   <th className="px-4 py-3">Name</th>
                   <th className="px-4 py-3">Email</th>
+                  <th className="px-4 py-3">Username</th>
                   <th className="px-4 py-3">Role</th>
+                  <th className="px-4 py-3">Location</th>
+                  <th className="px-4 py-3">Verified</th>
+                  <th className="px-4 py-3">Online</th>
+                  <th className="px-4 py-3">Phone</th>
+                  <th className="px-4 py-3">Language</th>
+                  <th className="px-4 py-3">Created</th>
                   <th className="px-4 py-3">Products</th>
                 </tr>
               </thead>
@@ -369,14 +352,58 @@ export default function AdminPanel() {
                         className="border-t border-gray-100 hover:bg-gray-50/60"
                       >
                         <td className="px-4 py-3 align-top">{u.id}</td>
+                        <td className="px-4 py-3 align-top">
+                          <img
+                            src={u.profileImage || "/EBAZAAR default.png"}
+                            alt={u.name}
+                            className="w-10 h-10 rounded-full object-cover border"
+                          />
+                        </td>
                         <td className="px-4 py-3 align-top font-medium">
                           {u.name}
                         </td>
                         <td className="px-4 py-3 align-top text-gray-600">
                           {u.email}
                         </td>
+                        <td className="px-4 py-3 align-top">{u.username}</td>
                         <td className="px-4 py-3 align-top">
                           {roleBadge(u.role)}
+                        </td>
+                        <td className="px-4 py-3 align-top">
+                          {u.location || "—"}
+                        </td>
+                        <td className="px-4 py-3 align-top">
+                          {u.verified ? (
+                            <span className="px-2 py-0.5 rounded-full text-xs bg-green-100 text-green-700">
+                              Yes
+                            </span>
+                          ) : (
+                            <span className="px-2 py-0.5 rounded-full text-xs bg-gray-100 text-gray-700">
+                              No
+                            </span>
+                          )}
+                        </td>
+                        <td className="px-4 py-3 align-top">
+                          {u.isOnline ? (
+                            <span className="px-2 py-0.5 rounded-full text-xs bg-green-100 text-green-700">
+                              Online
+                            </span>
+                          ) : (
+                            <span className="px-2 py-0.5 rounded-full text-xs bg-gray-100 text-gray-700">
+                              Offline
+                            </span>
+                          )}
+                        </td>
+                        <td className="px-4 py-3 align-top">
+                          {u.phone || "—"}
+                        </td>
+                        <td className="px-4 py-3 align-top">
+                          {u.language || "—"}
+                        </td>
+                        <td className="px-4 py-3 align-top text-xs text-gray-500">
+                          {u.created_at
+                            ? new Date(u.created_at).toLocaleString()
+                            : "—"}
                         </td>
                         <td className="px-4 py-3 align-top flex gap-2 items-center">
                           <button
@@ -387,6 +414,88 @@ export default function AdminPanel() {
                           >
                             {count} View
                           </button>
+                          {/* Become Seller button: only for users who are not seller or admin */}
+                          {u.role !== "seller" && u.role !== "admin" && (
+                            <button
+                              onClick={async () => {
+                                if (!window.confirm(`Make ${u.name} a seller?`))
+                                  return;
+                                setLoading(true);
+                                setError(null);
+                                try {
+                                  const token =
+                                    typeof window !== "undefined"
+                                      ? localStorage.getItem("token")
+                                      : null;
+                                  const res = await fetch(
+                                    `${process.env.NEXT_PUBLIC_BACKEND_URL}/become-seller/${u.id}`,
+                                    {
+                                      method: "PUT",
+                                      credentials: "include",
+                                    }
+                                  );
+                                  const data = await res.json();
+                                  if (!res.ok) {
+                                    throw new Error(
+                                      data.error || "Failed to make seller"
+                                    );
+                                  }
+                                  toast(data.message || "User is now a seller");
+                                  load();
+                                } catch (e: any) {
+                                  setError(
+                                    e?.message || "Failed to make seller"
+                                  );
+                                  toast(e?.message || "Failed to make seller");
+                                } finally {
+                                  setLoading(false);
+                                }
+                              }}
+                              className="cursor-pointer text-sm inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-yellow-200 text-yellow-700 hover:bg-yellow-50"
+                            >
+                              Become Seller
+                            </button>
+                          )}
+                          {/* Become User button: only for users who are not user or admin */}
+                          {u.role !== "user" && u.role !== "admin" && (
+                            <button
+                              onClick={async () => {
+                                if (!window.confirm(`Make ${u.name} a user?`))
+                                  return;
+                                setLoading(true);
+                                setError(null);
+                                try {
+                                  const token =
+                                    typeof window !== "undefined"
+                                      ? localStorage.getItem("token")
+                                      : null;
+                                  const res = await fetch(
+                                    `${process.env.NEXT_PUBLIC_BACKEND_URL}/become-user/${u.id}`,
+                                    {
+                                      method: "PUT",
+                                      credentials: "include",
+                                    }
+                                  );
+                                  const data = await res.json();
+                                  if (!res.ok) {
+                                    throw new Error(
+                                      data.error || "Failed to make user"
+                                    );
+                                  }
+                                  toast(data.message || "User is now a user");
+                                  load();
+                                } catch (e: any) {
+                                  setError(e?.message || "Failed to make user");
+                                  toast(e?.message || "Failed to make user");
+                                } finally {
+                                  setLoading(false);
+                                }
+                              }}
+                              className="cursor-pointer text-sm inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-blue-200 text-blue-700 hover:bg-blue-50"
+                            >
+                              Become User
+                            </button>
+                          )}
                           <button
                             onClick={() => deleteUser(u.id)}
                             className=" cursor-pointer text-sm inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-red-200 text-red-700 hover:bg-red-50"
@@ -397,7 +506,7 @@ export default function AdminPanel() {
                       </tr>
                       {expanded && (
                         <tr className="bg-gray-50">
-                          <td colSpan={5} className="px-4 py-4">
+                          <td colSpan={13} className="px-4 py-4">
                             <div className="rounded-xl border border-gray-200 bg-white">
                               <div className="px-4 py-2 text-sm text-gray-500 flex items-center gap-2">
                                 <FiBox /> Products of {u.name}
@@ -411,7 +520,6 @@ export default function AdminPanel() {
                                       <th className="px-4 py-3">Price</th>
                                       <th className="px-4 py-3">Status</th>
                                       <th className="px-4 py-3">Created</th>
-                                      <th className="px-4 py-3">Action</th>
                                     </tr>
                                   </thead>
                                   <tbody>
@@ -440,16 +548,6 @@ export default function AdminPanel() {
                                                 ).toLocaleString()
                                               : "—"}
                                           </td>
-                                          <td className="px-4 py-3">
-                                            <button
-                                              onClick={() =>
-                                                deleteProduct(p.id as number)
-                                              }
-                                              className="cursor-pointer text-xs px-3 py-1.5 rounded-lg border border-red-200 text-red-700 hover:bg-red-50"
-                                            >
-                                              Delete
-                                            </button>
-                                          </td>
                                         </tr>
                                       )
                                     )}
@@ -459,7 +557,7 @@ export default function AdminPanel() {
                                       <tr>
                                         <td
                                           className="px-4 py-6 text-gray-500 text-sm"
-                                          colSpan={6}
+                                          colSpan={5}
                                         >
                                           No products for this user.
                                         </td>
@@ -477,7 +575,10 @@ export default function AdminPanel() {
                 })}
                 {filteredUsers.length === 0 && (
                   <tr>
-                    <td className="px-4 py-6 text-gray-500 text-sm" colSpan={5}>
+                    <td
+                      className="px-4 py-6 text-gray-500 text-sm"
+                      colSpan={13}
+                    >
                       No users match your search.
                     </td>
                   </tr>
@@ -507,7 +608,7 @@ export default function AdminPanel() {
             </div>
           </div>
 
-          <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white">
+          <div className="overflow-auto rounded-2xl border border-gray-200 bg-white">
             <table className="w-full text-left">
               <thead className="bg-gray-50 text-sm text-gray-600">
                 <tr>
@@ -517,7 +618,7 @@ export default function AdminPanel() {
                   <th className="px-4 py-3">Price</th>
                   <th className="px-4 py-3">Status</th>
                   <th className="px-4 py-3">Created</th>
-                  <th className="px-4 py-3">Action</th>
+                  <th className="px-4 py-3">Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -562,8 +663,48 @@ export default function AdminPanel() {
                       </td>
                       <td className="px-4 py-3">
                         <button
-                          onClick={() => deleteProduct(p.id as number)}
-                          className="cursor-pointer text-xs px-3 py-1.5 rounded-lg border border-red-200 text-red-700 hover:bg-red-50"
+                          onClick={async () => {
+                            if (
+                              !window.confirm(
+                                "Are you sure you want to delete this product?"
+                              )
+                            )
+                              return;
+                            setLoading(true);
+                            setError(null);
+                            try {
+                              const token =
+                                typeof window !== "undefined"
+                                  ? localStorage.getItem("token")
+                                  : null;
+                              const res = await fetch(
+                                `${process.env.NEXT_PUBLIC_BACKEND_URL}/products/${p.id}`,
+                                {
+                                  method: "DELETE",
+                                  credentials: "include",
+                                  headers: token
+                                    ? { Authorization: `Bearer ${token}` }
+                                    : undefined,
+                                }
+                              );
+                              const data = await res.json();
+                              if (!res.ok) {
+                                throw new Error(
+                                  data.error || "Failed to delete product"
+                                );
+                              }
+                              toast(data.message || "Product deleted");
+                              load();
+                            } catch (e: any) {
+                              setError(
+                                e?.message || "Failed to delete product"
+                              );
+                              toast(e?.message || "Failed to delete product");
+                            } finally {
+                              setLoading(false);
+                            }
+                          }}
+                          className="cursor-pointer text-sm inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-red-200 text-red-700 hover:bg-red-50"
                         >
                           Delete
                         </button>
@@ -573,7 +714,7 @@ export default function AdminPanel() {
                 })}
                 {filteredProducts.length === 0 && (
                   <tr>
-                    <td className="px-4 py-6 text-gray-500 text-sm" colSpan={7}>
+                    <td className="px-4 py-6 text-gray-500 text-sm" colSpan={6}>
                       No products match your search.
                     </td>
                   </tr>

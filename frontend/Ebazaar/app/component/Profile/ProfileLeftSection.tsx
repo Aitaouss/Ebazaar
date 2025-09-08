@@ -30,15 +30,17 @@ export default function ProfileLeftSection({ userState, setEditOpen }: any) {
           <div className="absolute -top-12 flex flex-col items-center w-full">
             <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full border-2 border-white shadow relative">
               <Image
-                src={userState?.picture || "/default-profile.png"}
+                src={userState?.picture || "/EBAZAAR default.png"}
                 alt="profile"
                 width={96}
                 height={96}
                 className="object-cover w-full h-full rounded-full"
               />
-              <div>
-                <MdVerified className="text-[#015B46] text-lg absolute bottom-2 right-0 bg-white rounded-full" />
-              </div>
+              {userState?.verified ? (
+                <div>
+                  <MdVerified className="text-[#015B46] text-lg absolute bottom-2 right-0 bg-white rounded-full" />
+                </div>
+              ) : null}
             </div>
           </div>
           <button

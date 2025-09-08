@@ -1,6 +1,8 @@
 import Image from "next/image";
-import { FaMapMarkerAlt } from "react-icons/fa";
+import { FaMapMarkerAlt, FaTrash } from "react-icons/fa";
 import { useState } from "react";
+import { useUser } from "@/app/eb/layout";
+import { toast, Toaster } from "react-hot-toast";
 
 function ProductCreateModal({
   isOpen,
@@ -147,6 +149,7 @@ export default function ProfileRightSection({
       setModalLoading(false);
     }
   };
+  const userData = useUser();
 
   return (
     <div className="flex-1 flex flex-col gap-6 pt-6 min-w-0 overflow-auto">
@@ -164,7 +167,7 @@ export default function ProfileRightSection({
         <div className="flex flex-col p-3 sm:p-6 gap-4 sm:gap-6">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
             <h1 className="text-lg sm:text-2xl font-bold text-gray-800">
-              Aimen Taoussi Bazaar
+              {userData?.name} Bazaar
             </h1>
             <button className="cursor-pointer px-3 sm:px-4 py-1 bg-[#015B46] text-white rounded font-semibold hover:bg-[#013f3a] transition-colors">
               Edit Store
@@ -212,6 +215,40 @@ export default function ProfileRightSection({
                   <span className="absolute top-2 left-1/2 -translate-x-1/2 px-3 bg-[#A44A3F] text-white text-xs  py-0.5 rounded font-semibold">
                     {product.category}
                   </span>
+                  <button
+                    title="Delete product"
+                    className="cursor-pointer absolute top-2 right-2 p-2 bg-white rounded-full shadow hover:bg-[#fff]/80 transition-colors border border-gray-200"
+                    style={{ zIndex: 2 }}
+                    onClick={async (e) => {
+                      e.stopPropagation();
+                      if (
+                        !window.confirm(
+                          "Are you sure you want to delete this product?"
+                        )
+                      )
+                        return;
+                      try {
+                        const res = await fetch(
+                          `${process.env.NEXT_PUBLIC_BACKEND_URL}/products/${product.id}`,
+                          {
+                            method: "DELETE",
+                            credentials: "include",
+                          }
+                        );
+                        const data = await res.json();
+                        if (!res.ok) {
+                          toast.error("failed to delete Product");
+                        } else {
+                          toast.success("Product deleted");
+                          if (fetchProducts) fetchProducts();
+                        }
+                      } catch (err) {
+                        alert("Failed to delete product");
+                      }
+                    }}
+                  >
+                    <FaTrash className="text-red-600  text-base" />
+                  </button>
                 </div>
                 <h3 className="text-xs lg:text-sm sm:text-base font-bold text-[#13120F] mb-1">
                   {product.title}
@@ -235,6 +272,7 @@ export default function ProfileRightSection({
           </div>
         )}
       </div>
+      <Toaster position="top-right" />
       <ProductCreateModal
         isOpen={modalOpen}
         onClose={() => setModalOpen(false)}
