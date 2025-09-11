@@ -66,7 +66,7 @@ function StoreCreateModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#111]/40">
-      <div className="bg-white rounded-xl shadow-lg p-6 w-full max-w-md">
+      <div className="bg-white relative bg-overlay rounded-xl shadow-lg p-6 w-full max-w-md">
         <h2 className="text-lg font-bold mb-4">Create Store</h2>
         <form onSubmit={handleSubmit} className="flex flex-col gap-3">
           <input
@@ -481,9 +481,12 @@ export default function StoreSection() {
       </div>
       <div className="flex flex-col p-3 sm:p-6 gap-4 sm:gap-6">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
-          <h1 className="text-lg sm:text-2xl font-bold text-gray-800">
-            {store.name}
-          </h1>
+          <div className="flex items-center gap-2">
+            <img src={store.logo} className="w-12 h-12 rounded-full" />
+            <h1 className="text-lg sm:text-2xl font-bold text-gray-800">
+              {store.name}
+            </h1>
+          </div>
           <div className="flex gap-2">
             <button
               onClick={() => setEditModalOpen(true)}
