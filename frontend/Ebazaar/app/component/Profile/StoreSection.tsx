@@ -35,12 +35,26 @@ function StoreCreateModal({
     location: "",
   });
 
+  // const handleChange = (
+  //   e: React.ChangeEvent<
+  //     HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+  //   >
+  // ) => {
+  //   setForm({ ...form, [e.target.name]: e.target.value });
+  // };
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
     >
   ) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    const { name, type } = e.target;
+
+    if (type === "file") {
+      const file = (e.target as HTMLInputElement).files?.[0] || null;
+      setForm({ ...form, [name]: file });
+    } else {
+      setForm({ ...form, [name]: e.target.value });
+    }
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -72,6 +86,7 @@ function StoreCreateModal({
             required
           />
           <input
+            // type="file"
             name="logo"
             value={form.logo}
             onChange={handleChange}
@@ -79,6 +94,7 @@ function StoreCreateModal({
             className="border rounded p-2"
           />
           <input
+            // type="file"
             name="cover"
             value={form.cover}
             onChange={handleChange}

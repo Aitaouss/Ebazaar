@@ -157,6 +157,43 @@ export default function ProfileRightSection({
     }
   };
 
+  const handleDeleteProduct = async (productId: number) => {
+    const confirmed = await confirm({
+      title: "Delete Product",
+      message:
+        "Are you sure you want to delete this product? This action cannot be undone.",
+      type: "danger",
+      confirmText: "Delete",
+      cancelText: "Cancel",
+    });
+
+    if (!confirmed) return;
+
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/products/${productId}`,
+        {
+          method: "DELETE",
+          credentials: "include",
+        }
+      );
+      const data = await res.json();
+      if (!res.ok) {
+        toast.error("Failed to delete product");
+      } else {
+        toast.success("Product deleted successfully");
+        if (fetchProducts) fetchProducts();
+      }
+    } catch (err) {
+      alert({
+        title: "Error",
+        message: "Failed to delete product",
+        type: "error",
+      });
+    }
+  };
+
+  // handleDeleteStore
   return (
     <div className="flex-1 flex flex-col gap-6 pt-6 min-w-0 overflow-auto">
       {/* Store Section */}
@@ -207,41 +244,9 @@ export default function ProfileRightSection({
                     title="Delete product"
                     className="cursor-pointer absolute top-2 right-2 p-2 bg-white rounded-full shadow hover:bg-[#fff]/80 transition-colors border border-gray-200"
                     style={{ zIndex: 2 }}
-                    onClick={async (e) => {
+                    onClick={(e) => {
                       e.stopPropagation();
-                      const confirmed = await confirm({
-                        title: "Delete Product",
-                        message:
-                          "Are you sure you want to delete this product? This action cannot be undone.",
-                        type: "danger",
-                        confirmText: "Delete",
-                        cancelText: "Cancel",
-                      });
-
-                      if (!confirmed) return;
-
-                      try {
-                        const res = await fetch(
-                          `${process.env.NEXT_PUBLIC_BACKEND_URL}/products/${product.id}`,
-                          {
-                            method: "DELETE",
-                            credentials: "include",
-                          }
-                        );
-                        const data = await res.json();
-                        if (!res.ok) {
-                          toast.error("failed to delete Product");
-                        } else {
-                          toast.success("Product deleted");
-                          if (fetchProducts) fetchProducts();
-                        }
-                      } catch (err) {
-                        alert({
-                          title: "Error",
-                          message: "Failed to delete product",
-                          type: "error",
-                        });
-                      }
+                      handleDeleteProduct(product.id);
                     }}
                   >
                     <FaTrash className="text-[#A44A3F]  text-base" />
@@ -265,6 +270,7 @@ export default function ProfileRightSection({
                       ${product.price}
                     </span>
                   </div>
+                  {/* TODO make the edit dynamic with the backend also make the location with select option */}
                   <button className="cursor-pointer w-full py-1 text-base lg:text-lg bg-[#015B46] text-white rounded font-semibold hover:bg-[#013f3a] transition-colors">
                     Edit
                   </button>
@@ -282,6 +288,8 @@ export default function ProfileRightSection({
         loading={modalLoading}
         error={modalError}
       />
+      <ConfirmModal />
+      <AlertModal />
     </div>
   );
 }
