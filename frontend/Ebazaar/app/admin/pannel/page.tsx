@@ -9,12 +9,16 @@ import {
   FiAlertTriangle,
   FiShield,
   FiDownload,
+  FiShoppingCart,
+  FiMoreHorizontal,
 } from "react-icons/fi";
 import { toast } from "react-hot-toast";
+import { useConfirm } from "../../component/ui/ConfirmModal";
+import { useAlert } from "../../component/ui/AlertModal";
 
 // Single-file Admin Panel component
-// - Fetches /users (expects { users: User[], products?: Product[] })
-// - Shows overview cards, searchable tables, and per-user product drilldown
+// - Fetches /users (expects { users: User[], products?: Product[], stores?: Store[] })
+// - Shows overview cards, searchable tables, and data management
 // - Works with cookie-based auth; optionally reads a token from localStorage for Authorization header
 // - Tailwind-only styling
 
@@ -44,18 +48,34 @@ interface ProductRow {
   createdAt?: string | null;
 }
 
+interface StoreRow {
+  id: number;
+  user_id: number;
+  name: string;
+  description: string;
+  logo?: string;
+  cover?: string;
+  location?: string;
+  created_at?: string;
+}
+
 interface ApiResponse {
   users: UserRow[];
   products?: ProductRow[];
+  stores?: StoreRow[];
   message?: string;
 }
 
 export default function AdminPanel() {
+  const { confirm, ConfirmModal } = useConfirm();
+  const { alert, AlertModal } = useAlert();
+
   const [data, setData] = useState<ApiResponse | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [qUsers, setQUsers] = useState("");
   const [qProducts, setQProducts] = useState("");
+  const [qStores, setQStores] = useState("");
   const [expandedUserId, setExpandedUserId] = useState<number | null>(null);
 
   // ---- Fetch ----
@@ -87,6 +107,7 @@ export default function AdminPanel() {
       setData({
         users: json.users ?? [],
         products: json.products ?? [],
+        stores: json.stores ?? [],
         message: json.message,
       });
     } catch (e: any) {
@@ -138,6 +159,17 @@ export default function AdminPanel() {
         .some((v) => String(v).toLowerCase().includes(q))
     );
   }, [data, qProducts]);
+
+  const filteredStores = useMemo(() => {
+    const stores = data?.stores ?? [];
+    if (!qStores.trim()) return stores;
+    const q = qStores.toLowerCase();
+    return stores.filter((s) =>
+      [s.name, s.description, String(s.id), s.location]
+        .filter(Boolean)
+        .some((v) => String(v).toLowerCase().includes(q))
+    );
+  }, [data, qStores]);
 
   // ---- Helpers ----
   function roleBadge(role: string) {
@@ -206,7 +238,17 @@ export default function AdminPanel() {
 
   // Delete user helper
   async function deleteUser(id: number) {
-    if (!window.confirm("Are you sure you want to delete this user?")) return;
+    const confirmed = await confirm({
+      title: "Delete User",
+      message:
+        "Are you sure you want to delete this user? This action cannot be undone.",
+      type: "danger",
+      confirmText: "Delete",
+      cancelText: "Cancel",
+    });
+
+    if (!confirmed) return;
+
     setLoading(true);
     setError(null);
     try {
@@ -233,6 +275,24 @@ export default function AdminPanel() {
       setLoading(false);
     }
   }
+
+  const tabs = [
+    {
+      icon: FiUsers,
+      label: "Users",
+      value: "users",
+    },
+    {
+      icon: FiBox,
+      label: "Products",
+      value: "products",
+    },
+    {
+      icon: FiShoppingCart,
+      label: "Stores",
+      value: "stores",
+    },
+  ];
 
   return (
     <div className="min-h-screen w-full bg-[#F5F7F8] text-[#13120F]">
@@ -322,7 +382,7 @@ export default function AdminPanel() {
             </div>
           </div>
 
-          <div className=" overflow-auto rounded-2xl border border-gray-200 bg-white pb-3 scrollbar-thin scrollbar-thumb-indigo-600 scrollbar-track-gray-200">
+          <div className=" overflow-auto rounded-2xl border border-gray-200 bg-white pb-1 scrollbar-thin scrollbar-thumb-indigo-600 scrollbar-track-gray-200">
             <table className="w-screen text-left">
               <thead className="bg-gray-50 text-sm text-gray-600">
                 <tr>
@@ -378,9 +438,64 @@ export default function AdminPanel() {
                               Yes
                             </span>
                           ) : (
-                            <span className="px-2 py-0.5 rounded-full text-xs bg-gray-100 text-gray-700">
-                              No
-                            </span>
+                            <>
+                              <span className="px-2 py-0.5 rounded-full text-xs bg-gray-100 text-gray-700">
+                                No
+                              </span>
+                              <button
+                                onClick={async () => {
+                                  const confirmed = await confirm({
+                                    title: "Verify User",
+                                    message: `Are you sure you want to verify user ${u.name}?`,
+                                    type: "info",
+                                    confirmText: "Verify",
+                                    cancelText: "Cancel",
+                                  });
+
+                                  if (!confirmed) return;
+                                  setLoading(true);
+                                  setError(null);
+                                  try {
+                                    const token =
+                                      typeof window !== "undefined"
+                                        ? localStorage.getItem("token")
+                                        : null;
+                                    const res = await fetch(
+                                      `${process.env.NEXT_PUBLIC_BACKEND_URL}/admin/verify-user/${u.id}`,
+                                      {
+                                        method: "PUT",
+                                        credentials: "include",
+                                        headers: token
+                                          ? {
+                                              Authorization: `Bearer ${token}`,
+                                            }
+                                          : undefined,
+                                      }
+                                    );
+                                    const data = await res.json();
+                                    if (!res.ok) {
+                                      throw new Error(
+                                        data.error || "Failed to verify user"
+                                      );
+                                    }
+                                    toast(data.message || "User verified");
+                                    load();
+                                  } catch (e: any) {
+                                    setError(
+                                      e?.message || "Failed to verify user"
+                                    );
+                                    toast(
+                                      e?.message || "Failed to verify user"
+                                    );
+                                  } finally {
+                                    setLoading(false);
+                                  }
+                                }}
+                                className="ml-2 cursor-pointer text-xs inline-flex items-center gap-1 px-2 py-0.5 rounded border border-green-200 text-green-700 hover:bg-green-50"
+                              >
+                                Verify
+                              </button>
+                            </>
                           )}
                         </td>
                         <td className="px-4 py-3 align-top">
@@ -418,8 +533,15 @@ export default function AdminPanel() {
                           {u.role !== "seller" && u.role !== "admin" && (
                             <button
                               onClick={async () => {
-                                if (!window.confirm(`Make ${u.name} a seller?`))
-                                  return;
+                                const confirmed = await confirm({
+                                  title: "Make Seller",
+                                  message: `Are you sure you want to make ${u.name} a seller?`,
+                                  type: "warning",
+                                  confirmText: "Make Seller",
+                                  cancelText: "Cancel",
+                                });
+
+                                if (!confirmed) return;
                                 setLoading(true);
                                 setError(null);
                                 try {
@@ -460,8 +582,15 @@ export default function AdminPanel() {
                           {u.role !== "user" && u.role !== "admin" && (
                             <button
                               onClick={async () => {
-                                if (!window.confirm(`Make ${u.name} a user?`))
-                                  return;
+                                const confirmed = await confirm({
+                                  title: "Change to User",
+                                  message: `Are you sure you want to make ${u.name} a regular user?`,
+                                  type: "warning",
+                                  confirmText: "Make User",
+                                  cancelText: "Cancel",
+                                });
+
+                                if (!confirmed) return;
                                 setLoading(true);
                                 setError(null);
                                 try {
@@ -496,6 +625,77 @@ export default function AdminPanel() {
                               Become User
                             </button>
                           )}
+                          {/* Verify/Unverify button */}
+                          <button
+                            onClick={async () => {
+                              const isVerifying = !u.verified;
+                              const action = isVerifying
+                                ? "verify"
+                                : "unverify";
+
+                              const confirmed = await confirm({
+                                title: isVerifying
+                                  ? "Verify User"
+                                  : "Unverify User",
+                                message: isVerifying
+                                  ? `Verify user ${u.name}?`
+                                  : `Unverify user ${u.name}?`,
+                                type: isVerifying ? "info" : "warning",
+                                confirmText: isVerifying
+                                  ? "Verify"
+                                  : "Unverify",
+                                cancelText: "Cancel",
+                              });
+
+                              if (!confirmed) return;
+
+                              setLoading(true);
+                              setError(null);
+                              try {
+                                const token =
+                                  typeof window !== "undefined"
+                                    ? localStorage.getItem("token")
+                                    : null;
+                                const res = await fetch(
+                                  `${process.env.NEXT_PUBLIC_BACKEND_URL}/admin/verify-user/${u.id}`,
+                                  {
+                                    method: "PUT",
+                                    credentials: "include",
+                                    headers: {
+                                      ...(token
+                                        ? { Authorization: `Bearer ${token}` }
+                                        : {}),
+                                      "Content-Type": "application/json",
+                                    },
+                                    body: JSON.stringify({ action }),
+                                  }
+                                );
+                                const data = await res.json();
+                                if (!res.ok) {
+                                  throw new Error(
+                                    data.error || `Failed to ${action} user`
+                                  );
+                                }
+                                toast(data.message || `User ${action}ed`);
+                                load();
+                              } catch (e: any) {
+                                setError(
+                                  e?.message || `Failed to ${action} user`
+                                );
+                                toast(e?.message || `Failed to ${action} user`);
+                              } finally {
+                                setLoading(false);
+                              }
+                            }}
+                            className={`cursor-pointer text-sm inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border ${
+                              u.verified
+                                ? "border-red-200 text-red-700 hover:bg-red-50"
+                                : "border-green-200 text-green-700 hover:bg-green-50"
+                            }`}
+                            disabled={loading}
+                          >
+                            {u.verified ? "Unverify" : "Verify"}
+                          </button>
                           <button
                             onClick={() => deleteUser(u.id)}
                             className=" cursor-pointer text-sm inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-red-200 text-red-700 hover:bg-red-50"
@@ -664,12 +864,16 @@ export default function AdminPanel() {
                       <td className="px-4 py-3">
                         <button
                           onClick={async () => {
-                            if (
-                              !window.confirm(
-                                "Are you sure you want to delete this product?"
-                              )
-                            )
-                              return;
+                            const confirmed = await confirm({
+                              title: "Delete Product",
+                              message:
+                                "Are you sure you want to delete this product? This action cannot be undone.",
+                              type: "danger",
+                              confirmText: "Delete",
+                              cancelText: "Cancel",
+                            });
+
+                            if (!confirmed) return;
                             setLoading(true);
                             setError(null);
                             try {
@@ -723,11 +927,149 @@ export default function AdminPanel() {
             </table>
           </div>
         </section>
+
+        {/* Stores Table */}
+        <section>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-2xl font-bold">Stores</h2>
+            <div className="flex items-center gap-3">
+              <div className="relative">
+                <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                <input
+                  className="pl-9 pr-3 py-2 rounded-xl bg-white border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#015B46]/30 w-64"
+                  placeholder="Search stores…"
+                  value={qStores}
+                  onChange={(e) => setQStores(e.target.value)}
+                />
+              </div>
+              <span className="hidden sm:inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-[#015B46] text-white">
+                <FiShield /> Admin-only view
+              </span>
+            </div>
+          </div>
+
+          <div className="overflow-auto rounded-2xl border border-gray-200 bg-white">
+            <table className="w-full text-left">
+              <thead className="bg-gray-50 text-sm text-gray-600">
+                <tr>
+                  <th className="px-4 py-3">ID</th>
+                  <th className="px-4 py-3">Owner</th>
+                  <th className="px-4 py-3">Store Name</th>
+                  <th className="px-4 py-3">Description</th>
+                  <th className="px-4 py-3">Location</th>
+                  <th className="px-4 py-3">Created</th>
+                  <th className="px-4 py-3">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {(filteredStores ?? []).map((store) => {
+                  const owner = data?.users?.find(
+                    (u) => u.id === store.user_id
+                  );
+                  return (
+                    <tr
+                      key={`store-${store.id}`}
+                      className="border-t border-gray-100 hover:bg-gray-50/60"
+                    >
+                      <td className="px-4 py-3">{store.id}</td>
+                      <td className="px-4 py-3">
+                        {owner ? (
+                          <div className="flex items-center gap-2">
+                            <span className="font-medium">{owner.name}</span>
+                            <span className="text-xs text-gray-500">
+                              #{owner.id}
+                            </span>
+                          </div>
+                        ) : (
+                          <span className="text-gray-500">—</span>
+                        )}
+                      </td>
+                      <td className="px-4 py-3 font-medium">{store.name}</td>
+                      <td className="px-4 py-3 text-gray-600">
+                        {store.description}
+                      </td>
+                      <td className="px-4 py-3">{store.location || "—"}</td>
+                      <td className="px-4 py-3 text-gray-500 text-sm">
+                        {store.created_at
+                          ? new Date(store.created_at).toLocaleString()
+                          : "—"}
+                      </td>
+                      <td className="px-4 py-3">
+                        <button
+                          onClick={async () => {
+                            const confirmed = await confirm({
+                              title: "Delete Store",
+                              message:
+                                "Are you sure you want to delete this store and all its products? This action cannot be undone.",
+                              type: "danger",
+                              confirmText: "Delete Store",
+                              cancelText: "Cancel",
+                            });
+
+                            if (!confirmed) return;
+                            setLoading(true);
+                            setError(null);
+                            try {
+                              const token =
+                                typeof window !== "undefined"
+                                  ? localStorage.getItem("token")
+                                  : null;
+                              const res = await fetch(
+                                `${process.env.NEXT_PUBLIC_BACKEND_URL}/stores/${store.id}`,
+                                {
+                                  method: "DELETE",
+                                  credentials: "include",
+                                  headers: token
+                                    ? { Authorization: `Bearer ${token}` }
+                                    : undefined,
+                                }
+                              );
+                              const data = await res.json();
+                              if (!res.ok) {
+                                throw new Error(
+                                  data.error || "Failed to delete store"
+                                );
+                              }
+                              toast(
+                                data.message ||
+                                  "Store and associated products deleted"
+                              );
+                              load();
+                            } catch (e: any) {
+                              setError(e?.message || "Failed to delete store");
+                              toast(e?.message || "Failed to delete store");
+                            } finally {
+                              setLoading(false);
+                            }
+                          }}
+                          className="cursor-pointer text-sm inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-red-200 text-red-700 hover:bg-red-50"
+                        >
+                          Delete
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
+                {filteredStores.length === 0 && (
+                  <tr>
+                    <td className="px-4 py-6 text-gray-500 text-sm" colSpan={7}>
+                      No stores match your search.
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+        </section>
       </main>
 
       <footer className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 text-xs text-gray-500">
         Built with ❤ — By Aimen Taoussi
       </footer>
+
+      {/* Custom Modals */}
+      <ConfirmModal />
+      <AlertModal />
     </div>
   );
 }

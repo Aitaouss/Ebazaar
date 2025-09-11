@@ -4,6 +4,9 @@ import { useState } from "react";
 import { useUser } from "@/app/eb/layout";
 import { toast, Toaster } from "react-hot-toast";
 import { MdOutlineOpenInFull } from "react-icons/md";
+import StoreSection from "./StoreSection";
+import { useConfirm } from "../ui/ConfirmModal";
+import { useAlert } from "../ui/AlertModal";
 
 function ProductCreateModal({
   isOpen,
@@ -35,7 +38,7 @@ function ProductCreateModal({
   if (!isOpen) return null;
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#111]/40 bg-opacity-40">
-      <div className="bg-white rounded-xl shadow-lg p-6 w-full max-w-md">
+      <div className="bg-white rounded-xl shadow-lg p-6 w-full max-w-md relative bg-overlay">
         <h2 className="text-lg font-bold mb-4">Create Product</h2>
         <form onSubmit={handleSubmit} className="flex flex-col gap-3">
           <input
@@ -117,6 +120,9 @@ export default function ProfileRightSection({
   setEditOpen,
   fetchProducts,
 }: any) {
+  const { confirm, ConfirmModal } = useConfirm();
+  const { alert, AlertModal } = useAlert();
+
   const [modalOpen, setModalOpen] = useState(false);
   const [modalLoading, setModalLoading] = useState(false);
   const [modalError, setModalError] = useState("");
@@ -150,38 +156,12 @@ export default function ProfileRightSection({
       setModalLoading(false);
     }
   };
-  const userData = useUser();
 
   return (
     <div className="flex-1 flex flex-col gap-6 pt-6 min-w-0 overflow-auto">
-      {/* Store Cover & Description */}
-      <div className="bg-white relative bg-overlay rounded-4xl shadow border border-gray-200 mb-2 w-full">
-        <div className="w-full h-32 sm:h-48 rounded-t-2xl overflow-hidden relative">
-          <Image
-            src="/Background.jpg"
-            alt="Store Cover"
-            width={900}
-            height={144}
-            className="object-cover w-full h-full"
-          />
-        </div>
-        <div className="flex flex-col p-3 sm:p-6 gap-4 sm:gap-6">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
-            <h1 className="text-lg sm:text-2xl font-bold text-gray-800">
-              {userData?.name} Bazaar
-            </h1>
-            <button className="cursor-pointer px-3 sm:px-4 py-1 bg-[#015B46] text-white rounded font-semibold hover:bg-[#013f3a] transition-colors">
-              Edit Store
-            </button>
-          </div>
-          <p className="text-gray-600 text-sm sm:text-lg">
-            Aimen Taoussi Bazaar offers a curated mix of handcrafted Moroccan
-            goods and modern lifestyle products. From traditional décor and
-            handmade accessories to everyday essentials, every item is chosen
-            with quality and authenticity in mind
-          </p>
-        </div>
-      </div>
+      {/* Store Section */}
+      <StoreSection />
+
       {/* Products Section */}
       <div className="bg-white relative bg-overlay rounded-2xl shadow p-3 sm:p-6 border border-gray-200 flex flex-col gap-5 w-full">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-2 gap-2">
@@ -196,9 +176,16 @@ export default function ProfileRightSection({
           </button>
         </div>
         {productsLoading ? (
-          <p>Loading products...</p>
+          <p className="text-center text-gray-600">Loading products...</p>
         ) : productsError ? (
-          <p className="text-red-500">{productsError}</p>
+          <p className="text-center text-gray-600">{productsError}</p>
+        ) : !products || products.length === 0 ? (
+          <div className="flex flex-col items-center justify-center p-6">
+            <h3 className="text-xl font-bold mb-4">No Products Yet</h3>
+            <p className="text-gray-600 mb-4 text-center">
+              You haven't added any products yet. Create one to start selling!
+            </p>
+          </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 2xl:grid-cols-3 gap-4 sm:gap-6">
             {products.map((product: any) => (
@@ -222,12 +209,17 @@ export default function ProfileRightSection({
                     style={{ zIndex: 2 }}
                     onClick={async (e) => {
                       e.stopPropagation();
-                      if (
-                        !window.confirm(
-                          "Are you sure you want to delete this product?"
-                        )
-                      )
-                        return;
+                      const confirmed = await confirm({
+                        title: "Delete Product",
+                        message:
+                          "Are you sure you want to delete this product? This action cannot be undone.",
+                        type: "danger",
+                        confirmText: "Delete",
+                        cancelText: "Cancel",
+                      });
+
+                      if (!confirmed) return;
+
                       try {
                         const res = await fetch(
                           `${process.env.NEXT_PUBLIC_BACKEND_URL}/products/${product.id}`,
@@ -244,7 +236,11 @@ export default function ProfileRightSection({
                           if (fetchProducts) fetchProducts();
                         }
                       } catch (err) {
-                        alert("Failed to delete product");
+                        alert({
+                          title: "Error",
+                          message: "Failed to delete product",
+                          type: "error",
+                        });
                       }
                     }}
                   >
