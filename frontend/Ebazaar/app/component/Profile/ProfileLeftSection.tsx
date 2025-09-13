@@ -4,9 +4,9 @@ import {
   FaPhoneAlt,
   FaMapMarkerAlt,
   FaGlobe,
-  FaStar,
 } from "react-icons/fa";
 import { MdVerified } from "react-icons/md";
+import BuyerReviews from "./BuyerReviews";
 
 export default function ProfileLeftSection({ userState, setEditOpen }: any) {
   return (
@@ -93,40 +93,7 @@ export default function ProfileLeftSection({ userState, setEditOpen }: any) {
         </div>
       </div>
       {/* Buyer Reviews Card */}
-      <div className="bg-white bg-overlay relative rounded-4xl shadow p-4 sm:p-6 border border-gray-200 w-full max-w-full md:max-w-xs mx-auto">
-        <h2 className="text-base font-semibold text-gray-700 mb-2">
-          Buyer Reviews
-        </h2>
-        <div className="flex items-center gap-2 mb-1">
-          <span className="text-2xl font-bold text-gray-800">4.0</span>
-          <div className="flex gap-0.5">
-            {[...Array(4)].map((_, i) => (
-              <FaStar key={i} className="text-[#015B46] text-lg" />
-            ))}
-            <FaStar className="text-gray-300 text-lg" />
-          </div>
-          <span className="text-xs text-gray-500 ml-1">
-            based on 123 reviews
-          </span>
-        </div>
-        <div className="w-full mt-2 space-y-1">
-          {[5, 4, 3, 2, 1].map((star, idx) => (
-            <div key={star} className="flex items-center gap-2">
-              <span className="text-xs text-gray-600 w-4">{star}</span>
-              <FaStar className="text-[#015B46] text-xs" />
-              <div className="flex-1 h-2 bg-gray-200 rounded">
-                <div
-                  className={`h-2 rounded bg-[#015B46]`}
-                  style={{ width: ["70%", "21%", "5%", "2%", "2%"][idx] }}
-                ></div>
-              </div>
-              <span className="text-xs text-gray-500">
-                {[70, 21, 5, 2, 2][idx]}%
-              </span>
-            </div>
-          ))}
-        </div>
-      </div>
+      <BuyerReviews userId={userState?.id} />
     </div>
   );
 }
