@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { FaMapMarkerAlt, FaTrash } from "react-icons/fa";
+import { FaMapMarkerAlt, FaTrash, FaStar } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import { useUser } from "@/app/eb/layout";
 import { toast, Toaster } from "react-hot-toast";
@@ -319,6 +319,105 @@ function ProductEditModal({
   );
 }
 
+// Add ProductDetailModal component
+function ProductDetailModal({
+  isOpen,
+  onClose,
+  product,
+  user,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+  product: any;
+  user?: any;
+}) {
+  if (!isOpen || !product) return null;
+
+  return (
+    <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/50">
+      <div className="bg-white rounded-xl shadow-2xl w-full max-w-xl mx-4 overflow-hidden">
+        {/* Product Image */}
+        <div className="relative h-64">
+          <Image
+            src={product.imageUrl || "/Background.jpg"}
+            alt={product.title}
+            fill
+            className="object-cover"
+          />
+          <button
+            onClick={onClose}
+            className="cursor-pointer absolute top-4 right-4 w-8 h-8 bg-white/70 rounded-full flex items-center justify-center hover:bg-white transition-colors"
+          >
+            ✕
+          </button>
+        </div>
+
+        {/* Product Info */}
+        <div className="p-6 flex flex-col justify-center">
+          {/* User Info */}
+          <div className="flex items-center gap-3 mb-4 ">
+            <div className="w-12 h-12 bg-[#015B46] rounded-full flex items-center justify-center">
+              <span className="text-white font-bold text-lg">
+                {user?.name?.charAt(0)?.toUpperCase() || "U"}
+              </span>
+            </div>
+            <div className="flex-1">
+              <div className="flex items-center gap-2 justify-between">
+                <h3 className="font-bold text-gray-800">
+                  {user?.name || "User"}
+                </h3>
+                <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-1">
+                    <FaMapMarkerAlt className="text-gray-400" />
+                    <span className="text-sm text-gray-600">
+                      {product.location}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <FaStar className="text-yellow-400 text-sm" />
+                    <span className="text-sm font-medium">4.8</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Product Title */}
+          <div>
+            <h2 className="text-xl font-bold text-center mb-4 text-gray-800">
+              {product.title}
+            </h2>
+
+            {/* Product Description */}
+            <p className="text-gray-600 text-sm leading-relaxed  text-center">
+              {product.content ||
+                "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic"}
+            </p>
+          </div>
+
+          {/* Price */}
+          <div className="flex flex-col gap-2">
+            <div className="text-center mb-6"></div>
+            <button className="cursor-pointer w-full bg-gray-200 text-white py-2 rounded font-semibold hover:bg-[#bac1c0] transition-colors">
+              <span className="text-lg font-bold text-gray-800">
+                ${product.price}
+              </span>
+            </button>
+
+            {/* Edit Button */}
+            <button
+              onClick={onClose}
+              className="cursor-pointer text-lg w-full bg-[#015B46] text-white py-2 rounded font-semibold hover:bg-[#013f3a] transition-colors"
+            >
+              Edit
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function ProfileRightSection({
   products,
   productsLoading,
@@ -328,6 +427,7 @@ export default function ProfileRightSection({
 }: any) {
   const { confirm, ConfirmModal } = useConfirm();
   const { alert, AlertModal } = useAlert();
+  const user = useUser();
 
   const [modalOpen, setModalOpen] = useState(false);
   const [modalLoading, setModalLoading] = useState(false);
@@ -338,6 +438,10 @@ export default function ProfileRightSection({
   const [editModalLoading, setEditModalLoading] = useState(false);
   const [editModalError, setEditModalError] = useState("");
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
+
+  // Detail modal state
+  const [detailModalOpen, setDetailModalOpen] = useState(false);
+  const [detailProduct, setDetailProduct] = useState<any>(null);
 
   const handleCreateProduct = async (form: any) => {
     setModalLoading(true);
@@ -407,6 +511,11 @@ export default function ProfileRightSection({
   const handleEditClick = (product: any) => {
     setSelectedProduct(product);
     setEditModalOpen(true);
+  };
+
+  const handleDetailClick = (product: any) => {
+    setDetailProduct(product);
+    setDetailModalOpen(true);
   };
 
   const handleUpdateProduct = async (form: any) => {
@@ -546,12 +655,18 @@ export default function ProfileRightSection({
                   <h3 className="text-sm xl:text-base font-bold text-[#13120F] mb-1">
                     {product.title}
                   </h3>
-                  <div className="cursor-pointer flex items-center justify-center w-6 h-6 rounded  bg-[#015B46] hover:bg-[#013f3a] transition-colors">
+                  <div
+                    className="cursor-pointer flex items-center justify-center w-6 h-6 rounded  bg-[#015B46] hover:bg-[#013f3a] transition-colors"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDetailClick(product);
+                    }}
+                  >
                     <MdOutlineOpenInFull color="white" size={13} />
                   </div>
                 </div>
-                <div className="flex items-center gap-1 text-xs text-gray-500 mb-2">
-                  <FaMapMarkerAlt className="text-base" />
+                <div className="flex items-center gap-2 text-xs text-gray-500 mb-2 ">
+                  <FaMapMarkerAlt className="text-gray-400" />
                   <span>{product.location}</span>
                 </div>
                 <div className="flex flex-col items-center justify-center gap-2">
@@ -591,6 +706,15 @@ export default function ProfileRightSection({
         product={selectedProduct}
         loading={editModalLoading}
         error={editModalError}
+      />
+      <ProductDetailModal
+        isOpen={detailModalOpen}
+        onClose={() => {
+          setDetailModalOpen(false);
+          setDetailProduct(null);
+        }}
+        product={detailProduct}
+        user={user}
       />
       <ConfirmModal />
       <AlertModal />
