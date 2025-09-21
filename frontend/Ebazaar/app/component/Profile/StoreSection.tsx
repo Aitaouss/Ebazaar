@@ -483,7 +483,7 @@ export default function StoreSection() {
         />
       </div>
       <div className="flex flex-col p-3 sm:p-6 gap-4 sm:gap-6">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+        <div className="flex flex-col 2xl:flex-row items-start 2xl:items-center justify-between gap-2">
           <div className="flex items-center gap-2">
             <img src={store.logo} className="w-12 h-12 rounded-full" />
             <h1 className="text-lg sm:text-2xl font-bold text-gray-800">

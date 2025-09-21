@@ -465,11 +465,17 @@ export default function AdminPanel() {
                                       {
                                         method: "PUT",
                                         credentials: "include",
-                                        headers: token
-                                          ? {
-                                              Authorization: `Bearer ${token}`,
-                                            }
-                                          : undefined,
+                                        headers: {
+                                          ...(token
+                                            ? {
+                                                Authorization: `Bearer ${token}`,
+                                              }
+                                            : {}),
+                                          "Content-Type": "application/json",
+                                        },
+                                        body: JSON.stringify({
+                                          action: "verify",
+                                        }),
                                       }
                                     );
                                     const data = await res.json();

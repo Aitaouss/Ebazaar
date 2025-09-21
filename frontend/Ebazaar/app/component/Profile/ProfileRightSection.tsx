@@ -514,7 +514,7 @@ export default function ProfileRightSection({
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 2xl:grid-cols-3 gap-4 sm:gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-4 sm:gap-6">
             {products.map((product: any) => (
               <div
                 key={product.id}
@@ -543,7 +543,7 @@ export default function ProfileRightSection({
                   </button>
                 </div>
                 <div className="flex items-center justify-between mb-1">
-                  <h3 className="text-xs lg:text-sm sm:text-base font-bold text-[#13120F] mb-1">
+                  <h3 className="text-sm xl:text-base font-bold text-[#13120F] mb-1">
                     {product.title}
                   </h3>
                   <div className="cursor-pointer flex items-center justify-center w-6 h-6 rounded  bg-[#015B46] hover:bg-[#013f3a] transition-colors">
