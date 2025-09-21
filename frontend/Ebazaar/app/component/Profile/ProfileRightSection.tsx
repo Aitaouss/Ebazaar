@@ -495,8 +495,8 @@ export default function ProfileRightSection({
           </h2>
           <button
             className={`${
-              !hasStore && "grayscale-75 opacity-30"
-            } pointer-events-none cursor-pointer px-3 sm:px-4 py-1 bg-[#015B46] text-white rounded font-semibold hover:bg-[#013f3a] transition-colors`}
+              !hasStore && "pointer-events-none grayscale-75 opacity-30"
+            }  cursor-pointer px-3 sm:px-4 py-1 bg-[#015B46] text-white rounded font-semibold hover:bg-[#013f3a] transition-colors`}
             onClick={() => setModalOpen(true)}
           >
             Create product
