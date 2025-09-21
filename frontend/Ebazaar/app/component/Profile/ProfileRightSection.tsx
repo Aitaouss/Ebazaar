@@ -456,6 +456,32 @@ export default function ProfileRightSection({
       setEditModalLoading(false);
     }
   };
+  const [hasStore, sethasStore] = useState<boolean>(false);
+  useEffect(() => {
+    const fetchStoreStatus = async () => {
+      try {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/store/status`,
+          {
+            method: "GET",
+            credentials: "include",
+          }
+        );
+        if (res.ok) {
+          const data = await res.json();
+          sethasStore(data.hasStore);
+          console.log("has store, ", data.hasStore);
+        } else {
+          sethasStore(false);
+        }
+      } catch (err) {
+        console.error("Error fetching store status:", err);
+        sethasStore(false);
+      }
+    };
+
+    fetchStoreStatus();
+  }, []);
   return (
     <div className="flex-1 flex flex-col gap-6 pt-6 min-w-0 overflow-auto">
       {/* Store Section */}
@@ -468,7 +494,9 @@ export default function ProfileRightSection({
             Products
           </h2>
           <button
-            className="cursor-pointer px-3 sm:px-4 py-1 bg-[#015B46] text-white rounded font-semibold hover:bg-[#013f3a] transition-colors"
+            className={`${
+              !hasStore && "grayscale-75 opacity-30"
+            } pointer-events-none cursor-pointer px-3 sm:px-4 py-1 bg-[#015B46] text-white rounded font-semibold hover:bg-[#013f3a] transition-colors`}
             onClick={() => setModalOpen(true)}
           >
             Create product

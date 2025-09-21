@@ -41,7 +41,7 @@ export default function NavBar() {
     { name: "Profile", href: `/eb/${base}/profile`, icon: <FaUser /> },
   ];
   return (
-    <nav className="flex mt-2 mb-1 w-full overflow-auto scrollbar-thin scrollbar-thumb-indigo-600 scrollbar-track-gray-200 pb-2">
+    <nav className="flex mt-7 w-full overflow-auto scrollbar-thin scrollbar-thumb-indigo-600 scrollbar-track-gray-200 pb-2">
       <div className="flex items-center gap-8">
         {navItems.map((item) => {
           const isActive = pathname === item.href;

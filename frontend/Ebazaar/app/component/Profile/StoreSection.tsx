@@ -362,7 +362,7 @@ export default function StoreSection() {
       } else {
         setCreateModalOpen(false);
         toast.success("Store created successfully");
-        fetchStore();
+        window.location.reload();
       }
     } catch (err) {
       setModalError("Failed to create store");
@@ -427,6 +427,7 @@ export default function StoreSection() {
         toast.error(data.error || "Failed to delete store");
       } else {
         toast.success("Store deleted successfully");
+        window.location.reload();
         setStore(null);
       }
     } catch (err) {
@@ -448,7 +449,9 @@ export default function StoreSection() {
         <div className="flex items-center justify-between w-full">
           <h2 className="text-xl font-bold mb-4">Create Your Ebazaar</h2>
           <button
-            onClick={() => setCreateModalOpen(true)}
+            onClick={() => {
+              setCreateModalOpen(true);
+            }}
             className="cursor-pointer px-4 py-2 bg-[#015B46] text-white rounded font-semibold hover:bg-[#013f3a] transition-colors"
           >
             Create Ebazaar
