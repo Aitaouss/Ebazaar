@@ -22,7 +22,7 @@ export default function HomeNav() {
       name: "Wassim Bolles",
       avatar:
         "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
-      status: "In Progress",
+      status: "Processing",
       amount: 250,
     },
     {
@@ -30,7 +30,7 @@ export default function HomeNav() {
       name: "Othman dazai",
       avatar:
         "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face",
-      status: "Completed",
+      status: "Delivered",
       amount: 250,
     },
     {
@@ -46,7 +46,7 @@ export default function HomeNav() {
       name: "Othman dazai",
       avatar:
         "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face",
-      status: "Completed",
+      status: "Shipped",
       amount: 250,
     },
     {
@@ -54,7 +54,7 @@ export default function HomeNav() {
       name: "Othman dazai",
       avatar:
         "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face",
-      status: "Completed",
+      status: "Delivered",
       amount: 250,
     },
   ];
@@ -97,17 +97,19 @@ export default function HomeNav() {
     <main className="flex-1">
       {/* Welcome Section */}
       <div className="mb-8">
-        <h1 className="text-4xl font-bold text-[#13120F] mb-2">
+        <h1 className="text-3xl sm:text-4xl font-bold text-[#13120F] mb-2">
           Welcome {userData.name}
         </h1>
-        <p className="text-gray-600">
+        <p className="text-sm sm:text-base text-gray-600">
           {"Here's an overview of your business today."}
         </p>
       </div>
 
       {/* Overview Section */}
       <div className="mb-8">
-        <h2 className="text-2xl font-bold text-[#13120F] mb-6">Overview</h2>
+        <h2 className="text-xl sm:text-2xl font-bold text-[#13120F] mb-6">
+          Overview
+        </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
           {/* Orders in Progress */}
           <div className="bg-[#015B46] text-white p-6 rounded-2xl">
@@ -214,10 +216,10 @@ export default function HomeNav() {
 
       <div className="mb-8">
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-bold text-[#13120F]">
+          <h2 className="text-xl sm:text-2xl font-bold text-[#13120F]">
             Recent Orders Preview
           </h2>
-          <button className="text-[#015B46] hover:underline font-medium flex items-center gap-2 cursor-pointer">
+          <button className="text-sm sm:text-base text-[#015B46] hover:underline font-medium flex items-center gap-2 cursor-pointer">
             View All orders →
           </button>
         </div>
@@ -234,23 +236,25 @@ export default function HomeNav() {
                     alt={order.name}
                     className="w-12 h-12 rounded-full object-cover"
                   />
-                  <span className="font-medium text-[#13120F]">
+                  <span className="text-sm sm:text-base font-medium text-[#13120F]">
                     {order.name}
                   </span>
                 </div>
                 <div className="flex items-center gap-4 justify-between w-[50%]">
                   <span
-                    className={`px-4 py-1 rounded-full text-sm font-medium ${
-                      order.status === "In Progress"
+                    className={` px-4 py-1 rounded-full text-[0.8rem] sm:text-sm font-medium ${
+                      order.status === "Processing"
                         ? "bg-yellow-500 text-white"
-                        : order.status === "Completed"
+                        : order.status === "Shipped"
+                        ? "bg-blue-500 text-white"
+                        : order.status === "Delivered"
                         ? "bg-[#015B46] text-white"
                         : "bg-red-500 text-white"
                     }`}
                   >
                     {order.status}
                   </span>
-                  <span className="font-bold text-[#13120F]">
+                  <span className="text-sm sm:text-base font-bold text-[#13120F]">
                     ${order.amount}
                   </span>
                 </div>
@@ -266,12 +270,14 @@ export default function HomeNav() {
       <div>
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-4">
-            <h2 className="text-2xl font-bold text-[#13120F]">Messages</h2>
+            <h2 className="text-xl sm:text-2xl font-bold text-[#13120F]">
+              Messages
+            </h2>
             <span className="bg-[#015B46] text-white px-3 py-1 rounded-full text-sm font-medium flex items-center gap-2">
               2 new <HiMail size={16} />
             </span>
           </div>
-          <button className="text-[#015B46] hover:underline font-medium flex items-center gap-2 cursor-pointer">
+          <button className="text-sm sm:text-base text-[#015B46] hover:underline font-medium flex items-center gap-2 cursor-pointer">
             View All messages →
           </button>
         </div>
@@ -308,9 +314,9 @@ export default function HomeNav() {
                       <span className="text-xs opacity-75">{message.time}</span>
                     </div>
                   </div>
-                  <button className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition-colors">
-                    <HiMail size={16} />
-                  </button>
+                  {/* <button className="w-4 h-4 px-2 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition-colors"> */}
+                  <HiMail className="w-8 h-8" />
+                  {/* </button> */}
                 </div>
               </div>
             ))}

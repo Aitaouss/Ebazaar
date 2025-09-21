@@ -41,7 +41,7 @@ export default function NavBar() {
     { name: "Profile", href: `/eb/${base}/profile`, icon: <FaUser /> },
   ];
   return (
-    <nav className="flex mt-7 w-full overflow-auto scrollbar-thin scrollbar-thumb-indigo-600 scrollbar-track-gray-200 pb-2">
+    <nav className="flex mt-4 w-full overflow-auto scrollbar-thin scrollbar-thumb-indigo-600 scrollbar-track-gray-200 pb-2">
       <div className="flex items-center gap-8">
         {navItems.map((item) => {
           const isActive = pathname === item.href;
@@ -50,7 +50,7 @@ export default function NavBar() {
             <Link
               key={item.name}
               href={item.href}
-              className={`cursor-pointer flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors ${
+              className={`text-sm sm:text-base cursor-pointer flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors ${
                 isActive
                   ? "bg-[#015B46] text-white hover:bg-[#014a39]"
                   : "text-[#13120F] hover:bg-gray-100"
