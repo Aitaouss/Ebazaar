@@ -222,7 +222,7 @@ export default function Login() {
               </div>
             </div>
             {isInLogIn ? (
-              <form className="w-[320px] sm:w-[320px] sm:w-[420px] transition-all duration-300">
+              <form className="w-[320px] sm:w-[420px] transition-all duration-300">
                 <div className="text-[#13120F] mb-4">
                   <label className="block  text-sm sm:text-base font-semibold text-[#13120F] mb-1">
                     Email Adress

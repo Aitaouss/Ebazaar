@@ -31,21 +31,26 @@ export default function ProfileComponent() {
     setProductsError(null);
     try {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/user_products`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/me`,
         {
           credentials: "include",
         }
       );
       if (!res.ok) {
         const data = await res.json();
-        setProductsError(data.error || "Failed to fetch products");
+        setProductsError(data.error || "Failed to fetch user data");
         setProducts([]);
       } else {
         const data = await res.json();
+        // Update user state if it exists
+        if (data.user) {
+          setUserState(data.user);
+        }
+        // Set products from the response (will be empty array for non-sellers/admins)
         setProducts(data.products || []);
       }
     } catch (err) {
-      setProductsError("Failed to fetch products");
+      setProductsError("Failed to fetch user data");
       setProducts([]);
     } finally {
       setProductsLoading(false);

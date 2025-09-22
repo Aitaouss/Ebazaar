@@ -4,60 +4,103 @@ import { FiTrendingUp, FiStar, FiUsers, FiDollarSign } from "react-icons/fi";
 import { HiMail } from "react-icons/hi";
 import { User } from "../../types/types";
 import { useUser } from "../../eb/layout";
+import { useEffect, useState } from "react";
 
 export default function HomeNav() {
-  const dashboardMetrics = {
-    ordersInProgress: 12,
-    totalEarnings: 3200,
-    activeServices: 8,
-    averageRating: 4.7,
-    todaysEarnings: 120,
-    weeklyEarnings: 850,
-    customerSatisfaction: 96,
-  };
+  const [userData, setUserData] = useState<any>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [orders, setOrders] = useState<any[]>([]);
+  const [products, setProducts] = useState<any[]>([]);
+  const [reviews, setRreviews] = useState<any[]>([]);
+  const [averageRating, setAverageRating] = useState<number>(0);
+  const [satisfaction, setSatisfaction] = useState<number>(0);
+  const [recentOrders, setRecentOrders] = useState<any[]>([]);
 
-  const recentOrders = [
-    {
-      id: 1,
-      name: "Wassim Bolles",
-      avatar:
-        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
-      status: "Processing",
-      amount: 250,
-    },
-    {
-      id: 2,
-      name: "Othman dazai",
-      avatar:
-        "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face",
-      status: "Delivered",
-      amount: 250,
-    },
-    {
-      id: 3,
-      name: "Oussama taoussi",
-      avatar:
-        "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
-      status: "Cancelled",
-      amount: 250,
-    },
-    {
-      id: 4,
-      name: "Othman dazai",
-      avatar:
-        "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face",
-      status: "Shipped",
-      amount: 250,
-    },
-    {
-      id: 5,
-      name: "Othman dazai",
-      avatar:
-        "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face",
-      status: "Delivered",
-      amount: 250,
-    },
-  ];
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/me`, {
+          credentials: "include",
+        });
+
+        if (res.ok) {
+          const data = await res.json();
+          setUserData(data.user);
+          setOrders(data.orders || []);
+          setProducts(data.products || []);
+          setRreviews(data.reviews || []);
+          if (data.reviews && data.reviews.length > 0) {
+            const total = data.reviews.reduce(
+              (sum: number, review: any) => sum + review.rating,
+              0
+            );
+            const avgRating = total / data.reviews.length;
+            setAverageRating(avgRating);
+
+            // Customer satisfaction % (avg / 5 * 100)
+            const satisfaction = (avgRating / 5) * 100;
+            setSatisfaction(satisfaction);
+          } else {
+            setAverageRating(0);
+            setSatisfaction(0);
+          }
+          setRecentOrders(data.orders.slice(0, 5));
+          setLoading(false);
+        } else {
+          console.error("Failed to fetch user data");
+        }
+      } catch (err) {
+        console.error("Error fetching user data:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
+  // const recentOrders = [
+  //   {
+  //     id: 1,
+  //     name: "Wassim Bolles",
+  //     avatar:
+  //       "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
+  //     status: "Processing",
+  //     amount: 250,
+  //   },
+  //   {
+  //     id: 2,
+  //     name: "Othman dazai",
+  //     avatar:
+  //       "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face",
+  //     status: "Delivered",
+  //     amount: 250,
+  //   },
+  //   {
+  //     id: 3,
+  //     name: "Oussama taoussi",
+  //     avatar:
+  //       "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
+  //     status: "Cancelled",
+  //     amount: 250,
+  //   },
+  //   {
+  //     id: 4,
+  //     name: "Othman dazai",
+  //     avatar:
+  //       "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face",
+  //     status: "Shipped",
+  //     amount: 250,
+  //   },
+  //   {
+  //     id: 5,
+  //     name: "Othman dazai",
+  //     avatar:
+  //       "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face",
+  //     status: "Delivered",
+  //     amount: 250,
+  //   },
+  // ];
 
   const messages = [
     {
@@ -91,8 +134,15 @@ export default function HomeNav() {
       isNew: false,
     },
   ];
-  const userData = useUser() as User;
-
+  // const userData = useUser() as User;
+  if (loading) {
+    return (
+      <div>
+        <h1 className="text-6xl font-black">Wait a moment</h1>
+      </div>
+    );
+  }
+  console.log("recentOrders : ", recentOrders);
   return (
     <main className="flex-1">
       {/* Welcome Section */}
@@ -119,11 +169,9 @@ export default function HomeNav() {
               </h3>
               <FiTrendingUp className="text-orange-400" size={20} />
             </div>
-            <div className="text-3xl font-bold mb-2">
-              {dashboardMetrics.ordersInProgress}
-            </div>
+            <div className="text-3xl font-bold mb-2">{orders.length}</div>
             <div className="text-xs opacity-75">
-              <span className="text-orange-400">+8.5%</span> from last week
+              <span className="text-orange-400">+0%</span> from last week
             </div>
           </div>
 
@@ -134,10 +182,10 @@ export default function HomeNav() {
               <FiDollarSign className="text-green-400" size={20} />
             </div>
             <div className="text-3xl font-bold mb-2">
-              ${dashboardMetrics.totalEarnings.toLocaleString()}
+              ${userData.balance || 0}
             </div>
             <div className="text-xs opacity-75">
-              <span className="text-green-400">+12.3%</span> from last month
+              <span className="text-green-400">0%</span> from last month
             </div>
           </div>
 
@@ -149,9 +197,7 @@ export default function HomeNav() {
               </h3>
               <FiUsers className="text-blue-400" size={20} />
             </div>
-            <div className="text-3xl font-bold mb-2">
-              {dashboardMetrics.activeServices}
-            </div>
+            <div className="text-3xl font-bold mb-2">{products.length}</div>
             <div className="text-xs opacity-75">Live products/services</div>
           </div>
 
@@ -162,11 +208,13 @@ export default function HomeNav() {
               <FiStar className="text-yellow-200" size={20} />
             </div>
             <div className="text-3xl font-bold mb-2 flex items-center gap-2">
-              {dashboardMetrics.averageRating}{" "}
+              {averageRating}
               <FiStar className="text-yellow-200" size={24} />
             </div>
             <div className="text-xs opacity-75">
-              <span className="text-yellow-200">3 new reviews</span> this week
+              <span className="text-yellow-200">
+                {reviews.length} review{reviews.length > 1 ? "s" : ""}
+              </span>
             </div>
           </div>
         </div>
@@ -180,9 +228,7 @@ export default function HomeNav() {
               </h3>
               <FiTrendingUp className="text-green-400" size={20} />
             </div>
-            <div className="text-3xl font-bold">
-              ${dashboardMetrics.todaysEarnings}
-            </div>
+            <div className="text-3xl font-bold">${userData.balance}</div>
           </div>
 
           <div className="bg-gray-600 text-white p-6 rounded-2xl">
@@ -190,9 +236,7 @@ export default function HomeNav() {
               <h3 className="text-sm font-medium opacity-90">Weekly earning</h3>
               <FiDollarSign className="text-red-400" size={20} />
             </div>
-            <div className="text-3xl font-bold">
-              ${dashboardMetrics.weeklyEarnings}
-            </div>
+            <div className="text-3xl font-bold">${userData.balance}</div>
           </div>
 
           <div className="bg-[#015B46] text-white p-6 rounded-2xl">
@@ -202,11 +246,9 @@ export default function HomeNav() {
               </h3>
               <FiUsers className="text-blue-400" size={20} />
             </div>
-            <div className="text-3xl font-bold mb-2">
-              {dashboardMetrics.customerSatisfaction}%
-            </div>
+            <div className="text-3xl font-bold mb-2">{satisfaction}%</div>
             <div className="text-xs opacity-75">
-              <span className="text-blue-400">+2%</span> from last month
+              from {reviews.length} client
             </div>
           </div>
         </div>
@@ -255,7 +297,7 @@ export default function HomeNav() {
                     {order.status}
                   </span>
                   <span className="text-sm sm:text-base font-bold text-[#13120F]">
-                    ${order.amount}
+                    ${order.total_price}
                   </span>
                 </div>
               </div>
