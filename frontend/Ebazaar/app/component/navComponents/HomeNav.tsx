@@ -15,6 +15,7 @@ export default function HomeNav() {
   const [averageRating, setAverageRating] = useState<number>(0);
   const [satisfaction, setSatisfaction] = useState<number>(0);
   const [recentOrders, setRecentOrders] = useState<any[]>([]);
+  const [messages, setMessages] = useState<any[]>([]);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -29,6 +30,7 @@ export default function HomeNav() {
           setOrders(data.orders || []);
           setProducts(data.products || []);
           setRreviews(data.reviews || []);
+          setMessages(data.inbox || []);
           if (data.reviews && data.reviews.length > 0) {
             const total = data.reviews.reduce(
               (sum: number, review: any) => sum + review.rating,
@@ -44,7 +46,12 @@ export default function HomeNav() {
             setAverageRating(0);
             setSatisfaction(0);
           }
-          setRecentOrders(data.orders.slice(0, 5));
+          if (data.orders) {
+            const recent = data.orders
+              .slice(-5) // take last 5
+              .reverse(); // make newest first
+            setRecentOrders(recent);
+          }
           setLoading(false);
         } else {
           console.error("Failed to fetch user data");
@@ -59,82 +66,6 @@ export default function HomeNav() {
     fetchUserData();
   }, []);
 
-  // const recentOrders = [
-  //   {
-  //     id: 1,
-  //     name: "Wassim Bolles",
-  //     avatar:
-  //       "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
-  //     status: "Processing",
-  //     amount: 250,
-  //   },
-  //   {
-  //     id: 2,
-  //     name: "Othman dazai",
-  //     avatar:
-  //       "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face",
-  //     status: "Delivered",
-  //     amount: 250,
-  //   },
-  //   {
-  //     id: 3,
-  //     name: "Oussama taoussi",
-  //     avatar:
-  //       "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
-  //     status: "Cancelled",
-  //     amount: 250,
-  //   },
-  //   {
-  //     id: 4,
-  //     name: "Othman dazai",
-  //     avatar:
-  //       "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face",
-  //     status: "Shipped",
-  //     amount: 250,
-  //   },
-  //   {
-  //     id: 5,
-  //     name: "Othman dazai",
-  //     avatar:
-  //       "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face",
-  //     status: "Delivered",
-  //     amount: 250,
-  //   },
-  // ];
-
-  const messages = [
-    {
-      id: 1,
-      name: "Othman dazai",
-      avatar:
-        "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face",
-      message:
-        "Hi! I have a question about the custom logo design package. When can we schedule a call?",
-      time: "2 minutes ago",
-      isNew: true,
-    },
-    {
-      id: 2,
-      name: "Othman dazai",
-      avatar:
-        "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face",
-      message:
-        "Hi! I have a question about the custom logo design package. When can we schedule a call?",
-      time: "2 minutes ago",
-      isNew: true,
-    },
-    {
-      id: 3,
-      name: "Othman dazai",
-      avatar:
-        "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face",
-      message:
-        "Hi! I have a question about the custom logo design package. When can we schedule a call?",
-      time: "2 minutes ago",
-      isNew: false,
-    },
-  ];
-  // const userData = useUser() as User;
   if (loading) {
     return (
       <div>
@@ -142,7 +73,6 @@ export default function HomeNav() {
       </div>
     );
   }
-  console.log("recentOrders : ", recentOrders);
   return (
     <main className="flex-1">
       {/* Welcome Section */}
@@ -228,7 +158,7 @@ export default function HomeNav() {
               </h3>
               <FiTrendingUp className="text-green-400" size={20} />
             </div>
-            <div className="text-3xl font-bold">${userData.balance}</div>
+            <div className="text-3xl font-bold">${userData.balance || 0}</div>
           </div>
 
           <div className="bg-gray-600 text-white p-6 rounded-2xl">
@@ -236,7 +166,7 @@ export default function HomeNav() {
               <h3 className="text-sm font-medium opacity-90">Weekly earning</h3>
               <FiDollarSign className="text-red-400" size={20} />
             </div>
-            <div className="text-3xl font-bold">${userData.balance}</div>
+            <div className="text-3xl font-bold">${userData.balance || 0}</div>
           </div>
 
           <div className="bg-[#015B46] text-white p-6 rounded-2xl">
@@ -273,13 +203,21 @@ export default function HomeNav() {
                 className="flex items-center justify-between p-4 bg-white rounded-xl shadow-sm border border-gray-100"
               >
                 <div className="flex items-center gap-4">
-                  <img
-                    src={order.avatar || "/placeholder.svg"}
-                    alt={order.name}
-                    className="w-12 h-12 rounded-full object-cover"
-                  />
+                  {order.buyer_image ? (
+                    <img
+                      src={order.buyer_image || "/public/EBAZAAR default.png"}
+                      alt={order.buyer_name}
+                      className="w-12 h-12 rounded-full object-cover"
+                    />
+                  ) : (
+                    <div className="w-12 h-12 bg-[#015B46] rounded-full flex items-center justify-center">
+                      <h1 className="text-white font-semibold">
+                        {order.buyer_name.charAt(0).toUpperCase()}
+                      </h1>
+                    </div>
+                  )}
                   <span className="text-sm sm:text-base font-medium text-[#13120F]">
-                    {order.name}
+                    {order.buyer_name || "test"}
                   </span>
                 </div>
                 <div className="flex items-center gap-4 justify-between w-[50%]">
@@ -316,7 +254,7 @@ export default function HomeNav() {
               Messages
             </h2>
             <span className="bg-[#015B46] text-white px-3 py-1 rounded-full text-sm font-medium flex items-center gap-2">
-              2 new <HiMail size={16} />
+              {messages.length} new <HiMail size={16} />
             </span>
           </div>
           <button className="text-sm sm:text-base text-[#015B46] hover:underline font-medium flex items-center gap-2 cursor-pointer">
@@ -329,25 +267,39 @@ export default function HomeNav() {
               <div
                 key={message.id}
                 className={`p-6 rounded-xl ${
-                  message.isNew
+                  message.is_read
                     ? "bg-[#015B46] text-white"
                     : "bg-gray-600 text-white"
                 }`}
               >
                 <div className="flex items-start justify-between">
                   <div className="flex items-start gap-4">
-                    <img
-                      src={message.avatar || "/placeholder.svg"}
-                      alt={message.name}
-                      className="w-12 h-12 rounded-full object-cover"
-                    />
+                    {message.sender_image ? (
+                      <img
+                        src={
+                          message.sender_image || "/public/EBAZAAR default.png"
+                        }
+                        alt={message.sender_name}
+                        className="w-12 h-12 rounded-full object-cover"
+                      />
+                    ) : (
+                      <div className="w-12 h-12 bg-[#015B46] rounded-full flex items-center justify-center">
+                        <h1 className="text-white font-semibold">
+                          {message.sender_name.charAt(0).toUpperCase()}
+                        </h1>
+                      </div>
+                    )}
                     <div className="flex-1">
                       <div className="flex items-center gap-3 mb-2">
-                        <h3 className="font-bold">{message.name}</h3>
-                        {message.isNew && (
+                        <h3 className="font-bold">
+                          {message.sender_name || "Dummy"}
+                        </h3>
+                        {message.is_read ? (
                           <span className="bg-green-500 text-white px-2 py-1 rounded-full text-xs font-medium">
                             New
                           </span>
+                        ) : (
+                          ""
                         )}
                       </div>
                       <p className="text-sm opacity-90 mb-2">
