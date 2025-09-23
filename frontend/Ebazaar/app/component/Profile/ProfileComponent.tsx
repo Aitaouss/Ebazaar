@@ -17,7 +17,8 @@ import ProfileLeftSection from "./ProfileLeftSection";
 import ProfileRightSection from "./ProfileRightSection";
 
 export default function ProfileComponent() {
-  const user = useUser();
+  const data = useUser();
+  const user = data?.user;
   const [editOpen, setEditOpen] = useState(false);
   const [userState, setUserState] = useState(user);
   const [submitting, setSubmitting] = useState(false);
@@ -30,12 +31,9 @@ export default function ProfileComponent() {
     setProductsLoading(true);
     setProductsError(null);
     try {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/me`,
-        {
-          credentials: "include",
-        }
-      );
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/me`, {
+        credentials: "include",
+      });
       if (!res.ok) {
         const data = await res.json();
         setProductsError(data.error || "Failed to fetch user data");

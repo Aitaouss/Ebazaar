@@ -8,7 +8,8 @@ interface ProtectedProps {
 }
 
 export default function ProtectedPageWrapper({ children }: ProtectedProps) {
-  const user = useUser();
+  const data = useUser();
+  const user = data?.user;
   const pathname = usePathname();
 
   useEffect(() => {

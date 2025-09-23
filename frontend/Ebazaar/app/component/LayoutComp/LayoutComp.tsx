@@ -23,7 +23,8 @@ export default function LayoutComp({
 }: {
   setChatModalOpen: (open: boolean) => void;
 }) {
-  const userData = useUser();
+  const data = useUser();
+  const userData = data?.user;
 
   const [languageModalOpen, setLanguageModalOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);

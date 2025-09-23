@@ -20,8 +20,8 @@ export default function NavBar() {
     href: string;
     icon?: React.ReactNode;
   }
-
-  const user = useUser();
+  const data = useUser();
+  const user = data?.user;
   const base = `${encodeURIComponent(user?.username as string)}`;
 
   const navItems: NavItem[] = [

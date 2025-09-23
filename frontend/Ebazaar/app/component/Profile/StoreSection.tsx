@@ -310,7 +310,8 @@ export default function StoreSection() {
   const [modalLoading, setModalLoading] = useState(false);
   const [modalError, setModalError] = useState("");
 
-  const userData = useUser();
+  const data = useUser();
+  const user = data?.user;
 
   const fetchStore = async () => {
     setLoading(true);

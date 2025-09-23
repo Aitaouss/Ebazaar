@@ -427,7 +427,8 @@ export default function ProfileRightSection({
 }: any) {
   const { confirm, ConfirmModal } = useConfirm();
   const { alert, AlertModal } = useAlert();
-  const user = useUser();
+  const data = useUser();
+  const user = data?.user;
 
   const [modalOpen, setModalOpen] = useState(false);
   const [modalLoading, setModalLoading] = useState(false);

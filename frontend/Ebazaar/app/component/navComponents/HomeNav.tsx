@@ -7,16 +7,21 @@ import { useUser } from "../../eb/layout";
 import { useEffect, useState } from "react";
 
 export default function HomeNav() {
-  const [userData, setUserData] = useState<any>(null);
+  // const [userData, setUserData] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
-  const [orders, setOrders] = useState<any[]>([]);
-  const [products, setProducts] = useState<any[]>([]);
-  const [reviews, setRreviews] = useState<any[]>([]);
+  // const [orders, setOrders] = useState<any[]>([]);
+  // const [products, setProducts] = useState<any[]>([]);
+  // const [reviews, setRreviews] = useState<any[]>([]);
   const [averageRating, setAverageRating] = useState<number>(0);
   const [satisfaction, setSatisfaction] = useState<number>(0);
   const [recentOrders, setRecentOrders] = useState<any[]>([]);
-  const [messages, setMessages] = useState<any[]>([]);
-
+  // const [messages, setMessages] = useState<any[]>([]);
+  const data = useUser();
+  const userData = data?.user;
+  const orders = data?.orders;
+  const products = data?.products;
+  const reviews = data?.reviews;
+  const messages = data?.inbox;
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -26,11 +31,11 @@ export default function HomeNav() {
 
         if (res.ok) {
           const data = await res.json();
-          setUserData(data.user);
-          setOrders(data.orders || []);
-          setProducts(data.products || []);
-          setRreviews(data.reviews || []);
-          setMessages(data.inbox || []);
+          // setUserData(data.user);
+          // setOrders(data.orders || []);
+          // setProducts(data.products || []);
+          // setRreviews(data.reviews || []);
+          // setMessages(data.inbox || []);
           if (data.reviews && data.reviews.length > 0) {
             const total = data.reviews.reduce(
               (sum: number, review: any) => sum + review.rating,
@@ -68,8 +73,8 @@ export default function HomeNav() {
 
   if (loading) {
     return (
-      <div>
-        <h1 className="text-6xl font-black">Wait a moment</h1>
+      <div className="flex items-center justify-center">
+        <h1 className="text-4xl font-semibold">Wait a moment</h1>
       </div>
     );
   }
@@ -263,7 +268,7 @@ export default function HomeNav() {
         </div>
         {messages.length > 0 ? (
           <div className="space-y-4">
-            {messages.map((message) => (
+            {messages.map((message: any) => (
               <div
                 key={message.id}
                 className={`p-6 rounded-xl ${

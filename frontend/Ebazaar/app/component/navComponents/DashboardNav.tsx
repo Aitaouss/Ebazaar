@@ -7,7 +7,8 @@ import { useUser } from "@/app/eb/layout";
 
 export default function DashboardNav() {
   const [becomeSeller, setBecomeSeller] = useState<boolean>(false);
-  const user = useUser();
+  const data = useUser();
+  const user = data?.user;
   // make me a ref for i check the current
   const becomeSellerRef = useRef<boolean>(becomeSeller);
 

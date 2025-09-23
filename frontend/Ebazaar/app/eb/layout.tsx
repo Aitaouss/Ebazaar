@@ -7,7 +7,7 @@ import InboxModal from "../component/InboxModal/InboxModal";
 import ProtectedPageWrapper from "../component/ProtectedPage/ProtectedPageWrapper";
 
 // 1. Create a context
-const UserContext = createContext<User | null>(null);
+const UserContext = createContext<any>(null);
 
 export function useUser() {
   return useContext(UserContext);
@@ -19,6 +19,7 @@ export default function HomeLayout({
   children: React.ReactNode;
 }) {
   const [user, setUser] = useState<User | null>(null);
+  const [userData, setUserData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [isBetaUSer, setIsBetaUser] = useState(false);
   const [chatModalOpen, setChatModalOpen] = useState<boolean>(false);
@@ -60,6 +61,7 @@ export default function HomeLayout({
         }
         const data = await res.json();
         setUser(data.user);
+        setUserData(data);
         setLoading(false);
       } catch (err) {
         console.error(err);
@@ -73,7 +75,7 @@ export default function HomeLayout({
   if (loading) return <LoadingSpinner />;
 
   return (
-    <UserContext.Provider value={user}>
+    <UserContext.Provider value={userData}>
       {/* <div className="fixed top-0 left-0 right-0 z-50">
         <LayoutComp setChatModalOpen={setChatModalOpen} />
       </div> */}
@@ -81,8 +83,6 @@ export default function HomeLayout({
         <div className="h-screen w-full flex flex-col gap-3 py-10 px-2 md:px-8 lg:px-24 xl:px-48 bg-overlay ">
           <LayoutComp setChatModalOpen={setChatModalOpen} />
           <div className="flex-1 overflow-auto pr-2 scrollbar-thin scrollbar-thumb-indigo-600 scrollbar-track-gray-200">
-            
-          
             {children}
           </div>
         </div>
