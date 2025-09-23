@@ -73,7 +73,7 @@ export default function HomeNav() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center">
+      <div className="flex w-full h-full items-center justify-center">
         <h1 className="text-4xl font-semibold">Wait a moment</h1>
       </div>
     );
@@ -259,7 +259,12 @@ export default function HomeNav() {
               Messages
             </h2>
             <span className="bg-[#015B46] text-white px-3 py-1 rounded-full text-sm font-medium flex items-center gap-2">
-              {messages.length} new <HiMail size={16} />
+              {/* {messages.map((message: any) => {
+                message.is_read;
+              })}
+              new <HiMail size={16} /> */}
+              {/* map on message and return the number of message that has is_read */}
+              {messages.filter((message: any) => message.is_read).length} new
             </span>
           </div>
           <button className="text-sm sm:text-base text-[#015B46] hover:underline font-medium flex items-center gap-2 cursor-pointer">
