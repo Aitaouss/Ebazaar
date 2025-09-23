@@ -1,81 +1,24 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState } from "react";
+import { useUser } from "@/app/eb/layout";
 import { FaEnvelope, FaRegCommentDots } from "react-icons/fa";
 import Image from "next/image";
-
-const chats = [
-  {
-    id: 1,
-    name: "Aimen Taoussi",
-    username: "@aitaoussi",
-    avatar: "https://i.ibb.co/9Hr1K0x8/image.png",
-    isNew: true,
-    time: "2 minutes ago",
-  },
-  {
-    id: 2,
-    name: "Aimen Taoussi",
-    username: "@aitaoussi",
-    avatar: "https://i.ibb.co/9Hr1K0x8/image.png",
-    isNew: true,
-    time: "2 minutes ago",
-  },
-  {
-    id: 3,
-    name: "Aimen Taoussi",
-    username: "@aitaoussi",
-    avatar: "https://i.ibb.co/9Hr1K0x8/image.png",
-    isNew: false,
-    time: "2 minutes ago",
-  },
-  {
-    id: 4,
-    name: "Aimen Taoussi",
-    username: "@aitaoussi",
-    avatar: "https://i.ibb.co/9Hr1K0x8/image.png",
-    isNew: false,
-    time: "2 minutes ago",
-  },
-  {
-    id: 5,
-    name: "Aimen Taoussi",
-    username: "@aitaoussi",
-    avatar: "https://i.ibb.co/9Hr1K0x8/image.png",
-    isNew: false,
-    time: "2 minutes ago",
-  },
-  {
-    id: 6,
-    name: "Aimen Taoussi",
-    username: "@aitaoussi",
-    avatar: "https://i.ibb.co/9Hr1K0x8/image.png",
-    isNew: false,
-    time: "2 minutes ago",
-  },
-  {
-    id: 7,
-    name: "Aimen Taoussi",
-    username: "@aitaoussi",
-    avatar: "https://i.ibb.co/9Hr1K0x8/image.png",
-    isNew: false,
-    time: "2 minutes ago",
-  },
-  {
-    id: 8,
-    name: "Aimen Taoussi",
-    username: "@aitaoussi",
-    avatar: "https://i.ibb.co/9Hr1K0x8/image.png",
-    isNew: false,
-    time: "2 minutes ago",
-  },
-];
 
 export default function InboxModal({
   setChatModalOpen,
 }: {
   setChatModalOpen: (open: boolean) => void;
 }) {
+  const data = useUser();
+  const Inbox = data?.inbox || [];
+  const [inputName, setInputName] = useState<string>("");
+
+  // Filter inbox based on input
+  const filteredInbox = Inbox.filter((chat: any) =>
+    chat.sender_name.toLowerCase().includes(inputName.toLowerCase())
+  );
+
   return (
     <div className="fixed right-0 bottom-0 h-1/2 w-[400px] rounded-tl-2xl shadow-lg z-[50] flex flex-col bg-overlay bg-white">
       {/* Header */}
@@ -89,6 +32,7 @@ export default function InboxModal({
           &times;
         </button>
       </div>
+
       {/* Search */}
       <div className="px-4 py-3 bg-white">
         <div className="flex items-center bg-gray-50 border border-gray-200 rounded-xl px-3 py-2">
@@ -104,46 +48,66 @@ export default function InboxModal({
           </svg>
           <input
             type="text"
-            placeholder="Search"
+            placeholder="Search by name"
             className="bg-transparent outline-none flex-1 text-sm"
+            onChange={(e) => setInputName(e.target.value)}
+            value={inputName}
           />
         </div>
       </div>
+
       {/* Chat List */}
-      <div className="flex-1 overflow-y-auto px-4 pb-4 space-y-4 ">
-        {chats.length === 0 ? (
+      <div className="flex-1 overflow-y-auto px-4 pb-4 space-y-4">
+        {filteredInbox.length === 0 ? (
           <div className="h-full flex items-center justify-center">
             <p className="text-gray-500 text-sm animate-bounce">No messages</p>
           </div>
         ) : (
-          chats.map((chat) => (
+          filteredInbox.map((chat: any) => (
             <div
               key={chat.id}
               className={`flex items-center ${
-                chat.isNew ? "bg-[#0A433D]/60" : "bg-[#011916]/60"
-              }  rounded-xl px-3 py-3 shadow-sm`}
+                chat.is_read ? "bg-[#0A433D]/60" : "bg-[#011916]/60"
+              } rounded-xl px-3 py-3 shadow-sm`}
             >
-              <div className="w-12 h-12 rounded-full overflow-hidden mr-3 border-2 border-white">
-                <Image
-                  src={chat.avatar}
-                  alt={chat.name}
-                  width={48}
-                  height={48}
-                />
+              {/* Avatar */}
+              <div className="w-12 h-12 rounded-full overflow-hidden mr-3">
+                {chat.sender_image ? (
+                  <Image
+                    src={chat.sender_image}
+                    alt={chat.sender_name}
+                    width={48}
+                    height={48}
+                  />
+                ) : (
+                  <div className="w-full h-full bg-[#015B46] rounded-full flex items-center justify-center">
+                    <h1 className="text-white font-semibold">
+                      {chat.sender_name.charAt(0).toUpperCase()}
+                    </h1>
+                  </div>
+                )}
               </div>
+
+              {/* Sender Info */}
               <div className="flex-1">
                 <div className="flex items-center gap-2">
                   <span className="text-white font-semibold text-base">
-                    {chat.name}
+                    {chat.sender_name}
                   </span>
-                  {chat.isNew && (
+                  {chat.is_read ? (
                     <span className="bg-green-200 text-green-900 text-xs font-bold px-2 py-0.5 rounded-full ml-1">
                       New
                     </span>
+                  ) : (
+                    ""
                   )}
                 </div>
-                <span className="text-green-100 text-xs">{chat.username}</span>
+                <span className="text-green-100 text-xs">
+                  {chat.sender_name}
+                </span>
               </div>
+
+              {/* Actions */}
               <div className="flex flex-col items-end ml-2">
                 <button
                   className="cursor-pointer"
@@ -153,7 +117,9 @@ export default function InboxModal({
                 >
                   <FaRegCommentDots className="text-white text-lg mb-1" />
                 </button>
-                <span className="text-green-100 text-xs">{chat.time}</span>
+                <span className="text-green-100 text-xs">
+                  {chat.created_at}
+                </span>
               </div>
             </div>
           ))
