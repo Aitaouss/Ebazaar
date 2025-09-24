@@ -30,7 +30,7 @@ export default function ProfileLeftSection({ userState, setEditOpen }: any) {
           <div className="absolute -top-12 flex flex-col items-center w-full">
             <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full border-2 border-white shadow relative">
               <Image
-                src={userState?.picture || "/EBAZAAR default.png"}
+                src={userState?.profileImage || "/EBAZAAR default.png"}
                 alt="profile"
                 width={96}
                 height={96}

@@ -73,6 +73,7 @@ export default function LayoutComp({
       console.error("Logout error:", err);
     }
   };
+  console.log("UserData : ", userData);
 
   return (
     <div className="relative flex flex-col w-full">
@@ -164,9 +165,9 @@ export default function LayoutComp({
           <div
             className={`w-16 h-16 rounded-full bg-cover border-2 border-[#015B46] shadow`}
           >
-            {userData?.picture ? (
+            {userData?.profileImage ? (
               <Image
-                src={userData.picture}
+                src={userData.profileImage}
                 alt="Profile"
                 width={64}
                 height={64}
