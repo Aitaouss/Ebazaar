@@ -76,6 +76,7 @@ export default function HomeNav() {
   // if (loading) {
   //   return <div className="h-full w-full bg-yellow-400"></div>;
   // }
+  console.log("Messages : ", messages);
   return (
     <>
       {loading && (
