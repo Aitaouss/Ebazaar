@@ -4,6 +4,7 @@ import { useUser } from "@/app/eb/layout";
 import { useEffect, useState } from "react";
 import { io, Socket } from "socket.io-client";
 import { HiMail } from "react-icons/hi";
+import InboxChat from "./InboxChat";
 
 interface Message {
   id: number;
@@ -74,10 +75,12 @@ export default function MailNav() {
   };
   console.log("Messages : ", messages);
   console.log("User : ", user);
-  const filteredInbox = messages.filter((chat: any) =>
+  const messagesWithoutUser = messages.filter(
+    (msg) => msg.sender_id !== userId
+  );
+  const filteredInbox = messagesWithoutUser.filter((chat: any) =>
     chat.sender_name.toLowerCase().includes(inputName.toLowerCase())
   );
-  const messagesWithotUser = messages.filter((msg) => msg.sender_id !== userId);
   return (
     <div className="h-full w-full flex gap-4">
       <div className="flex flex-col bg-white rounded-2xl shadow-md h-full w-[35%] overflow-hidden">
@@ -140,9 +143,6 @@ export default function MailNav() {
                   <h1 className="text-white font-semibold">
                     {msg.sender_name}
                   </h1>
-                  {/* <span className="text-sm text-white font-light">
-                    {msg.message}
-                  </span> */}
                 </div>
                 <div className="ml-auto flex flex-col items-end gap-2">
                   {msg.is_read ? (
@@ -164,7 +164,11 @@ export default function MailNav() {
           ))}
         </div>
       </div>
-      <div className="bg-white rounded-2xl shadow-md h-full flex-1"></div>
+      <InboxChat
+        messages={messagesWithoutUser}
+        userId={userId}
+        inboxSelectedId={isSelected}
+      />
     </div>
   );
 }
