@@ -1,10 +1,13 @@
 "use client";
 
 import { useUser } from "@/app/eb/layout";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { io, Socket } from "socket.io-client";
 import { HiMail } from "react-icons/hi";
-import InboxChat from "./InboxChat";
+// import InboxChat from "./InboxChat";
+import { MdOutlineEmojiEmotions } from "react-icons/md";
+import { IoMdSend } from "react-icons/io";
+import { RiSettingsFill } from "react-icons/ri";
 
 interface Message {
   id: number;
@@ -27,9 +30,17 @@ export default function MailNav() {
   const [messages, setMessages] = useState<any[]>([...receivedMessages]);
   const [input, setInput] = useState("");
   const userId = user?.id;
-  const receiverId = user?.name == "Aimen Taoussi" ? 7 : 1; // Replace with the person you are chatting with
   const senderName = user?.name || "You";
   const [inputName, setInputName] = useState<string>("");
+  const [userSelected, setUserSelected] = useState<any>(0);
+  const receiverId = userSelected ? userSelected.sender_id : 0;
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    console.log("Selected ID changed: ", isSelected);
+    const userSelected = messages.find((msg) => msg.id === isSelected);
+    setUserSelected(userSelected);
+  }, [isSelected]);
 
   useEffect(() => {
     // Connect to backend
@@ -58,7 +69,7 @@ export default function MailNav() {
       sender_name: senderName,
     };
 
-    // Emit the message to the backend
+    // Eit the message to the bmackend
     socket?.emit("chat_message", messagePayload);
 
     // Optionally, add it to your own messages instantly
@@ -68,19 +79,48 @@ export default function MailNav() {
         ...messagePayload,
         id: Date.now(),
         created_at: new Date().toISOString(),
-        // is_read: false,
       },
     ]);
+    console.log("Sending message: ", input);
     setInput("");
   };
-  console.log("Messages : ", messages);
-  console.log("User : ", user);
   const messagesWithoutUser = messages.filter(
     (msg) => msg.sender_id !== userId
   );
   const filteredInbox = messagesWithoutUser.filter((chat: any) =>
     chat.sender_name.toLowerCase().includes(inputName.toLowerCase())
   );
+  const InboxWithoutDuplicates = Array.from(
+    new Map(filteredInbox.map((item) => [item["sender_id"], item])).values()
+  ).sort(
+    (a: any, b: any) =>
+      new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+  );
+
+  // for left side
+  const MessageForMe = messages.filter(
+    (msg: any) =>
+      // get messages between the logged-in user and the selected user
+      (msg.sender_id === user.id &&
+        msg.receiver_id === userSelected?.sender_id) ||
+      (msg.sender_id === userSelected?.sender_id && msg.receiver_id === user.id)
+  );
+  // Sort messages by date (oldest first) to show proper chat flow
+  const MessageForMeSorted = [...MessageForMe].sort(
+    (a: any, b: any) =>
+      new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
+  );
+
+  // Auto-scroll to bottom when messages change
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [MessageForMeSorted]);
+
+  console.log("Messages for me: ", MessageForMe);
+  // Dummy online status
+  const isOnline = true;
   return (
     <div className="h-full w-full flex gap-4">
       <div className="flex flex-col bg-white rounded-2xl shadow-md h-full w-[35%] overflow-hidden">
@@ -110,12 +150,12 @@ export default function MailNav() {
           </div>
         </div>
         <div className="flex-1 bg-white w-full overflow-auto p-3 flex flex-col gap-3 scrollbar-thin scrollbar-thumb-indigo-600 scrollbar-track-gray-200">
-          {filteredInbox.length == 0 && (
+          {InboxWithoutDuplicates.length == 0 && (
             <div className="h-full flex items-center justify-center ">
               <h1 className="animate-bounce">No User Found</h1>
             </div>
           )}
-          {filteredInbox.map((msg) => (
+          {InboxWithoutDuplicates.map((msg) => (
             <div
               key={msg.id}
               onClick={() => setIsSelected(isSelected == msg.id ? 0 : msg.id)}
@@ -164,11 +204,111 @@ export default function MailNav() {
           ))}
         </div>
       </div>
-      <InboxChat
-        messages={messagesWithoutUser}
-        userId={userId}
+      {/* <InboxChat
+        user={user}
+        messages={messages}
+        userSelected={userSelected}
         inboxSelectedId={isSelected}
-      />
+        sendMessage={sendMessage}
+        input={input}
+        setInput={setInput}
+      /> */}
+      {/* Nextchat */}
+      <div className="flex flex-col  bg-white justify-between rounded-2xl shadow-md relative h-full flex-1 bg-overlay">
+        {isSelected !== 0 ? (
+          <>
+            <div className="w-full min-h-[100px]  border-b border-[#E3E3E3] flex justify-between items-center px-5">
+              {userSelected ? (
+                <>
+                  <div className="w-full h-full p-3 flex items-center gap-3">
+                    {userSelected.sender_image ? (
+                      <img
+                        src={userSelected.sender_image}
+                        alt={userSelected.sender_name}
+                        className="w-10 h-10 rounded-full"
+                      />
+                    ) : (
+                      <div className="w-10 h-10 rounded-full bg-[#015B46] flex items-center justify-center">
+                        <span className="text-white font-semibold">
+                          {userSelected.sender_name.charAt(0).toUpperCase()}
+                        </span>
+                      </div>
+                    )}
+                    <div className="">
+                      <h1>{userSelected.sender_name}</h1>
+                      <div className="flex items-center gap-1">
+                        <div
+                          className={`w-2 h-2 ${
+                            isOnline ? "bg-green-700" : "bg-gray-500"
+                          } rounded-full`}
+                        ></div>
+                        <span
+                          className={`${
+                            isOnline ? "text-green-700" : "text-gray-600"
+                          }`}
+                        >
+                          {isOnline ? "Online" : "Offline"}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  {/* <div className=""> */}
+                  <RiSettingsFill className="cursor-pointer text-black text-xl" />
+                  {/* </div> */}
+                </>
+              ) : (
+                ""
+              )}
+            </div>
+            <div className="flex-1 w-full overflow-auto p-3">
+              {MessageForMeSorted.map((msg: any, index: number) => (
+                <div
+                  key={index}
+                  className={`w-full flex my-2 ${
+                    msg.sender_id === user.id ? "justify-end" : "justify-start"
+                  }`}
+                >
+                  <div
+                    className={`max-w-[60%] p-3 rounded-2xl shadow-sm ${
+                      msg.sender_id === user.id
+                        ? "bg-[#015B46] text-white rounded-br-none"
+                        : "bg-[#E3E3E3] text-black rounded-bl-none"
+                    }`}
+                  >
+                    <p className="text-sm mb-1">{msg.message}</p>
+                    <span className={`text-xs block ${
+                      msg.sender_id === user.id ? "text-gray-200" : "text-gray-500"
+                    }`}>
+                      {new Date(msg.created_at).toLocaleTimeString([], {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                    </span>
+                  </div>
+                </div>
+              ))}
+              <div ref={messagesEndRef} />
+            </div>
+            <div className="w-full h-[100px]  border-t border-[#E3E3E3]  p-3 flex gap-3 items-center">
+              <MdOutlineEmojiEmotions className="cursor-pointer text-[#9D9D9D] text-4xl " />
+              <input
+                className="bg-transparent outline-none w-[90%] h-[90%] border border-[#E3E3E3] rounded-2xl pl-3"
+                placeholder="Type a message..."
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+              />
+              <button
+                className="cursor-pointer hover:bg-[#015B46]/90 transition-all duration-300 bg-[#015B46] w-[70px] h-[70px] rounded-2xl flex items-center justify-center "
+                onClick={sendMessage}
+              >
+                <IoMdSend className="text-white text-2xl m-5" />
+              </button>
+            </div>
+          </>
+        ) : (
+          ""
+        )}
+      </div>
     </div>
   );
 }
