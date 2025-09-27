@@ -63,7 +63,6 @@ export default function LayoutComp({
         method: "POST",
         credentials: "include",
       });
-      console.log("Logout response:", res);
       if (res.ok) {
         window.location.href = "/login";
       } else {
@@ -73,7 +72,6 @@ export default function LayoutComp({
       console.error("Logout error:", err);
     }
   };
-  console.log("UserData : ", userData);
 
   return (
     <div className="relative flex flex-col w-full">

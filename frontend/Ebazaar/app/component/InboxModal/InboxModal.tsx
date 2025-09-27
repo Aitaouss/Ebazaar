@@ -12,10 +12,19 @@ export default function InboxModal({
 }) {
   const data = useUser();
   const Inbox = data?.inbox || [];
+  const user = data?.user;
   const [inputName, setInputName] = useState<string>("");
 
   // Filter inbox based on input
-  const filteredInbox = Inbox.filter((chat: any) =>
+  const MessagesWithouMeAsReceiver = Inbox.filter(
+    (msg: any) => msg.sender_name !== user.name
+  );
+  const messagesWithoutDuplicateName = Array.from(
+    new Map(
+      MessagesWithouMeAsReceiver.map((msg: any) => [msg.sender_name, msg])
+    ).values()
+  );
+  const filteredInbox = messagesWithoutDuplicateName.filter((chat: any) =>
     chat.sender_name.toLowerCase().includes(inputName.toLowerCase())
   );
 
@@ -112,7 +121,7 @@ export default function InboxModal({
                 <button
                   className="cursor-pointer"
                   onClick={() => {
-                    window.location.href = `/eb/inbox`;
+                    window.location.href = `/eb/${user.username}/inbox`;
                   }}
                 >
                   <FaRegCommentDots className="text-white text-lg mb-1" />

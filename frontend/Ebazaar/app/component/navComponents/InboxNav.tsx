@@ -8,6 +8,7 @@ import { HiMail } from "react-icons/hi";
 import { MdOutlineEmojiEmotions } from "react-icons/md";
 import { IoMdSend } from "react-icons/io";
 import { RiSettingsFill } from "react-icons/ri";
+import { MessageToDisplayFun } from "./MessageToDisplay";
 
 interface Message {
   id: number;
@@ -33,16 +34,18 @@ export default function MailNav() {
   const senderName = user?.name || "You";
   const [inputName, setInputName] = useState<string>("");
   const [userSelected, setUserSelected] = useState<any>(0);
-  const receiverId = userSelected ? userSelected.sender_id : 0;
+  const receiverId = userSelected ? userSelected.sender_id : null;
   const messagesEndRef = useRef<HTMLDivElement>(null);
-
   useEffect(() => {
-    console.log("Selected ID changed: ", isSelected);
     const userSelected = messages.find((msg) => msg.id === isSelected);
     setUserSelected(userSelected);
   }, [isSelected]);
 
   useEffect(() => {
+    if (!userId) {
+      console.log("user is undefined");
+      return;
+    }
     // Connect to backend
     socket = io(`${process.env.NEXT_PUBLIC_BACKEND_URL}`);
 
@@ -67,6 +70,7 @@ export default function MailNav() {
       receiver_id: receiverId,
       message: input,
       sender_name: senderName,
+      receiver_name: userSelected.sender_name,
     };
 
     // Eit the message to the bmackend
@@ -81,46 +85,39 @@ export default function MailNav() {
         created_at: new Date().toISOString(),
       },
     ]);
-    console.log("Sending message: ", input);
     setInput("");
   };
-  const messagesWithoutUser = messages.filter(
-    (msg) => msg.sender_id !== userId
-  );
-  const filteredInbox = messagesWithoutUser.filter((chat: any) =>
-    chat.sender_name.toLowerCase().includes(inputName.toLowerCase())
-  );
-  const InboxWithoutDuplicates = Array.from(
-    new Map(filteredInbox.map((item) => [item["sender_id"], item])).values()
-  ).sort(
-    (a: any, b: any) =>
-      new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+
+  // for left section
+  const MessagesWithouMeAsReceiver = messages.filter(
+    (msg) => msg.sender_name !== user.name
   );
 
-  // for left side
-  const MessageForMe = messages.filter(
-    (msg: any) =>
-      // get messages between the logged-in user and the selected user
-      (msg.sender_id === user.id &&
-        msg.receiver_id === userSelected?.sender_id) ||
-      (msg.sender_id === userSelected?.sender_id && msg.receiver_id === user.id)
-  );
   // Sort messages by date (oldest first) to show proper chat flow
-  const MessageForMeSorted = [...MessageForMe].sort(
+  const messagesBetweenMeAndId = messages.filter(
+    (msg) =>
+      (msg.sender_id === user.id && msg.receiver_id === receiverId) ||
+      (msg.sender_id === receiverId && msg.receiver_id === user.id)
+  );
+  const MessageForMeSorted = [...messagesBetweenMeAndId].sort(
     (a: any, b: any) =>
       new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
   );
 
-  // Auto-scroll to bottom when messages change
-  useEffect(() => {
-    if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
-    }
-  }, [MessageForMeSorted]);
+  const MessageToDisplay = MessageToDisplayFun(messages, user, inputName);
 
-  console.log("Messages for me: ", MessageForMe);
   // Dummy online status
   const isOnline = true;
+
+  const handleInput = (param: number) => {
+    setIsSelected(param);
+    setInput("");
+    return;
+  };
+
+  console.log("Messages without me : ", MessagesWithouMeAsReceiver);
+  console.log("All the inbox : ", messages);
+
   return (
     <div className="h-full w-full flex gap-4">
       <div className="flex flex-col bg-white rounded-2xl shadow-md h-full w-[35%] overflow-hidden">
@@ -150,15 +147,15 @@ export default function MailNav() {
           </div>
         </div>
         <div className="flex-1 bg-white w-full overflow-auto p-3 flex flex-col gap-3 scrollbar-thin scrollbar-thumb-indigo-600 scrollbar-track-gray-200">
-          {InboxWithoutDuplicates.length == 0 && (
+          {MessageToDisplay.length == 0 && (
             <div className="h-full flex items-center justify-center ">
               <h1 className="animate-bounce">No User Found</h1>
             </div>
           )}
-          {InboxWithoutDuplicates.map((msg) => (
+          {MessageToDisplay.map((msg) => (
             <div
               key={msg.id}
-              onClick={() => setIsSelected(isSelected == msg.id ? 0 : msg.id)}
+              onClick={() => handleInput(isSelected === msg.id ? 0 : msg.id)}
               className={`w-full min-h-[80px] ${
                 !msg.is_read ? "bg-[#011916]/74" : "bg-[#0A433D]/74"
               } shadow-sm rounded-2xl ${
@@ -181,7 +178,9 @@ export default function MailNav() {
                 )}
                 <div>
                   <h1 className="text-white font-semibold">
-                    {msg.sender_name}
+                    {msg.sender_name === user.name
+                      ? msg.receiver_name
+                      : msg.sender_name}
                   </h1>
                 </div>
                 <div className="ml-auto flex flex-col items-end gap-2">
@@ -204,15 +203,7 @@ export default function MailNav() {
           ))}
         </div>
       </div>
-      {/* <InboxChat
-        user={user}
-        messages={messages}
-        userSelected={userSelected}
-        inboxSelectedId={isSelected}
-        sendMessage={sendMessage}
-        input={input}
-        setInput={setInput}
-      /> */}
+
       {/* Nextchat */}
       <div className="flex flex-col  bg-white justify-between rounded-2xl shadow-md relative h-full flex-1 bg-overlay">
         {isSelected !== 0 ? (
@@ -276,9 +267,13 @@ export default function MailNav() {
                     }`}
                   >
                     <p className="text-sm mb-1">{msg.message}</p>
-                    <span className={`text-xs block ${
-                      msg.sender_id === user.id ? "text-gray-200" : "text-gray-500"
-                    }`}>
+                    <span
+                      className={`text-xs block ${
+                        msg.sender_id === user.id
+                          ? "text-gray-200"
+                          : "text-gray-500"
+                      }`}
+                    >
                       {new Date(msg.created_at).toLocaleTimeString([], {
                         hour: "2-digit",
                         minute: "2-digit",

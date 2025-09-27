@@ -9,21 +9,25 @@ import LoadingSpinner from "../loading/page";
 import { Clock } from "lucide-react";
 
 export default function HomeNav() {
-  // const [userData, setUserData] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
-  // const [orders, setOrders] = useState<any[]>([]);
-  // const [products, setProducts] = useState<any[]>([]);
-  // const [reviews, setRreviews] = useState<any[]>([]);
+
   const [averageRating, setAverageRating] = useState<number>(0);
   const [satisfaction, setSatisfaction] = useState<number>(0);
   const [recentOrders, setRecentOrders] = useState<any[]>([]);
-  // const [messages, setMessages] = useState<any[]>([]);
   const data = useUser();
   const userData = data?.user;
   const orders = data?.orders;
   const products = data?.products;
   const reviews = data?.reviews;
   const messages = data?.inbox;
+  const messagesWithoutMe = messages?.filter(
+    (msg: any) => msg.sender_id !== userData.id
+  );
+  const messagesWithoutDuplicate = Array.from(
+    new Map(
+      messagesWithoutMe?.map((msg: any) => [msg.sender_name, msg])
+    ).values()
+  );
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -33,11 +37,7 @@ export default function HomeNav() {
 
         if (res.ok) {
           const data = await res.json();
-          // setUserData(data.user);
-          // setOrders(data.orders || []);
-          // setProducts(data.products || []);
-          // setRreviews(data.reviews || []);
-          // setMessages(data.inbox || []);
+
           if (data.reviews && data.reviews.length > 0) {
             const total = data.reviews.reduce(
               (sum: number, review: any) => sum + review.rating,
@@ -73,9 +73,9 @@ export default function HomeNav() {
     fetchUserData();
   }, []);
 
-  // if (loading) {
-  //   return <div className="h-full w-full bg-yellow-400"></div>;
-  // }
+  const GoToInbox = () => {
+    window.location.href = `/eb/${userData.username}/inbox`;
+  };
   console.log("Messages : ", messages);
   return (
     <>
@@ -97,7 +97,7 @@ export default function HomeNav() {
         {/* Welcome Section */}
         <div className="mb-8">
           <h1 className="text-3xl sm:text-4xl font-bold text-[#13120F] mb-2">
-            Welcome {userData.name} 👋
+            Welcome {userData.name}
           </h1>
           <p className="text-sm sm:text-base text-gray-600">
             {"Here's an overview of your business ."}
@@ -290,13 +290,16 @@ export default function HomeNav() {
                 seen
               </span>
             </div>
-            <button className="text-sm sm:text-base text-[#015B46] hover:underline font-medium flex items-center gap-2 cursor-pointer">
+            <button
+              className="text-sm sm:text-base text-[#015B46] hover:underline font-medium flex items-center gap-2 cursor-pointer"
+              onClick={GoToInbox}
+            >
               View All messages →
             </button>
           </div>
-          {messages?.length > 0 ? (
+          {messagesWithoutDuplicate?.length > 0 ? (
             <div className="space-y-4">
-              {messages?.map((message: any) => (
+              {messagesWithoutDuplicate?.map((message: any) => (
                 <div
                   key={message.id}
                   className={`p-6 rounded-xl ${
@@ -344,9 +347,9 @@ export default function HomeNav() {
                         </span>
                       </div>
                     </div>
-                    {/* <button className="w-4 h-4 px-2 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition-colors"> */}
-                    <HiMail className="w-8 h-8" />
-                    {/* </button> */}
+                    <button className="cursor-pointer" onClick={GoToInbox}>
+                      <HiMail className="w-8 h-8 " />
+                    </button>
                   </div>
                 </div>
               ))}
