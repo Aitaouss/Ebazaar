@@ -21,7 +21,6 @@ export default function EditProfileModal({
     password: "",
     location: user?.location || "",
     language: user?.language || "",
-    phone: user?.phone || "",
   });
 
   const handleChange = (
@@ -86,14 +85,6 @@ export default function EditProfileModal({
             onChange={handleChange}
             placeholder="Password (leave blank to keep current)"
             type="password"
-            className="border rounded-lg px-3 py-2"
-          />
-          <input
-            name="phone"
-            value={form.phone}
-            onChange={handleChange}
-            placeholder="Password (leave blank to keep current)"
-            type="number"
             className="border rounded-lg px-3 py-2"
           />
           <input

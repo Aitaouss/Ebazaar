@@ -95,12 +95,13 @@ export default function HomeNav() {
         } `}
       >
         {/* Welcome Section */}
-        <div className="mb-8">
-          <h1 className="text-3xl sm:text-4xl font-bold text-[#13120F] mb-2">
-            Welcome {userData.name}
+        <div className="mb-10 py-8">
+          <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 tracking-tight">
+            Welcome back,{" "}
+            <span className="text-gray-900 font-bold">{userData.name}</span>
           </h1>
-          <p className="text-sm sm:text-base text-gray-600">
-            {"Here's an overview of your business ."}
+          <p className="mt-2 text-base sm:text-lg text-gray-500 ">
+            Here’s a quick snapshot of your business performance.
           </p>
         </div>
 
@@ -111,64 +112,94 @@ export default function HomeNav() {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
             {/* Orders in Progress */}
-            <div className="bg-[#015B46] text-white p-6 rounded-2xl">
+            <div className="bg-white text-gray-900 p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 group">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-sm font-medium opacity-90">
-                  Orders in Progress
-                </h3>
-                <FiTrendingUp className="text-orange-400" size={20} />
+                <div className="flex items-center gap-3">
+                  <div className="p-3 bg-[#015B46] rounded-xl group-hover:bg-[#014239] transition-colors">
+                    <FiTrendingUp className="text-white" size={24} />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-bold text-gray-700">
+                      Orders in Progress
+                    </h3>
+                  </div>
+                </div>
               </div>
-              <div className="text-3xl font-bold mb-2">
+              <div className="text-3xl font-bold text-gray-900 mb-2">
                 {orders?.length || 0}
               </div>
-              <div className="text-xs opacity-75">
-                <span className="text-orange-400">+0%</span> from last week
+              <div className="text-sm text-gray-600">
+                <span className="text-orange-500 font-medium">+0%</span> from
+                last week
               </div>
             </div>
 
             {/* Total Earnings */}
-            <div className="bg-[#015B46] text-white p-6 rounded-2xl">
+            <div className="bg-white text-gray-900 p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 group">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-sm font-medium opacity-90">
-                  Total Earnings
-                </h3>
-                <FiDollarSign className="text-green-400" size={20} />
+                <div className="flex items-center gap-3">
+                  <div className="p-3 bg-[#A44A3F] rounded-xl group-hover:bg-[#8B3E35] transition-colors">
+                    <FiDollarSign className="text-white" size={24} />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-bold text-gray-700">
+                      Total Earnings
+                    </h3>
+                  </div>
+                </div>
               </div>
-              <div className="text-3xl font-bold mb-2">
+              <div className="text-3xl font-bold text-gray-900 mb-2">
                 ${userData.balance || 0}
               </div>
-              <div className="text-xs opacity-75">
-                <span className="text-green-400">0%</span> from last month
+              <div className="text-sm text-gray-600">
+                <span className="text-green-500 font-medium">0%</span> from last
+                month
               </div>
             </div>
 
             {/* Active Services */}
-            <div className="bg-[#015B46] text-white p-6 rounded-2xl">
+            <div className="bg-white text-gray-900 p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 group">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-sm font-medium opacity-90">
-                  Active Services
-                </h3>
-                <FiUsers className="text-blue-400" size={20} />
+                <div className="flex items-center gap-3">
+                  <div className="p-3 bg-[#015B46] rounded-xl group-hover:bg-[#014239] transition-colors">
+                    <FiUsers className="text-white" size={24} />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-bold text-gray-700">
+                      Active Services
+                    </h3>
+                  </div>
+                </div>
               </div>
-              <div className="text-3xl font-bold mb-2">{products?.length}</div>
-              <div className="text-xs opacity-75">Live products/services</div>
+              <div className="text-3xl font-bold text-gray-900 mb-2">
+                {products?.length}
+              </div>
+              <div className="text-sm text-gray-600">
+                Live products/services
+              </div>
             </div>
 
             {/* Average Rating */}
-            <div className="bg-gradient-to-br from-yellow-500 to-orange-600 text-white p-6 rounded-2xl">
+            <div className="bg-white text-gray-900 p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 group">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-sm font-medium opacity-90">
-                  Average Rating
-                </h3>
-                <FiStar className="text-yellow-200" size={20} />
+                <div className="flex items-center gap-3">
+                  <div className="p-3 bg-[#FFD700] rounded-xl group-hover:bg-[#FFD709] transition-colors">
+                    <FiStar className="text-white" size={24} />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-bold text-gray-700">
+                      Average Rating
+                    </h3>
+                  </div>
+                </div>
               </div>
-              <div className="text-3xl font-bold mb-2 flex items-center gap-2">
-                {averageRating}
-                <FiStar className="text-yellow-200" size={24} />
+              <div className="text-3xl font-bold text-gray-900 mb-2 flex items-center gap-2">
+                {averageRating.toFixed(1)}
+                <FiStar className="text-yellow-500" size={20} />
               </div>
-              <div className="text-xs opacity-75">
-                <span className="text-yellow-200">
-                  {reviews?.length} review{reviews?.length > 1 ? "s" : ""}
+              <div className="text-sm text-gray-600">
+                <span className="text-yellow-500 font-medium">
+                  {reviews?.length} review{reviews?.length !== 1 ? "s" : ""}
                 </span>
               </div>
             </div>
@@ -176,36 +207,71 @@ export default function HomeNav() {
 
           {/* Secondary Metrics */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-[#015B46] text-white p-6 rounded-2xl">
+            <div className="bg-white text-gray-900 p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 group">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-sm font-medium opacity-90">
-                  {"Today's Earnings"}
-                </h3>
-                <FiTrendingUp className="text-green-400" size={20} />
+                <div className="flex items-center gap-3">
+                  <div className="p-3 bg-[#015B46] rounded-xl group-hover:bg-[#014239] transition-colors">
+                    <FiTrendingUp className="text-white" size={24} />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-bold text-gray-700">
+                      {"Today's Earnings"}
+                    </h3>
+                  </div>
+                </div>
               </div>
-              <div className="text-3xl font-bold">${userData.balance || 0}</div>
+              <div className="text-3xl font-bold text-gray-900 mb-2">
+                ${userData.balance || 0}
+              </div>
+              <div className="text-sm text-gray-600">
+                <span className="text-emerald-500 font-medium">+5.2%</span> from
+                yesterday
+              </div>
             </div>
 
-            <div className="bg-gray-600 text-white p-6 rounded-2xl">
+            <div className="bg-white text-gray-900 p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 group">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-sm font-medium opacity-90">
-                  Weekly earning
-                </h3>
-                <FiDollarSign className="text-red-400" size={20} />
+                <div className="flex items-center gap-3">
+                  <div className="p-3 bg-[#A44A3F] rounded-xl group-hover:bg-[#8B3E35] transition-colors">
+                    <FiDollarSign className="text-white" size={24} />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-bold text-gray-700">
+                      Weekly Earnings
+                    </h3>
+                  </div>
+                </div>
               </div>
-              <div className="text-3xl font-bold">${userData.balance || 0}</div>
+              <div className="text-3xl font-bold text-gray-900 mb-2">
+                ${(userData.balance || 0) * 7}
+              </div>
+              <div className="text-sm text-gray-600">
+                <span className="text-purple-500 font-medium">+12.3%</span> from
+                last week
+              </div>
             </div>
 
-            <div className="bg-[#015B46] text-white p-6 rounded-2xl">
+            <div className="bg-white text-gray-900 p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 group">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-sm font-medium opacity-90">
-                  Customer Satisfaction
-                </h3>
-                <FiUsers className="text-blue-400" size={20} />
+                <div className="flex items-center gap-3">
+                  <div className="p-3 bg-[#015B46] rounded-xl group-hover:bg-[#014239] transition-colors">
+                    <FiUsers className="text-white" size={24} />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-bold text-gray-700">
+                      Customer Satisfaction
+                    </h3>
+                  </div>
+                </div>
               </div>
-              <div className="text-3xl font-bold mb-2">{satisfaction}%</div>
-              <div className="text-xs opacity-75">
-                from {reviews?.length} client
+              <div className="text-3xl font-bold text-gray-900 mb-2">
+                {satisfaction.toFixed(1)}%
+              </div>
+              <div className="text-sm text-gray-600">
+                <span className="text-indigo-500 font-medium">
+                  {reviews?.length} client{reviews?.length !== 1 ? "s" : ""}
+                </span>{" "}
+                reviewed
               </div>
             </div>
           </div>
@@ -227,7 +293,7 @@ export default function HomeNav() {
               {recentOrders.map((order) => (
                 <div
                   key={order.id}
-                  className="flex items-center justify-between p-4 bg-white rounded-xl shadow-sm border border-gray-100"
+                  className="flex items-center justify-between p-4 bg-[#015B46] rounded-xl shadow-sm"
                 >
                   <div className="flex items-center gap-4">
                     {order.buyer_image ? (
@@ -243,7 +309,7 @@ export default function HomeNav() {
                         </h1>
                       </div>
                     )}
-                    <span className="text-sm sm:text-base font-medium text-[#13120F]">
+                    <span className="text-sm sm:text-base font-semibold text-white">
                       {order.buyer_name || "test"}
                     </span>
                   </div>
@@ -255,13 +321,13 @@ export default function HomeNav() {
                           : order.status === "Shipped"
                           ? "bg-blue-500 text-white"
                           : order.status === "Delivered"
-                          ? "bg-[#015B46] text-white"
+                          ? "bg-green-500 text-white"
                           : "bg-red-500 text-white"
                       }`}
                     >
                       {order.status}
                     </span>
-                    <span className="text-sm sm:text-base font-bold text-[#13120F]">
+                    <span className="text-sm sm:text-base font-bold text-white">
                       ${order.total_price}
                     </span>
                   </div>
@@ -269,7 +335,11 @@ export default function HomeNav() {
               ))}
             </div>
           ) : (
-            <div className="text-gray-600">No recent orders available.</div>
+            <div className="bg-white w-full h-[200px] rounded-lg shadow-lg flex items-center justify-center">
+              <h1 className="text-xl text-black font-medium animate-bounce">
+                No orders available.
+              </h1>
+            </div>
           )}
         </div>
 

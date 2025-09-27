@@ -46,6 +46,9 @@ export default function MailNav() {
       console.log("user is undefined");
       return;
     }
+    // if (isSelected === 0 || isSelected === undefined) {
+    //   return;
+    // }
     // Connect to backend
     socket = io(`${process.env.NEXT_PUBLIC_BACKEND_URL}`);
 
@@ -114,9 +117,6 @@ export default function MailNav() {
     setInput("");
     return;
   };
-
-  console.log("Messages without me : ", MessagesWithouMeAsReceiver);
-  console.log("All the inbox : ", messages);
 
   return (
     <div className="h-full w-full flex gap-4">
@@ -295,6 +295,13 @@ export default function MailNav() {
               <button
                 className="cursor-pointer hover:bg-[#015B46]/90 transition-all duration-300 bg-[#015B46] w-[70px] h-[70px] rounded-2xl flex items-center justify-center "
                 onClick={sendMessage}
+                disabled={!input.trim()}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                    sendMessage();
+                  }
+                }}
               >
                 <IoMdSend className="text-white text-2xl m-5" />
               </button>

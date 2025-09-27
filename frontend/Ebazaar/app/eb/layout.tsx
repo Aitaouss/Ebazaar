@@ -80,7 +80,7 @@ export default function HomeLayout({
         <LayoutComp setChatModalOpen={setChatModalOpen} />
       </div> */}
       <ProtectedPageWrapper>
-        <div className="h-screen bg-gradient-to-br from-[#FDF9F4] to-[#015B46]/15 w-full flex flex-col gap-3 py-10 px-2 md:px-8 lg:px-24 xl:px-48 bg-overlay ">
+        <div className="h-screen bg-gradient-to-br from-[#fff] to-[#fff] w-full flex flex-col gap-3 py-10 px-2 md:px-8 lg:px-24 xl:px-48 bg-overlay ">
           <LayoutComp setChatModalOpen={setChatModalOpen} />
           <div className="flex-1 overflow-auto pr-2 scrollbar-thin scrollbar-thumb-indigo-600 scrollbar-track-gray-200">
             {children}
