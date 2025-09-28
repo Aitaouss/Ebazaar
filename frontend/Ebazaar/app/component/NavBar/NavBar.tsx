@@ -52,7 +52,7 @@ export default function NavBar() {
               href={item.href}
               className={`text-sm sm:text-base cursor-pointer flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors ${
                 isActive
-                  ? "bg-[#015B46] text-white hover:bg-[#014a39]"
+                  ? "bg-gradient-to-r from-[#015B46] to-[#017A5B] text-white hover:bg-[#014a39]"
                   : "text-[#13120F] hover:bg-gray-100"
               }`}
             >

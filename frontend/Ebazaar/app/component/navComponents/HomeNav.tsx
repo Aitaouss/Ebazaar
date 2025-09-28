@@ -95,7 +95,7 @@ export default function HomeNav() {
         } `}
       >
         {/* Welcome Section */}
-        <div className="mb-10 py-8">
+        <div className="mb-5 py-8">
           <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 tracking-tight">
             Welcome back,{" "}
             <span className="text-gray-900 font-bold">{userData.name}</span>
@@ -112,93 +112,93 @@ export default function HomeNav() {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
             {/* Orders in Progress */}
-            <div className="bg-white text-gray-900 p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 group">
+            <div className="bg-gradient-to-r from-[#015B46] to-[#017A5B] text-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 group">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-3">
-                  <div className="p-3 bg-[#015B46] rounded-xl group-hover:bg-[#014239] transition-colors">
+                  <div className="p-3 bg-white/20 backdrop-blur-sm rounded-xl group-hover:bg-white/30 transition-colors">
                     <FiTrendingUp className="text-white" size={24} />
                   </div>
                   <div>
-                    <h3 className="text-sm font-bold text-gray-700">
+                    <h3 className="text-sm font-bold text-white">
                       Orders in Progress
                     </h3>
                   </div>
                 </div>
               </div>
-              <div className="text-3xl font-bold text-gray-900 mb-2">
+              <div className="text-3xl font-bold text-white mb-2">
                 {orders?.length || 0}
               </div>
-              <div className="text-sm text-gray-600">
-                <span className="text-orange-500 font-medium">+0%</span> from
+              <div className="text-sm text-white/80">
+                <span className="text-orange-300 font-medium">+0%</span> from
                 last week
               </div>
             </div>
 
             {/* Total Earnings */}
-            <div className="bg-white text-gray-900 p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 group">
+            <div className="bg-gradient-to-r from-[#A44A3F] to-[#C55A4E] text-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 group">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-3">
-                  <div className="p-3 bg-[#A44A3F] rounded-xl group-hover:bg-[#8B3E35] transition-colors">
+                  <div className="p-3 bg-white/20 backdrop-blur-sm rounded-xl group-hover:bg-white/30 transition-colors">
                     <FiDollarSign className="text-white" size={24} />
                   </div>
                   <div>
-                    <h3 className="text-sm font-bold text-gray-700">
+                    <h3 className="text-sm font-bold text-white">
                       Total Earnings
                     </h3>
                   </div>
                 </div>
               </div>
-              <div className="text-3xl font-bold text-gray-900 mb-2">
+              <div className="text-3xl font-bold text-white mb-2">
                 ${userData.balance || 0}
               </div>
-              <div className="text-sm text-gray-600">
-                <span className="text-green-500 font-medium">0%</span> from last
+              <div className="text-sm text-white/80">
+                <span className="text-green-300 font-medium">0%</span> from last
                 month
               </div>
             </div>
 
             {/* Active Services */}
-            <div className="bg-white text-gray-900 p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 group">
+            <div className="bg-gradient-to-r from-[#015B46] to-[#017A5B] text-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 group">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-3">
-                  <div className="p-3 bg-[#015B46] rounded-xl group-hover:bg-[#014239] transition-colors">
+                  <div className="p-3 bg-white/20 backdrop-blur-sm rounded-xl group-hover:bg-white/30 transition-colors">
                     <FiUsers className="text-white" size={24} />
                   </div>
                   <div>
-                    <h3 className="text-sm font-bold text-gray-700">
+                    <h3 className="text-sm font-bold text-white">
                       Active Services
                     </h3>
                   </div>
                 </div>
               </div>
-              <div className="text-3xl font-bold text-gray-900 mb-2">
+              <div className="text-3xl font-bold text-white mb-2">
                 {products?.length}
               </div>
-              <div className="text-sm text-gray-600">
+              <div className="text-sm text-white/80">
                 Live products/services
               </div>
             </div>
 
             {/* Average Rating */}
-            <div className="bg-white text-gray-900 p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 group">
+            <div className="bg-gradient-to-r from-[#A44A3F] to-[#C55A4E] text-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 group">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-3">
-                  <div className="p-3 bg-[#FFD700] rounded-xl group-hover:bg-[#FFD709] transition-colors">
+                  <div className="p-3 bg-white/20 backdrop-blur-sm rounded-xl group-hover:bg-white/30 transition-colors">
                     <FiStar className="text-white" size={24} />
                   </div>
                   <div>
-                    <h3 className="text-sm font-bold text-gray-700">
+                    <h3 className="text-sm font-bold text-white">
                       Average Rating
                     </h3>
                   </div>
                 </div>
               </div>
-              <div className="text-3xl font-bold text-gray-900 mb-2 flex items-center gap-2">
+              <div className="text-3xl font-bold text-white mb-2 flex items-center gap-2">
                 {averageRating.toFixed(1)}
-                <FiStar className="text-yellow-500" size={20} />
+                <FiStar className="text-white" size={20} />
               </div>
-              <div className="text-sm text-gray-600">
-                <span className="text-yellow-500 font-medium">
+              <div className="text-sm text-white/80">
+                <span className="text-orange-300 font-medium">
                   {reviews?.length} review{reviews?.length !== 1 ? "s" : ""}
                 </span>
               </div>
@@ -207,68 +207,68 @@ export default function HomeNav() {
 
           {/* Secondary Metrics */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-white text-gray-900 p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 group">
+            <div className="bg-gradient-to-r from-[#015B46] to-[#017A5B] text-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 group">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-3">
-                  <div className="p-3 bg-[#015B46] rounded-xl group-hover:bg-[#014239] transition-colors">
+                  <div className="p-3 bg-white/20 backdrop-blur-sm rounded-xl group-hover:bg-white/30 transition-colors">
                     <FiTrendingUp className="text-white" size={24} />
                   </div>
                   <div>
-                    <h3 className="text-sm font-bold text-gray-700">
+                    <h3 className="text-sm font-bold text-white">
                       {"Today's Earnings"}
                     </h3>
                   </div>
                 </div>
               </div>
-              <div className="text-3xl font-bold text-gray-900 mb-2">
+              <div className="text-3xl font-bold text-white mb-2">
                 ${userData.balance || 0}
               </div>
-              <div className="text-sm text-gray-600">
-                <span className="text-emerald-500 font-medium">+5.2%</span> from
+              <div className="text-sm text-white/80">
+                <span className="text-emerald-300 font-medium">+5.2%</span> from
                 yesterday
               </div>
             </div>
 
-            <div className="bg-white text-gray-900 p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 group">
+            <div className="bg-gradient-to-r from-[#A44A3F] to-[#C55A4E] text-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 group">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-3">
-                  <div className="p-3 bg-[#A44A3F] rounded-xl group-hover:bg-[#8B3E35] transition-colors">
+                  <div className="p-3 bg-white/20 backdrop-blur-sm rounded-xl group-hover:bg-white/30 transition-colors">
                     <FiDollarSign className="text-white" size={24} />
                   </div>
                   <div>
-                    <h3 className="text-sm font-bold text-gray-700">
+                    <h3 className="text-sm font-bold text-white">
                       Weekly Earnings
                     </h3>
                   </div>
                 </div>
               </div>
-              <div className="text-3xl font-bold text-gray-900 mb-2">
+              <div className="text-3xl font-bold text-white mb-2">
                 ${(userData.balance || 0) * 7}
               </div>
-              <div className="text-sm text-gray-600">
-                <span className="text-purple-500 font-medium">+12.3%</span> from
+              <div className="text-sm text-white/80">
+                <span className="text-purple-300 font-medium">+12.3%</span> from
                 last week
               </div>
             </div>
 
-            <div className="bg-white text-gray-900 p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 group">
+            <div className="bg-gradient-to-r from-[#015B46] to-[#017A5B] text-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 group">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-3">
-                  <div className="p-3 bg-[#015B46] rounded-xl group-hover:bg-[#014239] transition-colors">
+                  <div className="p-3 bg-white/20 backdrop-blur-sm rounded-xl group-hover:bg-white/30 transition-colors">
                     <FiUsers className="text-white" size={24} />
                   </div>
                   <div>
-                    <h3 className="text-sm font-bold text-gray-700">
+                    <h3 className="text-sm font-bold text-white">
                       Customer Satisfaction
                     </h3>
                   </div>
                 </div>
               </div>
-              <div className="text-3xl font-bold text-gray-900 mb-2">
+              <div className="text-3xl font-bold text-white mb-2">
                 {satisfaction.toFixed(1)}%
               </div>
-              <div className="text-sm text-gray-600">
-                <span className="text-indigo-500 font-medium">
+              <div className="text-sm text-white/80">
+                <span className="text-indigo-300 font-medium">
                   {reviews?.length} client{reviews?.length !== 1 ? "s" : ""}
                 </span>{" "}
                 reviewed
@@ -293,52 +293,72 @@ export default function HomeNav() {
               {recentOrders.map((order) => (
                 <div
                   key={order.id}
-                  className="flex items-center justify-between p-4 bg-[#015B46] rounded-xl shadow-sm"
+                  className="flex items-center justify-between p-6 bg-white border border-gray-100 rounded-3xl shadow-lg hover:shadow-xl transition-all duration-300 group"
                 >
                   <div className="flex items-center gap-4">
                     {order.buyer_image ? (
                       <img
                         src={order.buyer_image || "/public/EBAZAAR default.png"}
                         alt={order.buyer_name}
-                        className="w-12 h-12 rounded-full object-cover"
+                        className="w-14 h-14 rounded-full object-cover border-2 border-gray-100 shadow-md"
                       />
                     ) : (
-                      <div className="w-12 h-12 bg-[#015B46] rounded-full flex items-center justify-center">
-                        <h1 className="text-white font-semibold">
+                      <div className="w-14 h-14 bg-gradient-to-r from-[#015B46] to-[#017A5B] rounded-full flex items-center justify-center shadow-lg">
+                        <h1 className="text-white font-bold text-lg">
                           {order.buyer_name.charAt(0).toUpperCase()}
                         </h1>
                       </div>
                     )}
-                    <span className="text-sm sm:text-base font-semibold text-white">
-                      {order.buyer_name || "test"}
-                    </span>
+                    <div className="flex flex-col">
+                      <span className="text-base font-bold text-gray-900">
+                        {order.buyer_name || "Customer"}
+                      </span>
+                      <span className="text-sm text-gray-500">
+                        Order #{order.id}
+                      </span>
+                    </div>
                   </div>
-                  <div className="flex items-center gap-4 justify-between w-[50%]">
+                  <div className="flex items-center gap-6">
                     <span
-                      className={` px-4 py-1 rounded-full text-[0.8rem] sm:text-sm font-medium ${
+                      className={`px-4 py-2 rounded-2xl text-sm font-semibold ${
                         order.status === "Processing"
-                          ? "bg-yellow-500 text-white"
+                          ? "bg-yellow-100 text-yellow-700"
                           : order.status === "Shipped"
-                          ? "bg-blue-500 text-white"
+                          ? "bg-blue-100 text-blue-700"
                           : order.status === "Delivered"
-                          ? "bg-green-500 text-white"
-                          : "bg-red-500 text-white"
+                          ? "bg-green-100 text-green-700"
+                          : "bg-red-100 text-red-700"
                       }`}
                     >
                       {order.status}
                     </span>
-                    <span className="text-sm sm:text-base font-bold text-white">
-                      ${order.total_price}
-                    </span>
+                    <div className="text-right">
+                      <span className="text-lg font-bold text-gray-900">
+                        ${order.total_price}
+                      </span>
+                      <p className="text-sm text-gray-500">Total</p>
+                    </div>
                   </div>
                 </div>
               ))}
             </div>
           ) : (
-            <div className="bg-white w-full h-[200px] rounded-lg shadow-lg flex items-center justify-center">
-              <h1 className="text-xl text-black font-medium animate-bounce">
-                No orders available.
-              </h1>
+            <div className="bg-gradient-to-r from-gray-50 to-white border border-gray-200 rounded-3xl shadow-lg p-12 flex flex-col items-center justify-center text-center">
+              <div className="w-20 h-20 bg-gradient-to-r from-[#015B46] to-[#017A5B] rounded-full flex items-center justify-center mb-6 shadow-xl">
+                <FiTrendingUp className="text-white text-3xl" />
+              </div>
+              <h3 className="text-xl font-bold text-gray-800 mb-2">
+                No Orders Yet
+              </h3>
+              <p className="text-gray-600 mb-4 max-w-md">
+                Your orders will appear here once customers start purchasing
+                your products and services.
+              </p>
+              <div className="bg-[#015B46]/10 rounded-2xl p-4 max-w-sm">
+                <p className="text-[#015B46] text-sm font-medium">
+                  💡 Tip: Promote your services to get your first orders!
+                </p>
+              </div>
             </div>
           )}
         </div>
@@ -372,14 +392,11 @@ export default function HomeNav() {
               {messagesWithoutDuplicate?.map((message: any) => (
                 <div
                   key={message.id}
-                  className={`p-6 rounded-xl ${
-                    message.is_read
-                      ? "bg-[#015B46] text-white"
-                      : "bg-gray-600 text-white"
-                  }`}
+                  className="p-6 bg-white border border-gray-100 rounded-3xl shadow-lg hover:shadow-xl transition-all duration-300 group cursor-pointer"
+                  onClick={GoToInbox}
                 >
-                  <div className="flex items-start justify-between">
-                    <div className="flex items-start gap-4">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-4 flex-1">
                       {message.sender_image ? (
                         <img
                           src={
@@ -387,45 +404,59 @@ export default function HomeNav() {
                             "/public/EBAZAAR default.png"
                           }
                           alt={message.sender_name}
-                          className="w-12 h-12 rounded-full object-cover"
+                          className="w-14 h-14 rounded-full object-cover border-2 border-gray-100 shadow-md"
                         />
                       ) : (
-                        <div className="w-12 h-12 bg-[#015B46] rounded-full flex items-center justify-center">
-                          <h1 className="text-white font-semibold">
+                        <div className="w-14 h-14 bg-gradient-to-r from-[#015B46] to-[#017A5B] rounded-full flex items-center justify-center shadow-lg">
+                          <h1 className="text-white font-bold text-lg">
                             {message.sender_name.charAt(0).toUpperCase()}
                           </h1>
                         </div>
                       )}
-                      <div className="flex-1">
+                      <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-3 mb-2">
-                          <h3 className="font-bold">
+                          <h3 className="font-bold text-gray-900 truncate">
                             {message.sender_name || "Dummy"}
                           </h3>
-                          {message.is_read ? (
-                            <span className="bg-green-500 text-white px-2 py-1 rounded-full text-xs font-medium">
-                              Not seen
+                          {message.is_read && (
+                            <span className="bg-[#A44A3F] text-white px-3 py-1 rounded-full text-xs font-medium">
+                              Unread
                             </span>
-                          ) : (
-                            ""
                           )}
                         </div>
-                        <p className="text-sm opacity-90 mb-2">
-                          {message.message}
+                        <p className="text-sm text-gray-600 mb-2 line-clamp-2">
+                          {message.message || "No message preview"}
                         </p>
-                        <span className="text-xs opacity-75">
-                          {message.time}
+                        <span className="text-xs text-gray-500">
+                          {message.time || new Date(message.created_at).toLocaleTimeString([], {
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          })}
                         </span>
                       </div>
                     </div>
-                    <button className="cursor-pointer" onClick={GoToInbox}>
-                      <HiMail className="w-8 h-8 " />
-                    </button>
+                    <div className="ml-4 p-3 bg-gray-50 rounded-2xl group-hover:bg-[#015B46] group-hover:text-white transition-colors">
+                      <HiMail className="w-6 h-6 text-gray-600 group-hover:text-white transition-colors" />
+                    </div>
                   </div>
                 </div>
               ))}
             </div>
           ) : (
-            <div className="text-gray-600">No new messages available.</div>
+            <div className="bg-gradient-to-r from-gray-50 to-white border border-gray-200 rounded-3xl shadow-lg p-12 flex flex-col items-center justify-center text-center">
+              <div className="w-20 h-20 bg-gradient-to-r from-[#015B46] to-[#017A5B] rounded-full flex items-center justify-center mb-6 shadow-xl">
+                <HiMail className="text-white text-3xl" />
+              </div>
+              <h3 className="text-xl font-bold text-gray-800 mb-2">No Messages Yet</h3>
+              <p className="text-gray-600 mb-4 max-w-md">
+                Your messages from customers and other users will appear here.
+              </p>
+              <div className="bg-[#015B46]/10 rounded-2xl p-4 max-w-sm">
+                <p className="text-[#015B46] text-sm font-medium">
+                  💬 Tip: Start engaging with customers to receive messages!
+                </p>
+              </div>
+            </div>
           )}
         </div>
       </main>

@@ -44,7 +44,7 @@ export default function ProfileLeftSection({ userState, setEditOpen }: any) {
             </div>
           </div>
           <button
-            className="cursor-pointer absolute right-2 top-2 px-2 sm:px-3 py-1 text-xs bg-[#015B46] text-white rounded font-semibold hover:bg-[#013f3a] transition-colors z-10"
+            className="cursor-pointer absolute right-2 top-2 px-2 sm:px-3 py-1 text-xs bg-gradient-to-r from-[#015B46] to-[#017A5B] text-white rounded font-semibold hover:bg-[#013f3a] transition-colors z-10"
             onClick={() => setEditOpen(true)}
           >
             Edit profile

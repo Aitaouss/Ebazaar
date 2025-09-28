@@ -146,7 +146,7 @@ function StoreCreateModal({
             </button>
             <button
               type="submit"
-              className="cursor-pointer px-4 py-1 rounded bg-[#015B46] text-white"
+              className="cursor-pointer px-4 py-1 rounded hover:shadow-lg hover:shadow-[#015B46]/25 hover:-translate-y-0.5 transition-all  bg-gradient-to-r from-[#015B46] to-[#017A5B] text-white"
               disabled={loading}
             >
               {loading ? "Creating..." : "Create"}
@@ -288,7 +288,7 @@ function StoreEditModal({
             </button>
             <button
               type="submit"
-              className="cursor-pointer px-4 py-1 rounded bg-[#015B46] text-white"
+              className="cursor-pointer px-4 py-1 rounded hover:shadow-lg hover:shadow-[#015B46]/25 hover:-translate-y-0.5 transition-all  bg-gradient-to-r from-[#015B46] to-[#017A5B] text-white"
               disabled={loading}
             >
               {loading ? "Updating..." : "Update"}
@@ -453,7 +453,7 @@ export default function StoreSection() {
             onClick={() => {
               setCreateModalOpen(true);
             }}
-            className="cursor-pointer px-4 py-2 bg-[#015B46] text-white rounded font-semibold hover:bg-[#013f3a] transition-colors"
+            className="cursor-pointer px-4 py-2 hover:shadow-lg hover:shadow-[#015B46]/25 hover:-translate-y-0.5 transition-all  bg-gradient-to-r from-[#015B46] to-[#017A5B] text-white rounded font-semibold hover:bg-[#013f3a] transition-colors"
           >
             Create Ebazaar
           </button>
@@ -494,13 +494,13 @@ export default function StoreSection() {
           <div className="flex gap-2">
             <button
               onClick={() => setEditModalOpen(true)}
-              className="cursor-pointer px-3 sm:px-4 py-1 bg-[#015B46] text-white rounded font-semibold hover:bg-[#013f3a] transition-colors"
+              className="cursor-pointer px-3 sm:px-4 py-1 hover:shadow-lg hover:shadow-[#015B46]/25 hover:-translate-y-0.5   bg-gradient-to-r from-[#015B46] to-[#017A5B] text-white rounded font-semibold hover:bg-[#013f3a] transition-colors"
             >
               Edit Store
             </button>
             <button
               onClick={handleDeleteStore}
-              className="cursor-pointer px-3 sm:px-4 py-1 bg-[#A44A3F] text-white rounded font-semibold hover:bg-[#8a3e36] transition-colors"
+              className="cursor-pointer px-3 sm:px-4 py-1 bg-[#8a3e36] hover:shadow-lg hover:shadow-[#8a3e36]/25 hover:-translate-y-0.5   text-white rounded font-semibold hover:bg-[#8a3e36] transition-colors"
             >
               Delete Store
             </button>

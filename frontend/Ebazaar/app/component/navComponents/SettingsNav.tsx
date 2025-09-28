@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useUser } from "@/app/eb/layout";
+import { useState, useEffect } from "react";
 import {
   FiUser,
   FiBell,
@@ -24,6 +25,8 @@ import {
 } from "react-icons/fi";
 
 export default function SettingNav() {
+  const data = useUser();
+  const user = data?.user;
   const [showPassword, setShowPassword] = useState(false);
   const [notifications, setNotifications] = useState({
     emailNotifications: true,
@@ -35,19 +38,47 @@ export default function SettingNav() {
 
   const [activeTab, setActiveTab] = useState("profile");
 
-  // Static user data matching your app's style
-  const userData = {
-    name: "John Smith",
-    username: "johnsmith",
-    email: "john.smith@example.com",
-    phone: "+1 (555) 123-4567",
-    location: "New York, NY",
-    bio: "Passionate entrepreneur and tech enthusiast",
-    language: "English",
-    timezone: "EST (UTC-5)",
-    joinedDate: "March 2024",
-    profileImage: null,
-  };
+  // User data state for editing - populated from real user data
+  const [userData, setUserData] = useState({
+    name: user?.name || "",
+    username: user?.username || "",
+    email: user?.email || "",
+    phone: user?.phone?.toString() || "",
+    location: user?.location || "",
+    bio: user?.bio, // Not available in current user schema
+    language: user?.language || "English",
+    timezone: "EST (UTC-5)", // Not available in current user schema
+    joinedDate: user?.created_at
+      ? new Date(user.created_at).toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "long",
+        })
+      : "Unknown",
+    profileImage: user?.profileImage,
+  });
+
+  // Update userData when user data changes
+  useEffect(() => {
+    if (user) {
+      setUserData({
+        name: user.name || "",
+        username: user.username || "",
+        email: user.email || "",
+        phone: user.phone?.toString() || "",
+        location: user.location || "",
+        bio: user?.bio, // Not available in current user schema
+        language: user.language || "English",
+        timezone: "EST (UTC-5)", // Not available in current user schema
+        joinedDate: user.created_at
+          ? new Date(user.created_at).toLocaleDateString("en-US", {
+              year: "numeric",
+              month: "long",
+            })
+          : "Unknown",
+        profileImage: user.profileImage,
+      });
+    }
+  }, [user]);
 
   const paymentMethods = [
     { id: 1, type: "visa", last4: "4242", expiry: "12/27", isDefault: true },
@@ -62,10 +93,51 @@ export default function SettingNav() {
   ];
 
   const handleNotificationChange = (key: string) => {
-    setNotifications((prev) => ({
+    setNotifications((prev: any) => ({
       ...prev,
       [key]: !prev[key],
     }));
+  };
+
+  const handleUserDataChange = (field: string, value: string) => {
+    setUserData((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+  };
+
+  const saveUserData = async () => {
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/edit`,
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: userData.name,
+            username: userData.username,
+            email: userData.email,
+            phone: userData.phone,
+            location: userData.location,
+            language: userData.language,
+          }),
+        }
+      );
+
+      if (response.ok) {
+        // Show success message or refresh user data
+        console.log("User data updated successfully");
+        // Optionally refresh the page or show a toast notification
+        window.location.reload();
+      } else {
+        console.error("Failed to update user data");
+      }
+    } catch (error) {
+      console.error("Error updating user data:", error);
+    }
   };
 
   const tabs = [
@@ -75,30 +147,30 @@ export default function SettingNav() {
     { id: "payments", name: "Payments", icon: FiCreditCard },
     { id: "preferences", name: "Preferences", icon: FiSettings },
   ];
-
+  console.log("user Data : ", userData);
   return (
-    <div className="h-full w-full bg-gradient-to-br from-gray-50 via-white to-gray-100">
+    <div className="h-full w-full ">
       <div className="w-full mx-auto px-4 py-8">
         {/* Header */}
-        <div className="mb-10">
+        {/* <div className="mb-10">
           <h1 className="text-3xl sm:text-4xl font-bold text-[#13120F] mb-2">
             Account Settings
           </h1>
           <p className="text-sm sm:text-base text-gray-600">
             Manage your account preferences and security settings
           </p>
-        </div>
+        </div> */}
 
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Sidebar Navigation */}
           <div className="lg:w-1/4">
-            <div className="bg-white rounded-3xl shadow-lg p-6 sticky top-8">
+            <div className="bg-white rounded-lg shadow-lg p-6 sticky top-8">
               <div className="space-y-2">
                 {tabs.map((tab) => (
                   <button
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id)}
-                    className={`w-full flex items-center gap-3 px-4 py-3 text-left rounded-2xl transition-all ${
+                    className={`cursor-pointer w-full flex items-center gap-3 px-4 py-3 text-left rounded-lg transition-all ${
                       activeTab === tab.id
                         ? "bg-gradient-to-r from-[#015B46] to-[#017A5B] text-white shadow-lg"
                         : "text-gray-600 hover:bg-gray-50"
@@ -118,18 +190,26 @@ export default function SettingNav() {
             {activeTab === "profile" && (
               <div className="space-y-6">
                 {/* Profile Picture */}
-                <div className="bg-white rounded-3xl shadow-lg p-6">
+                <div className="bg-white rounded-lg shadow-lg p-6">
                   <h2 className="text-xl font-bold text-gray-900 mb-6">
                     Profile Picture
                   </h2>
                   <div className="flex items-center gap-6">
                     <div className="relative">
-                      <div className="w-24 h-24 bg-gradient-to-r from-[#015B46] to-[#017A5B] rounded-full flex items-center justify-center">
-                        <span className="text-white text-2xl font-bold">
-                          {userData.name.charAt(0)}
-                        </span>
-                      </div>
-                      <button className="absolute -bottom-2 -right-2 bg-[#A44A3F] text-white p-2 rounded-full hover:bg-[#8B3E35] transition-colors">
+                      {userData.profileImage ? (
+                        <img
+                          src={userData.profileImage}
+                          alt={userData.name}
+                          className="w-24 h-24 rounded-full object-cover border-4 border-white shadow-lg"
+                        />
+                      ) : (
+                        <div className="w-24 h-24 bg-gradient-to-r from-[#015B46] to-[#017A5B] rounded-full flex items-center justify-center">
+                          <span className="text-white text-2xl font-bold">
+                            {userData.name.charAt(0)}
+                          </span>
+                        </div>
+                      )}
+                      <button className="cursor-pointer absolute -bottom-2 -right-2 bg-[#A44A3F] text-white p-2 rounded-full hover:bg-[#8B3E35] transition-colors">
                         <FiCamera size={16} />
                       </button>
                     </div>
@@ -141,10 +221,10 @@ export default function SettingNav() {
                         Member since {userData.joinedDate}
                       </p>
                       <div className="flex gap-2">
-                        <button className="px-4 py-2 bg-[#015B46] text-white rounded-xl text-sm font-medium hover:bg-[#014239] transition-colors">
+                        <button className="cursor-pointer px-4 py-2 bg-[#015B46] text-white rounded-lg text-sm font-medium hover:bg-[#014239] transition-colors">
                           Upload Photo
                         </button>
-                        <button className="px-4 py-2 border border-gray-200 text-gray-600 rounded-xl text-sm font-medium hover:bg-gray-50 transition-colors">
+                        <button className="cursor-pointer px-4 py-2 border border-gray-200 text-gray-600 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors">
                           Remove
                         </button>
                       </div>
@@ -153,12 +233,12 @@ export default function SettingNav() {
                 </div>
 
                 {/* Personal Information */}
-                <div className="bg-white rounded-3xl shadow-lg p-6">
+                <div className="bg-white rounded-lg shadow-lg p-6">
                   <div className="flex items-center justify-between mb-6">
                     <h2 className="text-xl font-bold text-gray-900">
                       Personal Information
                     </h2>
-                    <button className="flex items-center gap-2 px-4 py-2 text-[#015B46] hover:bg-gray-50 rounded-xl transition-colors">
+                    <button className="cursor-pointer flex items-center gap-2 px-4 py-2 text-[#015B46] hover:bg-gray-50 rounded-lg transition-colors">
                       <FiEdit3 size={16} />
                       <span className="text-sm font-medium">Edit</span>
                     </button>
@@ -171,7 +251,10 @@ export default function SettingNav() {
                       <input
                         type="text"
                         value={userData.name}
-                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#015B46]/20 focus:border-[#015B46]"
+                        onChange={(e) =>
+                          handleUserDataChange("name", e.target.value)
+                        }
+                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#015B46]/20 focus:border-[#015B46]"
                       />
                     </div>
                     <div className="space-y-2">
@@ -181,7 +264,10 @@ export default function SettingNav() {
                       <input
                         type="text"
                         value={userData.username}
-                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#015B46]/20 focus:border-[#015B46]"
+                        onChange={(e) =>
+                          handleUserDataChange("username", e.target.value)
+                        }
+                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#015B46]/20 focus:border-[#015B46]"
                       />
                     </div>
                     <div className="space-y-2">
@@ -191,7 +277,10 @@ export default function SettingNav() {
                       <input
                         type="email"
                         value={userData.email}
-                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#015B46]/20 focus:border-[#015B46]"
+                        onChange={(e) =>
+                          handleUserDataChange("email", e.target.value)
+                        }
+                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#015B46]/20 focus:border-[#015B46]"
                       />
                     </div>
                     <div className="space-y-2">
@@ -201,7 +290,10 @@ export default function SettingNav() {
                       <input
                         type="tel"
                         value={userData.phone}
-                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#015B46]/20 focus:border-[#015B46]"
+                        onChange={(e) =>
+                          handleUserDataChange("phone", e.target.value)
+                        }
+                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#015B46]/20 focus:border-[#015B46]"
                       />
                     </div>
                     <div className="space-y-2 md:col-span-2">
@@ -211,7 +303,10 @@ export default function SettingNav() {
                       <input
                         type="text"
                         value={userData.location}
-                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#015B46]/20 focus:border-[#015B46]"
+                        onChange={(e) =>
+                          handleUserDataChange("location", e.target.value)
+                        }
+                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#015B46]/20 focus:border-[#015B46]"
                       />
                     </div>
                     <div className="space-y-2 md:col-span-2">
@@ -220,13 +315,19 @@ export default function SettingNav() {
                       </label>
                       <textarea
                         value={userData.bio}
+                        onChange={(e) =>
+                          handleUserDataChange("bio", e.target.value)
+                        }
                         rows={3}
-                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#015B46]/20 focus:border-[#015B46] resize-none"
+                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#015B46]/20 focus:border-[#015B46] resize-none"
                       />
                     </div>
                   </div>
                   <div className="mt-6 pt-6 border-t border-gray-200">
-                    <button className="px-6 py-3 bg-[#015B46] text-white rounded-2xl font-medium hover:bg-[#014239] transition-colors flex items-center gap-2">
+                    <button
+                      onClick={saveUserData}
+                      className="px-6 py-3 bg-[#015B46] text-white rounded-lg font-medium hover:bg-[#014239] transition-colors flex items-center gap-2"
+                    >
                       <FiSave size={16} />
                       Save Changes
                     </button>
@@ -237,7 +338,7 @@ export default function SettingNav() {
 
             {/* Notifications Settings */}
             {activeTab === "notifications" && (
-              <div className="bg-white rounded-3xl shadow-lg p-6">
+              <div className="bg-white rounded-lg shadow-lg p-6">
                 <h2 className="text-xl font-bold text-gray-900 mb-6">
                   Notification Preferences
                 </h2>
@@ -282,7 +383,7 @@ export default function SettingNav() {
                   ))}
                 </div>
                 <div className="mt-6 pt-6 border-t border-gray-200">
-                  <button className="px-6 py-3 bg-[#015B46] text-white rounded-2xl font-medium hover:bg-[#014239] transition-colors flex items-center gap-2">
+                  <button className="px-6 py-3 bg-[#015B46] text-white rounded-lg font-medium hover:bg-[#014239] transition-colors flex items-center gap-2">
                     <FiSave size={16} />
                     Save Preferences
                   </button>
@@ -294,7 +395,7 @@ export default function SettingNav() {
             {activeTab === "security" && (
               <div className="space-y-6">
                 {/* Change Password */}
-                <div className="bg-white rounded-3xl shadow-lg p-6">
+                <div className="bg-white rounded-lg shadow-lg p-6">
                   <h2 className="text-xl font-bold text-gray-900 mb-6">
                     Change Password
                   </h2>
@@ -306,7 +407,7 @@ export default function SettingNav() {
                       <div className="relative">
                         <input
                           type={showPassword ? "text" : "password"}
-                          className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#015B46]/20 focus:border-[#015B46] pr-12"
+                          className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#015B46]/20 focus:border-[#015B46] pr-12"
                           placeholder="Enter current password"
                         />
                         <button

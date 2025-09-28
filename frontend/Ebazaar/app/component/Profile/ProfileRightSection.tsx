@@ -152,7 +152,7 @@ function ProductCreateModal({
             </button>
             <button
               type="submit"
-              className="cursor-pointer px-4 py-1 rounded bg-[#015B46] text-white"
+              className="cursor-pointer px-4 py-1 rounded bg-gradient-to-r from-[#015B46] to-[#017A5B] text-white hover:shadow-lg hover:shadow-[#015B46]/25 transform hover:-translate-y-0.5 transition-all"
               disabled={loading}
             >
               {loading ? "Creating..." : "Create"}
@@ -307,7 +307,7 @@ function ProductEditModal({
             </button>
             <button
               type="submit"
-              className="cursor-pointer px-4 py-1 rounded bg-[#015B46] text-white"
+              className="cursor-pointer px-4 py-1 rounded bg-gradient-to-r from-[#015B46] to-[#017A5B] text-white hover:shadow-lg hover:shadow-[#015B46]/25 transform hover:-translate-y-0.5 transition-all"
               disabled={loading}
             >
               {loading ? "Updating..." : "Update"}
@@ -407,7 +407,7 @@ function ProductDetailModal({
             {/* Edit Button */}
             <button
               onClick={onClose}
-              className="cursor-pointer text-lg w-full bg-[#015B46] text-white py-2 rounded font-semibold hover:bg-[#013f3a] transition-colors"
+              className="cursor-pointer text-lg w-full bg-gradient-to-r from-[#015B46] to-[#017A5B] text-white py-2 rounded font-semibold hover:shadow-lg hover:shadow-[#015B46]/25 transform hover:-translate-y-0.5 transition-all"
             >
               Edit
             </button>
@@ -606,7 +606,7 @@ export default function ProfileRightSection({
           <button
             className={`${
               !hasStore && "pointer-events-none grayscale-75 opacity-30"
-            }  cursor-pointer px-3 sm:px-4 py-1 bg-[#015B46] text-white rounded font-semibold hover:bg-[#013f3a] transition-colors`}
+            }  cursor-pointer px-3 sm:px-4 py-1 bg-gradient-to-r from-[#015B46] to-[#017A5B] text-white rounded font-semibold hover:shadow-lg hover:shadow-[#015B46]/25 transform hover:-translate-y-0.5 transition-all`}
             onClick={() => setModalOpen(true)}
           >
             Create product
@@ -657,7 +657,7 @@ export default function ProfileRightSection({
                     {product.title}
                   </h3>
                   <div
-                    className="cursor-pointer flex items-center justify-center w-6 h-6 rounded  bg-[#015B46] hover:bg-[#013f3a] transition-colors"
+                    className="cursor-pointer flex items-center justify-center w-6 h-6 rounded bg-gradient-to-r from-[#015B46] to-[#017A5B] hover:shadow-lg hover:shadow-[#015B46]/25 transform hover:-translate-y-0.5 transition-all"
                     onClick={(e) => {
                       e.stopPropagation();
                       handleDetailClick(product);
@@ -677,7 +677,7 @@ export default function ProfileRightSection({
                     </span>
                   </div>
                   <button
-                    className="cursor-pointer w-full py-1 text-base lg:text-lg bg-[#015B46] text-white rounded font-semibold hover:bg-[#013f3a] transition-colors"
+                    className="cursor-pointer w-full py-1 text-base lg:text-lg bg-gradient-to-r from-[#015B46] to-[#017A5B] text-white rounded font-semibold hover:shadow-lg hover:shadow-[#015B46]/25 transform hover:-translate-y-0.5 transition-all"
                     onClick={() => handleEditClick(product)}
                   >
                     Edit

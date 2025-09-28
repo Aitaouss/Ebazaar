@@ -119,158 +119,110 @@ export default function MailNav() {
   };
 
   return (
-    <div className="h-full w-full flex gap-4">
-      <div className="flex flex-col bg-white rounded-2xl shadow-md h-full w-[35%] overflow-hidden">
-        <div className="h-[10%] w-full bg-[#015B46] flex items-center gap-2 p-3">
-          <HiMail className="text-white text-3xl" />
-          <h1 className="text-white font-semibold">Inbox</h1>
+    <div className="h-full w-full flex gap-6 p-4">
+      {/* Left Sidebar - Conversations List */}
+      <div className="flex flex-col bg-white bg-overlay rounded-3xl border border-gray-100 h-full w-[38%] overflow-hidden">
+        {/* Header */}
+        <div className="bg-gradient-to-r from-[#015B46] to-[#017A5B] p-6 rounded-t-3xl">
+          <div className="flex items-center gap-3">
+            <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center">
+              <HiMail className="text-white text-2xl" />
+            </div>
+            <div>
+              <h1 className="text-white text-xl font-bold">Messages</h1>
+              <p className="text-white/80 text-sm">Stay connected</p>
+            </div>
+          </div>
         </div>
-        <div className="px-4 py-3 bg-white">
-          <div className="flex items-center bg-gray-50 border border-gray-200 rounded-xl px-3 py-2">
-            <svg
-              className="w-5 h-5 text-gray-400 mr-2"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-            >
-              <circle cx="11" cy="11" r="8" />
-              <line x1="21" y1="21" x2="16.65" y2="16.65" />
-            </svg>
+
+        {/* Search Bar */}
+        <div className="p-4 bg-gray-50/50 border-b border-gray-100">
+          <div className="relative group">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <svg
+                className="w-5 h-5 text-gray-400 group-focus-within:text-[#015B46] transition-colors"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+              >
+                <circle cx="11" cy="11" r="8" />
+                <line x1="21" y1="21" x2="16.65" y2="16.65" />
+              </svg>
+            </div>
             <input
               type="text"
-              placeholder="Search by name"
-              className="bg-transparent outline-none flex-1 text-sm"
+              placeholder="Search conversations..."
+              className="w-full pl-10 pr-4 py-3 bg-white border border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#015B46]/20 focus:border-[#015B46] transition-all text-sm"
               onChange={(e) => setInputName(e.target.value)}
               value={inputName}
             />
           </div>
         </div>
-        <div className="flex-1 bg-white w-full overflow-auto p-3 flex flex-col gap-3 scrollbar-thin scrollbar-thumb-indigo-600 scrollbar-track-gray-200">
+
+        {/* Conversations List */}
+        <div className="flex-1 overflow-auto p-4 space-y-3">
           {MessageToDisplay.length == 0 && (
-            <div className="h-full flex items-center justify-center ">
-              <h1 className="animate-bounce">No User Found</h1>
+            <div className="h-full flex flex-col items-center justify-center text-center py-12">
+              <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
+                <HiMail className="text-gray-400 text-2xl" />
+              </div>
+              <h3 className="text-gray-600 font-medium mb-2">
+                No conversations found
+              </h3>
+              <p className="text-gray-400 text-sm">
+                Start a conversation to see it here
+              </p>
             </div>
           )}
           {MessageToDisplay.map((msg) => (
             <div
               key={msg.id}
               onClick={() => handleInput(isSelected === msg.id ? 0 : msg.id)}
-              className={`w-full min-h-[80px] ${
-                !msg.is_read ? "bg-[#011916]/74" : "bg-[#0A433D]/74"
-              } shadow-sm rounded-2xl ${
-                isSelected === msg.id ? "border-2 border-green-500" : ""
+              className={`group relative overflow-hidden rounded-2xl cursor-pointer transition-all duration-300 hover:scale-[1.02] hover:shadow-lg ${
+                isSelected === msg.id
+                  ? "bg-gradient-to-r from-[#015B46] to-[#017A5B] text-white shadow-xl transform scale-[1.02]"
+                  : "bg-white hover:bg-gray-50 border border-gray-100 hover:border-gray-200"
               }`}
             >
-              <div className="w-full h-full p-3 flex items-center gap-3">
-                {msg.sender_image ? (
-                  <img
-                    src={msg.sender_image}
-                    alt={msg.sender_name}
-                    className="w-10 h-10 rounded-full"
-                  />
-                ) : (
-                  <div className="w-10 h-10 rounded-full bg-[#015B46] flex items-center justify-center">
-                    <span className="text-white font-semibold">
-                      {msg.sender_name.charAt(0).toUpperCase()}
-                    </span>
-                  </div>
-                )}
-                <div>
-                  <h1 className="text-white font-semibold">
-                    {msg.sender_name === user.name
-                      ? msg.receiver_name
-                      : msg.sender_name}
-                  </h1>
-                </div>
-                <div className="ml-auto flex flex-col items-end gap-2">
-                  {msg.is_read ? (
-                    <div className="hover:bg-[#015B46]/70 transition-all duration-300 bg-[#015B46] text-white text-xs rounded-full px-5 py-1">
-                      Not read
-                    </div>
+              <div className="p-4 flex items-center gap-4">
+                <div className="relative">
+                  {msg.sender_image ? (
+                    <img
+                      src={msg.sender_image}
+                      alt={msg.sender_name}
+                      className="w-12 h-12 rounded-full object-cover border-2 border-white shadow-md"
+                    />
                   ) : (
-                    ""
-                  )}
-                  <span className="text-xs text-white font-light">
-                    {new Date(msg.created_at).toLocaleTimeString([], {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })}
-                  </span>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Nextchat */}
-      <div className="flex flex-col  bg-white justify-between rounded-2xl shadow-md relative h-full flex-1 bg-overlay">
-        {isSelected !== 0 ? (
-          <>
-            <div className="w-full min-h-[100px]  border-b border-[#E3E3E3] flex justify-between items-center px-5">
-              {userSelected ? (
-                <>
-                  <div className="w-full h-full p-3 flex items-center gap-3">
-                    {userSelected.sender_image ? (
-                      <img
-                        src={userSelected.sender_image}
-                        alt={userSelected.sender_name}
-                        className="w-10 h-10 rounded-full"
-                      />
-                    ) : (
-                      <div className="w-10 h-10 rounded-full bg-[#015B46] flex items-center justify-center">
-                        <span className="text-white font-semibold">
-                          {userSelected.sender_name.charAt(0).toUpperCase()}
-                        </span>
-                      </div>
-                    )}
-                    <div className="">
-                      <h1>{userSelected.sender_name}</h1>
-                      <div className="flex items-center gap-1">
-                        <div
-                          className={`w-2 h-2 ${
-                            isOnline ? "bg-green-700" : "bg-gray-500"
-                          } rounded-full`}
-                        ></div>
-                        <span
-                          className={`${
-                            isOnline ? "text-green-700" : "text-gray-600"
-                          }`}
-                        >
-                          {isOnline ? "Online" : "Offline"}
-                        </span>
-                      </div>
+                    <div
+                      className={`w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg ${
+                        isSelected === msg.id
+                          ? "bg-white/20 text-white"
+                          : "bg-gradient-to-r from-[#015B46] to-[#017A5B] text-white"
+                      }`}
+                    >
+                      {msg.sender_name.charAt(0).toUpperCase()}
                     </div>
-                  </div>
-                  {/* <div className=""> */}
-                  <RiSettingsFill className="cursor-pointer text-black text-xl" />
-                  {/* </div> */}
-                </>
-              ) : (
-                ""
-              )}
-            </div>
-            <div className="flex-1 w-full overflow-auto p-3">
-              {MessageForMeSorted.map((msg: any, index: number) => (
-                <div
-                  key={index}
-                  className={`w-full flex my-2 ${
-                    msg.sender_id === user.id ? "justify-end" : "justify-start"
-                  }`}
-                >
-                  <div
-                    className={`max-w-[60%] p-3 rounded-2xl shadow-sm ${
-                      msg.sender_id === user.id
-                        ? "bg-[#015B46] text-white rounded-br-none"
-                        : "bg-[#E3E3E3] text-black rounded-bl-none"
-                    }`}
-                  >
-                    <p className="text-sm mb-1">{msg.message}</p>
+                  )}
+                  {/* Online indicator */}
+                  <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 border-2 border-white rounded-full"></div>
+                </div>
+
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center justify-between mb-1">
+                    <h3
+                      className={`font-semibold truncate ${
+                        isSelected === msg.id ? "text-white" : "text-gray-900"
+                      }`}
+                    >
+                      {msg.sender_name === user.name
+                        ? msg.receiver_name
+                        : msg.sender_name}
+                    </h3>
                     <span
-                      className={`text-xs block ${
-                        msg.sender_id === user.id
-                          ? "text-gray-200"
+                      className={`text-xs ${
+                        isSelected === msg.id
+                          ? "text-white/80"
                           : "text-gray-500"
                       }`}
                     >
@@ -280,35 +232,188 @@ export default function MailNav() {
                       })}
                     </span>
                   </div>
+
+                  <div className="flex items-center justify-between">
+                    <p
+                      className={`text-sm truncate ${
+                        isSelected === msg.id
+                          ? "text-white/90"
+                          : "text-gray-600"
+                      }`}
+                    >
+                      {msg.message || "No messages yet"}
+                    </p>
+                    {!msg.is_read && (
+                      <div
+                        className={`ml-2 w-2 h-2 rounded-full ${
+                          isSelected === msg.id ? "bg-white" : "bg-[#A44A3F]"
+                        }`}
+                      ></div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Chat Area */}
+      <div className="flex flex-col bg-white bg-overlay rounded-3xl shadow-xl border border-gray-100 h-full flex-1 overflow-hidden">
+        {isSelected !== 0 ? (
+          <>
+            {/* Chat Header */}
+            <div className="bg-white border-b border-gray-100 p-6 rounded-t-3xl">
+              {userSelected ? (
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-4">
+                    {userSelected.sender_image ? (
+                      <img
+                        src={userSelected.sender_image}
+                        alt={userSelected.sender_name}
+                        className="w-12 h-12 rounded-full object-cover border-2 border-gray-100 shadow-sm"
+                      />
+                    ) : (
+                      <div className="w-12 h-12 rounded-full bg-gradient-to-r from-[#015B46] to-[#017A5B] flex items-center justify-center shadow-lg">
+                        <span className="text-white font-bold text-lg">
+                          {userSelected.sender_name.charAt(0).toUpperCase()}
+                        </span>
+                      </div>
+                    )}
+                    <div>
+                      <h2 className="text-xl font-bold text-gray-900">
+                        {userSelected.sender_name}
+                      </h2>
+                      <div className="flex items-center gap-2">
+                        <div
+                          className={`w-3 h-3 rounded-full ${
+                            isOnline ? "bg-green-500" : "bg-gray-400"
+                          }`}
+                        ></div>
+                        <span
+                          className={`text-sm font-medium ${
+                            isOnline ? "text-green-600" : "text-gray-500"
+                          }`}
+                        >
+                          {isOnline ? "Online" : "Offline"}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <button className="p-3 hover:bg-gray-100 rounded-2xl transition-colors group">
+                    <RiSettingsFill className="text-gray-600 group-hover:text-[#015B46] text-xl transition-colors" />
+                  </button>
+                </div>
+              ) : (
+                ""
+              )}
+            </div>
+
+            {/* Messages Container */}
+            <div className="flex-1 overflow-auto p-6 bg-gray-50/30 space-y-4">
+              {MessageForMeSorted.length === 0 && (
+                <div className="h-full flex flex-col items-center justify-center text-center">
+                  <div className="w-20 h-20 bg-gradient-to-r from-[#015B46] to-[#017A5B] rounded-full flex items-center justify-center mb-4">
+                    <HiMail className="text-white text-3xl" />
+                  </div>
+                  <h3 className="text-gray-700 font-semibold text-lg mb-2">
+                    Start the conversation
+                  </h3>
+                  <p className="text-gray-500">
+                    Send a message to begin chatting with{" "}
+                    {userSelected?.sender_name}
+                  </p>
+                </div>
+              )}
+              {MessageForMeSorted.map((msg: any, index: number) => (
+                <div
+                  key={index}
+                  className={`flex ${
+                    msg.sender_id === user.id ? "justify-end" : "justify-start"
+                  } mb-4`}
+                >
+                  <div
+                    className={`group max-w-[70%] ${
+                      msg.sender_id === user.id
+                        ? "bg-gradient-to-r from-[#015B46] to-[#017A5B] text-white rounded-3xl rounded-br-lg"
+                        : "bg-white border border-gray-200 text-gray-800 rounded-3xl rounded-bl-lg shadow-sm"
+                    } px-5 py-3 transition-all hover:shadow-md`}
+                  >
+                    <p className="text-sm leading-relaxed mb-2">
+                      {msg.message}
+                    </p>
+                    <div className="flex items-center justify-end">
+                      <span
+                        className={`text-xs ${
+                          msg.sender_id === user.id
+                            ? "text-white/80"
+                            : "text-gray-500"
+                        }`}
+                      >
+                        {new Date(msg.created_at).toLocaleTimeString([], {
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })}
+                      </span>
+                    </div>
+                  </div>
                 </div>
               ))}
               <div ref={messagesEndRef} />
             </div>
-            <div className="w-full h-[100px]  border-t border-[#E3E3E3]  p-3 flex gap-3 items-center">
-              <MdOutlineEmojiEmotions className="cursor-pointer text-[#9D9D9D] text-4xl " />
-              <input
-                className="bg-transparent outline-none w-[90%] h-[90%] border border-[#E3E3E3] rounded-2xl pl-3"
-                placeholder="Type a message..."
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-              />
-              <button
-                className="cursor-pointer hover:bg-[#015B46]/90 transition-all duration-300 bg-[#015B46] w-[70px] h-[70px] rounded-2xl flex items-center justify-center "
-                onClick={sendMessage}
-                disabled={!input.trim()}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    e.preventDefault();
-                    sendMessage();
-                  }
-                }}
-              >
-                <IoMdSend className="text-white text-2xl m-5" />
-              </button>
+
+            {/* Message Input */}
+            <div className="bg-white border-t border-gray-100 p-6 rounded-b-3xl">
+              <div className="flex items-center gap-4">
+                <button className="p-3 hover:bg-gray-100 rounded-2xl transition-colors group">
+                  <MdOutlineEmojiEmotions className="text-gray-500 group-hover:text-[#015B46] text-2xl transition-colors" />
+                </button>
+                <div className="flex-1 relative">
+                  <input
+                    className="w-full px-6 py-4 bg-gray-50 border border-gray-200 rounded-3xl focus:outline-none focus:ring-2 focus:ring-[#015B46]/20 focus:border-[#015B46] transition-all placeholder-gray-500"
+                    placeholder="Type your message..."
+                    value={input}
+                    onChange={(e) => setInput(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        e.preventDefault();
+                        sendMessage();
+                      }
+                    }}
+                  />
+                </div>
+                <button
+                  className={`p-4 rounded-2xl transition-all duration-300 transform hover:scale-105 shadow-lg ${
+                    input.trim()
+                      ? "bg-gradient-to-r from-[#015B46] to-[#017A5B] hover:shadow-xl"
+                      : "bg-gray-300 cursor-not-allowed"
+                  }`}
+                  onClick={sendMessage}
+                  disabled={!input.trim()}
+                >
+                  <IoMdSend className="text-white text-xl" />
+                </button>
+              </div>
             </div>
           </>
         ) : (
-          ""
+          <div className="h-full flex flex-col items-center justify-center text-center p-8">
+            <div className="w-24 h-24 bg-gradient-to-r from-[#015B46] to-[#017A5B] rounded-3xl flex items-center justify-center mb-6 shadow-xl">
+              <HiMail className="text-white text-4xl" />
+            </div>
+            <h2 className="text-2xl font-bold text-gray-800 mb-3">
+              Welcome to Messages
+            </h2>
+            <p className="text-gray-600 text-lg mb-4">
+              Select a conversation to start chatting
+            </p>
+            <div className="bg-gray-50 rounded-2xl p-4 max-w-md">
+              <p className="text-gray-500 text-sm">
+                Your messages will appear here. Connect with other users and
+                start meaningful conversations.
+              </p>
+            </div>
+          </div>
         )}
       </div>
     </div>
