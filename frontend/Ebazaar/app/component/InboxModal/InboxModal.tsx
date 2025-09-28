@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useUser } from "@/app/eb/layout";
+import { useUser } from "@/app/context/UserContext";
 import { FaEnvelope, FaRegCommentDots } from "react-icons/fa";
 import Image from "next/image";
 

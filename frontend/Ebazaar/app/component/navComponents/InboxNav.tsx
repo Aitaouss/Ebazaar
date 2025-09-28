@@ -1,6 +1,6 @@
 "use client";
 
-import { useUser } from "@/app/eb/layout";
+import { useUser } from "@/app/context/UserContext";
 import { useEffect, useState, useRef } from "react";
 import { io, Socket } from "socket.io-client";
 import { HiMail } from "react-icons/hi";

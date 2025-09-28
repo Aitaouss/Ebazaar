@@ -1,6 +1,6 @@
 "use client";
 
-import { useUser } from "@/app/eb/layout";
+import { useUser } from "@/app/context/UserContext";
 import Image from "next/image";
 import {
   FaEnvelope,

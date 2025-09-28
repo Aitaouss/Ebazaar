@@ -15,7 +15,7 @@ import {
 import { toast } from "react-hot-toast";
 import { useConfirm } from "../../component/ui/ConfirmModal";
 import { useAlert } from "../../component/ui/AlertModal";
-import { useUser } from "@/app/eb/layout";
+import { useUser } from "@/app/context/UserContext";
 
 // Single-file Admin Panel component
 // - Fetches /users (expects { users: User[], products?: Product[], stores?: Store[] })
@@ -81,8 +81,13 @@ export default function AdminPanel() {
   const dataUser = useUser();
   const user = dataUser?.user;
 
+  useEffect(() => {
+    if (user?.role !== "admin" && typeof window !== "undefined") {
+      window.location.href = "/eb";
+    }
+  }, [user]);
+
   if (user?.role !== "admin") {
-    window.location.href = "/eb";
     return null;
   }
 

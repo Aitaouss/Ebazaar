@@ -14,7 +14,7 @@ import NavBar from "../NavBar/NavBar";
 import { MdOutlineLogout } from "react-icons/md";
 
 import { User, userProducts, LanguagesInterface } from "../../types/types";
-import { useUser } from "@/app/eb/layout";
+import { useUser } from "../../context/UserContext";
 import Image from "next/image";
 import { BsList } from "react-icons/bs";
 

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { FaMapMarkerAlt, FaTrash, FaStar } from "react-icons/fa";
 import { useEffect, useState } from "react";
-import { useUser } from "@/app/eb/layout";
+import { useUser } from "@/app/context/UserContext";
 import { toast, Toaster } from "react-hot-toast";
 import { MdOutlineOpenInFull } from "react-icons/md";
 import StoreSection from "./StoreSection";

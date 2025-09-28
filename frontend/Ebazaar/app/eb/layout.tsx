@@ -1,17 +1,11 @@
 "use client";
-import { useState, useEffect, createContext, useContext } from "react";
+import { useState, useEffect } from "react";
 import LayoutComp from "../component/LayoutComp/LayoutComp";
 import { User } from "../types/types";
 import LoadingSpinner from "../component/loading/page";
 import InboxModal from "../component/InboxModal/InboxModal";
 import ProtectedPageWrapper from "../component/ProtectedPage/ProtectedPageWrapper";
-
-// 1. Create a context
-const UserContext = createContext<any>(null);
-
-export function useUser() {
-  return useContext(UserContext);
-}
+import { UserContext } from "../context/UserContext";
 
 export default function HomeLayout({
   children,

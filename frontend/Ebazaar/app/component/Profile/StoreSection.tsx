@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { toast } from "react-hot-toast";
-import { useUser } from "@/app/eb/layout";
+import { useUser } from "@/app/context/UserContext";
 import { FaMapMarkerAlt, FaTrash } from "react-icons/fa";
 import { useConfirm } from "../ui/ConfirmModal";
 

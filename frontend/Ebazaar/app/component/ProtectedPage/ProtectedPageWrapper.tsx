@@ -1,5 +1,5 @@
 "use client";
-import { useUser } from "@/app/eb/layout"; // your hook
+import { useUser } from "@/app/context/UserContext"; // your hook
 import { usePathname, notFound } from "next/navigation";
 import { useEffect } from "react";
 

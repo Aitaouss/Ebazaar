@@ -3,7 +3,7 @@
 import { FiTrendingUp, FiStar, FiUsers, FiDollarSign } from "react-icons/fi";
 import { HiMail } from "react-icons/hi";
 import { User } from "../../types/types";
-import { useUser } from "../../eb/layout";
+import { useUser } from "../../context/UserContext";
 import { useEffect, useState } from "react";
 import LoadingSpinner from "../loading/page";
 import { Clock } from "lucide-react";

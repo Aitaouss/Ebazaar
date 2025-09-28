@@ -7,7 +7,7 @@ import { SiEventstore } from "react-icons/si";
 import { RiSettings4Fill } from "react-icons/ri";
 import { IoMail } from "react-icons/io5";
 import { FaUser } from "react-icons/fa";
-import { useUser } from "@/app/eb/layout";
+import { useUser } from "@/app/context/UserContext";
 
 function removeSpaces(str: string) {
   return str.replace(/\s+/g, "");

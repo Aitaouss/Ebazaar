@@ -1,6 +1,6 @@
 "use client";
 
-import { useUser } from "@/app/eb/layout";
+import { useUser } from "@/app/context/UserContext";
 import { useState, useEffect } from "react";
 import {
   FiUser,
