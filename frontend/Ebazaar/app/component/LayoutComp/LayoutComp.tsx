@@ -140,7 +140,7 @@ export default function LayoutComp({
             <div className="flex items-center gap-2 ml-4">
               {userData?.role === "admin" && (
                 <button
-                  className="py-1 px-2 bg-[#015B46] rounded-lg shadow-lg cursor-pointer text-white"
+                  className="py-1 px-2 bg-gradient-to-r from-[#015B46] to-[#017A5B] rounded-lg shadow-lg cursor-pointer text-white"
                   onClick={() => {
                     window.location.href = "/admin/pannel";
                   }}
@@ -319,7 +319,7 @@ export default function LayoutComp({
                       window.location.href = "/admin/pannel";
                     }}
                   >
-                    <div className="w-6 h-6 bg-[#015B46] rounded flex items-center justify-center">
+                    <div className="w-6 h-6 bg-gradient-to-r from-[#015B46] to-[#017A5B] rounded flex items-center justify-center">
                       <span className="text-white text-xs font-bold">A</span>
                     </div>
                     <span className="text-gray-800 font-medium">

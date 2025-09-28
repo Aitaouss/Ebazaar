@@ -123,7 +123,7 @@ export default function MainPage() {
       )}
 
       {/* Main Content with Enhanced Background */}
-      <div className="relative min-h-screen w-full bg-[#FDF9F4] overflow-hidden">
+      <div className="relative min-h-screen w-full bg-[#fff] overflow-hidden">
         <div className="bg-overlay"></div>
         {/* Decorative Background Elements */}
         <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-bl from-[#015B46]/5 to-transparent rounded-full blur-3xl"></div>

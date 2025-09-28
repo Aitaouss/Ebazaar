@@ -88,7 +88,7 @@ export default function Buyer() {
       initial={{ opacity: 0, y: 50 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.8, ease: "easeOut" }}
-      className="w-full bg-[#FDF9F4] relative px-6 sm:px-10 lg:px-20 flex flex-col gap-20 py-16 bg-overlay"
+      className="w-full bg-[#fff] relative px-6 sm:px-10 lg:px-20 flex flex-col gap-20 py-16 bg-overlay"
     >
       {/* Buyer */}
       <div className="flex flex-col gap-10">

@@ -121,11 +121,11 @@ export default function MailNav() {
   return (
     <div className="h-full w-full flex gap-6 p-4">
       {/* Left Sidebar - Conversations List */}
-      <div className="flex flex-col bg-white bg-overlay rounded-3xl border border-gray-100 h-full w-[38%] overflow-hidden">
+      <div className="flex flex-col bg-white bg-overlay rounded-lg border border-gray-100 h-full w-[38%] overflow-hidden">
         {/* Header */}
-        <div className="bg-gradient-to-r from-[#015B46] to-[#017A5B] p-6 rounded-t-3xl">
+        <div className="bg-gradient-to-r from-[#015B46] to-[#017A5B] p-6 rounded-t-lg">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center">
+            <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-lg flex items-center justify-center">
               <HiMail className="text-white text-2xl" />
             </div>
             <div>
@@ -153,7 +153,7 @@ export default function MailNav() {
             <input
               type="text"
               placeholder="Search conversations..."
-              className="w-full pl-10 pr-4 py-3 bg-white border border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#015B46]/20 focus:border-[#015B46] transition-all text-sm"
+              className="w-full pl-10 pr-4 py-3 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#015B46]/20 focus:border-[#015B46] transition-all text-sm"
               onChange={(e) => setInputName(e.target.value)}
               value={inputName}
             />
@@ -179,7 +179,7 @@ export default function MailNav() {
             <div
               key={msg.id}
               onClick={() => handleInput(isSelected === msg.id ? 0 : msg.id)}
-              className={`group relative overflow-hidden rounded-2xl cursor-pointer transition-all duration-300 hover:scale-[1.02] hover:shadow-lg ${
+              className={`group relative overflow-hidden rounded-lg cursor-pointer transition-all duration-300 hover:scale-[1.02] hover:shadow-lg ${
                 isSelected === msg.id
                   ? "bg-gradient-to-r from-[#015B46] to-[#017A5B] text-white shadow-xl transform scale-[1.02]"
                   : "bg-white hover:bg-gray-50 border border-gray-100 hover:border-gray-200"
@@ -259,11 +259,11 @@ export default function MailNav() {
       </div>
 
       {/* Chat Area */}
-      <div className="flex flex-col bg-white bg-overlay rounded-3xl shadow-xl border border-gray-100 h-full flex-1 overflow-hidden">
+      <div className="flex flex-col bg-white bg-overlay rounded-lg shadow-xl border border-gray-100 h-full flex-1 overflow-hidden">
         {isSelected !== 0 ? (
           <>
             {/* Chat Header */}
-            <div className="bg-white border-b border-gray-100 p-6 rounded-t-3xl">
+            <div className="bg-white border-b border-gray-100 p-6 rounded-t-lg">
               {userSelected ? (
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-4">
@@ -300,7 +300,7 @@ export default function MailNav() {
                       </div>
                     </div>
                   </div>
-                  <button className="p-3 hover:bg-gray-100 rounded-2xl transition-colors group">
+                  <button className="p-3 hover:bg-gray-100 rounded-lg transition-colors group">
                     <RiSettingsFill className="text-gray-600 group-hover:text-[#015B46] text-xl transition-colors" />
                   </button>
                 </div>
@@ -335,8 +335,8 @@ export default function MailNav() {
                   <div
                     className={`group max-w-[70%] ${
                       msg.sender_id === user.id
-                        ? "bg-gradient-to-r from-[#015B46] to-[#017A5B] text-white rounded-3xl rounded-br-lg"
-                        : "bg-white border border-gray-200 text-gray-800 rounded-3xl rounded-bl-lg shadow-sm"
+                        ? "bg-gradient-to-r from-[#015B46] to-[#017A5B] text-white rounded-lg rounded-br-none"
+                        : "bg-white border border-gray-200 text-gray-800 rounded-lg rounded-bl-none shadow-sm"
                     } px-5 py-3 transition-all hover:shadow-md`}
                   >
                     <p className="text-sm leading-relaxed mb-2">
@@ -363,14 +363,14 @@ export default function MailNav() {
             </div>
 
             {/* Message Input */}
-            <div className="bg-white border-t border-gray-100 p-6 rounded-b-3xl">
+            <div className="bg-white border-t border-gray-100 p-6 rounded-b-lg">
               <div className="flex items-center gap-4">
-                <button className="p-3 hover:bg-gray-100 rounded-2xl transition-colors group">
+                <button className="p-3 hover:bg-gray-100 rounded-lg transition-colors group">
                   <MdOutlineEmojiEmotions className="text-gray-500 group-hover:text-[#015B46] text-2xl transition-colors" />
                 </button>
                 <div className="flex-1 relative">
                   <input
-                    className="w-full px-6 py-4 bg-gray-50 border border-gray-200 rounded-3xl focus:outline-none focus:ring-2 focus:ring-[#015B46]/20 focus:border-[#015B46] transition-all placeholder-gray-500"
+                    className="w-full px-6 py-4 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#015B46]/20 focus:border-[#015B46] transition-all placeholder-gray-500"
                     placeholder="Type your message..."
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
@@ -383,7 +383,7 @@ export default function MailNav() {
                   />
                 </div>
                 <button
-                  className={`p-4 rounded-2xl transition-all duration-300 transform hover:scale-105 shadow-lg ${
+                  className={`p-4 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg ${
                     input.trim()
                       ? "bg-gradient-to-r from-[#015B46] to-[#017A5B] hover:shadow-xl"
                       : "bg-gray-300 cursor-not-allowed"

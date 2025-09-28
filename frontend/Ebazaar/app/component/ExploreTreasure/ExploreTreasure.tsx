@@ -146,7 +146,7 @@ export default function ExploreTreasure() {
       initial={{ opacity: 0, y: 50 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 2, ease: "easeOut" }}
-      className="bg-[#FDF9F4] min-h-screen w-full pt-20 bg-overlay relative mb-20"
+      className="bg-[#fff] min-h-screen w-full pt-20 bg-overlay relative mb-20"
     >
       <div className="flex flex-col gap-30">
         <div className="text-center flex flex-col gap-4">

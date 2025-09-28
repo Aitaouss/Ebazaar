@@ -293,7 +293,7 @@ export default function HomeNav() {
               {recentOrders.map((order) => (
                 <div
                   key={order.id}
-                  className="flex items-center justify-between p-6 bg-white border border-gray-100 rounded-3xl shadow-lg hover:shadow-xl transition-all duration-300 group"
+                  className="flex items-center justify-between p-6 bg-white border border-gray-100 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 group"
                 >
                   <div className="flex items-center gap-4">
                     {order.buyer_image ? (
@@ -320,14 +320,14 @@ export default function HomeNav() {
                   </div>
                   <div className="flex items-center gap-6">
                     <span
-                      className={`px-4 py-2 rounded-2xl text-sm font-semibold ${
+                      className={`px-4 py-2 rounded-lg text-sm font-semibold ${
                         order.status === "Processing"
-                          ? "bg-yellow-100 text-yellow-700"
+                          ? "bg-yellow-500 text-white"
                           : order.status === "Shipped"
-                          ? "bg-blue-100 text-blue-700"
+                          ? "bg-blue-500 text-white"
                           : order.status === "Delivered"
-                          ? "bg-green-100 text-green-700"
-                          : "bg-red-100 text-red-700"
+                          ? "bg-green-500 text-white"
+                          : "bg-red-500 text-white"
                       }`}
                     >
                       {order.status}
@@ -343,7 +343,7 @@ export default function HomeNav() {
               ))}
             </div>
           ) : (
-            <div className="bg-gradient-to-r from-gray-50 to-white border border-gray-200 rounded-3xl shadow-lg p-12 flex flex-col items-center justify-center text-center">
+            <div className="bg-gradient-to-r from-gray-50 to-white border border-gray-200 rounded-lg shadow-lg p-12 flex flex-col items-center justify-center text-center">
               <div className="w-20 h-20 bg-gradient-to-r from-[#015B46] to-[#017A5B] rounded-full flex items-center justify-center mb-6 shadow-xl">
                 <FiTrendingUp className="text-white text-3xl" />
               </div>
@@ -354,7 +354,7 @@ export default function HomeNav() {
                 Your orders will appear here once customers start purchasing
                 your products and services.
               </p>
-              <div className="bg-[#015B46]/10 rounded-2xl p-4 max-w-sm">
+              <div className="bg-[#015B46]/10 rounded-lg p-4 max-w-sm">
                 <p className="text-[#015B46] text-sm font-medium">
                   💡 Tip: Promote your services to get your first orders!
                 </p>
@@ -392,7 +392,7 @@ export default function HomeNav() {
               {messagesWithoutDuplicate?.map((message: any) => (
                 <div
                   key={message.id}
-                  className="p-6 bg-white border border-gray-100 rounded-3xl shadow-lg hover:shadow-xl transition-all duration-300 group cursor-pointer"
+                  className="p-6 bg-white border border-gray-100 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 group cursor-pointer"
                   onClick={GoToInbox}
                 >
                   <div className="flex items-center justify-between">
@@ -418,24 +418,30 @@ export default function HomeNav() {
                           <h3 className="font-bold text-gray-900 truncate">
                             {message.sender_name || "Dummy"}
                           </h3>
-                          {message.is_read && (
+                          {message.is_read ? (
                             <span className="bg-[#A44A3F] text-white px-3 py-1 rounded-full text-xs font-medium">
                               Unread
                             </span>
+                          ) : (
+                            ""
                           )}
                         </div>
                         <p className="text-sm text-gray-600 mb-2 line-clamp-2">
                           {message.message || "No message preview"}
                         </p>
                         <span className="text-xs text-gray-500">
-                          {message.time || new Date(message.created_at).toLocaleTimeString([], {
-                            hour: "2-digit",
-                            minute: "2-digit",
-                          })}
+                          {message.time ||
+                            new Date(message.created_at).toLocaleTimeString(
+                              [],
+                              {
+                                hour: "2-digit",
+                                minute: "2-digit",
+                              }
+                            )}
                         </span>
                       </div>
                     </div>
-                    <div className="ml-4 p-3 bg-gray-50 rounded-2xl group-hover:bg-[#015B46] group-hover:text-white transition-colors">
+                    <div className="ml-4 p-3 bg-gray-50 rounded-lg group-hover:bg-[#015B46] group-hover:text-white transition-colors">
                       <HiMail className="w-6 h-6 text-gray-600 group-hover:text-white transition-colors" />
                     </div>
                   </div>
@@ -443,15 +449,17 @@ export default function HomeNav() {
               ))}
             </div>
           ) : (
-            <div className="bg-gradient-to-r from-gray-50 to-white border border-gray-200 rounded-3xl shadow-lg p-12 flex flex-col items-center justify-center text-center">
+            <div className="bg-gradient-to-r from-gray-50 to-white border border-gray-200 rounded-lg shadow-lg p-12 flex flex-col items-center justify-center text-center">
               <div className="w-20 h-20 bg-gradient-to-r from-[#015B46] to-[#017A5B] rounded-full flex items-center justify-center mb-6 shadow-xl">
                 <HiMail className="text-white text-3xl" />
               </div>
-              <h3 className="text-xl font-bold text-gray-800 mb-2">No Messages Yet</h3>
+              <h3 className="text-xl font-bold text-gray-800 mb-2">
+                No Messages Yet
+              </h3>
               <p className="text-gray-600 mb-4 max-w-md">
                 Your messages from customers and other users will appear here.
               </p>
-              <div className="bg-[#015B46]/10 rounded-2xl p-4 max-w-sm">
+              <div className="bg-[#015B46]/10 rounded-lg p-4 max-w-sm">
                 <p className="text-[#015B46] text-sm font-medium">
                   💬 Tip: Start engaging with customers to receive messages!
                 </p>

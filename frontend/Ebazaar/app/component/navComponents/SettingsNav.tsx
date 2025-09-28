@@ -429,7 +429,7 @@ export default function SettingNav() {
                         </label>
                         <input
                           type="password"
-                          className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#015B46]/20 focus:border-[#015B46]"
+                          className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#015B46]/20 focus:border-[#015B46]"
                           placeholder="Enter new password"
                         />
                       </div>
