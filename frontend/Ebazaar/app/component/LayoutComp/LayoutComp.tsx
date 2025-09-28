@@ -59,6 +59,11 @@ export default function LayoutComp({
 
   const logoutFunction = async () => {
     try {
+      // Clear beta auth from localStorage
+      localStorage.removeItem("auth");
+      localStorage.removeItem("email");
+      localStorage.removeItem("password");
+
       const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/logout`, {
         method: "POST",
         credentials: "include",
@@ -67,9 +72,13 @@ export default function LayoutComp({
         window.location.href = "/login";
       } else {
         console.error("Logout failed");
+        // Even if backend logout fails, redirect to login for beta users
+        window.location.href = "/login";
       }
     } catch (err) {
       console.error("Logout error:", err);
+      // Even if there's an error, redirect to login for beta users
+      window.location.href = "/login";
     }
   };
 

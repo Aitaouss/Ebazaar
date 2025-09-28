@@ -30,6 +30,41 @@ export default function HomeNav() {
   );
   useEffect(() => {
     const fetchUserData = async () => {
+      // Check if user is beta user
+      const auth = localStorage.getItem("auth");
+      const email = localStorage.getItem("email");
+      const password = localStorage.getItem("password");
+
+      if (auth === "true" && email === "beta" && password === "beta123") {
+        // Beta user - use mock data instead of backend fetch
+        setAverageRating(4.5);
+        setSatisfaction(90);
+        setRecentOrders([
+          {
+            id: 1,
+            product_name: "Handwoven Moroccan Rug",
+            buyer_name: "Alice Johnson",
+            buyer_image: null,
+            price: 299.99,
+            total_price: 299.99,
+            status: "Delivered",
+            created_at: new Date().toISOString(),
+          },
+          {
+            id: 2,
+            product_name: "Artisan Leather Bag",
+            buyer_name: "Bob Wilson",
+            buyer_image: null,
+            price: 189.5,
+            total_price: 189.5,
+            status: "Shipped",
+            created_at: new Date(Date.now() - 86400000).toISOString(),
+          },
+        ]);
+        setLoading(false);
+        return;
+      }
+
       try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/me`, {
           credentials: "include",
@@ -305,7 +340,7 @@ export default function HomeNav() {
                     ) : (
                       <div className="w-14 h-14 bg-gradient-to-r from-[#015B46] to-[#017A5B] rounded-full flex items-center justify-center shadow-lg">
                         <h1 className="text-white font-bold text-lg">
-                          {order.buyer_name.charAt(0).toUpperCase()}
+                          {order.buyer_name?.charAt(0)?.toUpperCase() || "C"}
                         </h1>
                       </div>
                     )}
@@ -334,7 +369,7 @@ export default function HomeNav() {
                     </span>
                     <div className="text-right">
                       <span className="text-lg font-bold text-gray-900">
-                        ${order.total_price}
+                        ${order.total_price || order.price || 0}
                       </span>
                       <p className="text-sm text-gray-500">Total</p>
                     </div>
@@ -409,7 +444,8 @@ export default function HomeNav() {
                       ) : (
                         <div className="w-14 h-14 bg-gradient-to-r from-[#015B46] to-[#017A5B] rounded-full flex items-center justify-center shadow-lg">
                           <h1 className="text-white font-bold text-lg">
-                            {message.sender_name.charAt(0).toUpperCase()}
+                            {message.sender_name?.charAt(0)?.toUpperCase() ||
+                              "U"}
                           </h1>
                         </div>
                       )}

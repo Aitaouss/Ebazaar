@@ -27,9 +27,19 @@ export default function Login() {
     window.location.href = `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/google`;
   };
 
-  // ✅ Check login status using cookies
+  // ✅ Check login status using cookies or localStorage
   useEffect(() => {
     const checkLogin = async () => {
+      // Check for beta auth first
+      const auth = localStorage.getItem("auth");
+      const email = localStorage.getItem("email");
+      const password = localStorage.getItem("password");
+
+      if (auth === "true" && email === "beta" && password === "beta123") {
+        window.location.href = "/eb"; // already logged in with beta
+        return;
+      }
+
       try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/me`, {
           method: "GET",
@@ -58,15 +68,24 @@ export default function Login() {
       toast.error("Please fill in all fields");
       return;
     }
-    if (email === "beta@gmail.com" && password === "beta123") {
+    // Check for beta credentials
+    if (email === "beta" && password === "beta123") {
       toast.success("Login with beta account successful!");
+      localStorage.setItem("auth", "true");
       localStorage.setItem("email", email);
       localStorage.setItem("password", password);
       await new Promise((resolve) => setTimeout(resolve, 2000));
       window.location.href = "/eb";
       return;
     }
-    // check if the email is valid
+
+    // If beta email is used but wrong password
+    if (email === "beta" && password !== "beta123") {
+      toast.error("Invalid beta credentials! Please use 'beta123' as password");
+      return;
+    }
+
+    // check if the email is valid for regular login
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       toast.error("Please enter a valid email address");
@@ -165,8 +184,7 @@ export default function Login() {
             </h2>
             <div className="space-y-2 text-sm text-gray-600">
               <p>
-                <span className="text-gray-700 font-bold">Email:</span>{" "}
-                beta@gmail.com
+                <span className="text-gray-700 font-bold">Email:</span> beta
               </p>
               <p>
                 <span className="font-bold text-gray-700">Password:</span>{" "}

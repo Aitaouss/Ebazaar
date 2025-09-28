@@ -107,6 +107,19 @@ export default function SettingNav() {
   };
 
   const saveUserData = async () => {
+    // Check if user is beta user
+    const auth = localStorage.getItem("auth");
+    const email = localStorage.getItem("email");
+    const password = localStorage.getItem("password");
+
+    if (auth === "true" && email === "beta" && password === "beta123") {
+      // Beta user - just show success message without backend call
+      console.log("Beta user data saved locally");
+      // Optionally show a toast notification for beta users
+      alert("Settings saved successfully (Beta Mode)");
+      return;
+    }
+
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/edit`,
