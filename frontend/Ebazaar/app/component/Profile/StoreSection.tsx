@@ -66,7 +66,7 @@ function StoreCreateModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#111]/40">
-      <div className="bg-white relative bg-overlay rounded-xl shadow-lg p-6 w-full max-w-md">
+      <div className="bg-white relative bg-overlay rounded-lg shadow-lg p-6 w-full max-w-md">
         <h2 className="text-lg font-bold mb-4">Create Store</h2>
         <form onSubmit={handleSubmit} className="flex flex-col gap-3">
           <input
@@ -210,7 +210,7 @@ function StoreEditModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#111]/40">
-      <div className="bg-white rounded-xl shadow-lg p-6 w-full max-w-md">
+      <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
         <h2 className="text-lg font-bold mb-4">Edit Store</h2>
         <form onSubmit={handleSubmit} className="flex flex-col gap-3">
           <input
@@ -446,14 +446,14 @@ export default function StoreSection() {
 
   if (!store) {
     return (
-      <div className="flex flex-col items-center justify-between p-6 bg-white rounded-2xl shadow ">
+      <div className="flex flex-col items-center justify-between p-6 bg-white rounded-lg shadow ">
         <div className="flex items-center justify-between w-full">
           <h2 className="text-xl font-bold mb-4">Create Your Ebazaar</h2>
           <button
             onClick={() => {
               setCreateModalOpen(true);
             }}
-            className="cursor-pointer px-4 py-2 hover:shadow-lg hover:shadow-[#015B46]/25 hover:-translate-y-0.5 transition-all  bg-gradient-to-r from-[#015B46] to-[#017A5B] text-white rounded font-semibold hover:bg-[#013f3a] transition-colors"
+            className="cursor-pointer px-4 py-2 hover:shadow-lg hover:shadow-[#015B46]/25 hover:-translate-y-0.5  bg-gradient-to-r from-[#015B46] to-[#017A5B] text-white rounded font-semibold hover:bg-[#013f3a] transition-colors"
           >
             Create Ebazaar
           </button>
@@ -473,8 +473,8 @@ export default function StoreSection() {
   }
 
   return (
-    <div className="bg-white relative rounded-4xl shadow border border-gray-200 mb-2 w-full">
-      <div className="w-full h-32 sm:h-48 rounded-t-2xl overflow-hidden relative">
+    <div className="bg-white relative rounded-lg shadow border border-gray-200 mb-2 w-full">
+      <div className="w-full h-32 sm:h-48 rounded-t-lg overflow-hidden relative">
         <Image
           src={store.cover || "/Background.jpg"}
           alt="Store Cover"

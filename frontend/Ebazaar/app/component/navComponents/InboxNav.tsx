@@ -121,9 +121,11 @@ export default function MailNav() {
   return (
     <div className="h-full w-full flex flex-col lg:flex-row gap-4 lg:gap-6 p-2 sm:p-4">
       {/* Left Sidebar - Conversations List */}
-      <div className={`flex flex-col bg-white bg-overlay rounded-lg border border-gray-100 h-full overflow-hidden ${
-        isSelected === 0 ? 'w-full lg:w-[38%]' : 'hidden lg:flex lg:w-[38%]'
-      }`}>
+      <div
+        className={`flex flex-col bg-white bg-overlay rounded-lg border border-gray-100 h-full overflow-hidden ${
+          isSelected === 0 ? "w-full lg:w-[38%]" : "hidden lg:flex lg:w-[38%]"
+        }`}
+      >
         {/* Header */}
         <div className="bg-gradient-to-r from-[#015B46] to-[#017A5B] p-4 sm:p-6 rounded-t-lg">
           <div className="flex items-center gap-3">
@@ -131,7 +133,9 @@ export default function MailNav() {
               <HiMail className="text-white text-lg sm:text-2xl" />
             </div>
             <div>
-              <h1 className="text-white text-lg sm:text-xl font-bold">Messages</h1>
+              <h1 className="text-white text-lg sm:text-xl font-bold">
+                Messages
+              </h1>
               <p className="text-white/80 text-xs sm:text-sm">Stay connected</p>
             </div>
           </div>
@@ -261,9 +265,11 @@ export default function MailNav() {
       </div>
 
       {/* Chat Area */}
-      <div className={`flex flex-col bg-white bg-overlay rounded-lg shadow-xl border border-gray-100 h-full flex-1 overflow-hidden ${
-        isSelected === 0 ? 'hidden lg:flex' : 'flex'
-      }`}>
+      <div
+        className={`flex flex-col bg-white bg-overlay rounded-lg shadow-xl border border-gray-100 h-full flex-1 overflow-hidden ${
+          isSelected === 0 ? "hidden lg:flex" : "flex"
+        }`}
+      >
         {isSelected !== 0 ? (
           <>
             {/* Chat Header */}
@@ -276,7 +282,13 @@ export default function MailNav() {
                       className="lg:hidden p-2 hover:bg-gray-100 rounded-lg transition-colors"
                       onClick={() => setIsSelected(0)}
                     >
-                      <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                      <svg
+                        className="w-5 h-5 text-gray-600"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        viewBox="0 0 24 24"
+                      >
                         <path d="M19 12H5M12 19l-7-7 7-7" />
                       </svg>
                     </button>
@@ -411,7 +423,7 @@ export default function MailNav() {
           </>
         ) : (
           <div className="h-full flex flex-col items-center justify-center text-center p-4 sm:p-8">
-            <div className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 bg-gradient-to-r from-[#015B46] to-[#017A5B] rounded-2xl sm:rounded-3xl flex items-center justify-center mb-4 sm:mb-6 shadow-xl">
+            <div className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 bg-gradient-to-r from-[#015B46] to-[#017A5B] rounded-lg sm:rounded-lg flex items-center justify-center mb-4 sm:mb-6 shadow-xl">
               <HiMail className="text-white text-2xl sm:text-3xl lg:text-4xl" />
             </div>
             <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-800 mb-2 sm:mb-3">

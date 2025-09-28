@@ -59,7 +59,7 @@ export default function BuyerReviews({ userId }: BuyerReviewsProps) {
 
   if (loading) {
     return (
-      <div className="bg-white bg-overlay relative rounded-4xl shadow p-4 sm:p-6 border border-gray-200 w-full max-w-full md:max-w-xs mx-auto">
+      <div className="bg-white bg-overlay relative rounded-lg shadow p-4 sm:p-6 border border-gray-200 w-full max-w-full md:max-w-xs mx-auto">
         <h2 className="text-base font-semibold text-gray-700 mb-2">
           Buyer Reviews
         </h2>
@@ -78,7 +78,7 @@ export default function BuyerReviews({ userId }: BuyerReviewsProps) {
 
   if (error) {
     return (
-      <div className="bg-white bg-overlay relative rounded-4xl shadow p-4 sm:p-6 border border-gray-200 w-full max-w-full md:max-w-xs mx-auto">
+      <div className="bg-white bg-overlay relative rounded-lg shadow p-4 sm:p-6 border border-gray-200 w-full max-w-full md:max-w-xs mx-auto">
         <h2 className="text-base font-semibold text-gray-700 mb-2">
           Buyer Reviews
         </h2>
@@ -89,7 +89,7 @@ export default function BuyerReviews({ userId }: BuyerReviewsProps) {
 
   if (!stats || stats.total_reviews === 0) {
     return (
-      <div className="bg-white bg-overlay relative rounded-4xl shadow p-4 sm:p-6 border border-gray-200 w-full max-w-full md:max-w-xs mx-auto">
+      <div className="bg-white bg-overlay relative rounded-lg shadow p-4 sm:p-6 border border-gray-200 w-full max-w-full md:max-w-xs mx-auto">
         <h2 className="text-base font-semibold text-gray-700 mb-2">
           Buyer Reviews
         </h2>
@@ -110,7 +110,7 @@ export default function BuyerReviews({ userId }: BuyerReviewsProps) {
   const hasHalfStar = stats.average_rating % 1 >= 0.5;
 
   return (
-    <div className="bg-white bg-overlay relative rounded-4xl shadow p-4 sm:p-6 border border-gray-200 w-full max-w-full md:max-w-xs mx-auto">
+    <div className="bg-white bg-overlay relative rounded-lg shadow p-4 sm:p-6 border border-gray-200 w-full max-w-full md:max-w-xs mx-auto">
       <h2 className="text-base font-semibold text-gray-700 mb-2">
         Buyer Reviews
       </h2>

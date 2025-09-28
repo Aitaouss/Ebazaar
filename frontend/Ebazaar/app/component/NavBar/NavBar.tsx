@@ -8,10 +8,7 @@ import { RiSettings4Fill } from "react-icons/ri";
 import { IoMail } from "react-icons/io5";
 import { FaUser } from "react-icons/fa";
 import { useUser } from "@/app/context/UserContext";
-
-function removeSpaces(str: string) {
-  return str.replace(/\s+/g, "");
-}
+import { useState, useEffect } from "react";
 
 export default function NavBar() {
   const pathname = usePathname();
@@ -23,6 +20,23 @@ export default function NavBar() {
   const data = useUser();
   const user = data?.user;
   const base = `${encodeURIComponent(user?.username as string)}`;
+  const [windowWidth, setWindowWidth] = useState<number>(0);
+
+  useEffect(() => {
+    // Function to update window width
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    // Set initial width
+    handleResize();
+
+    // Add event listener
+    window.addEventListener("resize", handleResize);
+
+    // Cleanup event listener on unmount
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const navItems: NavItem[] = [
     { name: "Home", href: `/eb`, icon: <RiHome5Fill /> },
@@ -42,7 +56,11 @@ export default function NavBar() {
   ];
   return (
     <nav className="flex mt-4 w-full overflow-auto scrollbar-thin scrollbar-thumb-indigo-600 scrollbar-track-gray-200 pb-2">
-      <div className="flex items-center gap-8">
+      <div
+        className={`flex items-center gap-8 ${
+          windowWidth < 860 ? "justify-center" : ""
+        } w-full`}
+      >
         {navItems.map((item) => {
           const isActive = pathname === item.href;
 
@@ -57,8 +75,9 @@ export default function NavBar() {
               }`}
             >
               {item.icon}
-              {/* {isActive && item.name} */}
-              {item.name}
+              <span className={` ${windowWidth > 860 ? "inline" : "hidden"}`}>
+                {item.name}
+              </span>
             </Link>
           );
         })}

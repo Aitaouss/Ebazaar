@@ -147,7 +147,7 @@ export default function HomeNav() {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
             {/* Orders in Progress */}
-            <div className="bg-gradient-to-r from-[#015B46] to-[#017A5B] text-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 group">
+            <div className="bg-gradient-to-r from-[#015B46] to-[#017A5B] text-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 group">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-3">
                   <div className="p-3 bg-white/20 backdrop-blur-sm rounded-xl group-hover:bg-white/30 transition-colors">
@@ -170,33 +170,33 @@ export default function HomeNav() {
             </div>
 
             {/* Total Earnings */}
-            <div className="bg-gradient-to-r from-[#A44A3F] to-[#C55A4E] text-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 group">
+            <div className="bg-[#fff] p-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 group">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-3">
-                  <div className="p-3 bg-white/20 backdrop-blur-sm rounded-xl group-hover:bg-white/30 transition-colors">
-                    <FiDollarSign className="text-white" size={24} />
+                  <div className="p-3 bg-[#015B46]/10 backdrop-blur-sm rounded-lg group-hover:bg-[#015B46]/20 transition-colors">
+                    <FiDollarSign className="text-[#015B46]" size={24} />
                   </div>
                   <div>
-                    <h3 className="text-sm font-bold text-white">
+                    <h3 className="text-sm font-bold text-[#015B46]">
                       Total Earnings
                     </h3>
                   </div>
                 </div>
               </div>
-              <div className="text-3xl font-bold text-white mb-2">
+              <div className="text-3xl font-bold text-[#015B46] mb-2">
                 ${userData.balance || 0}
               </div>
-              <div className="text-sm text-white/80">
-                <span className="text-green-300 font-medium">0%</span> from last
+              <div className="text-sm text-[#015B46]/70">
+                <span className="text-green-600 font-medium">0%</span> from last
                 month
               </div>
             </div>
 
             {/* Active Services */}
-            <div className="bg-gradient-to-r from-[#015B46] to-[#017A5B] text-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 group">
+            <div className="bg-gradient-to-r from-[#015B46] to-[#017A5B] text-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 group">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-3">
-                  <div className="p-3 bg-white/20 backdrop-blur-sm rounded-xl group-hover:bg-white/30 transition-colors">
+                  <div className="p-3 bg-white/20 backdrop-blur-sm rounded-lg group-hover:bg-white/30 transition-colors">
                     <FiUsers className="text-white" size={24} />
                   </div>
                   <div>
@@ -215,25 +215,25 @@ export default function HomeNav() {
             </div>
 
             {/* Average Rating */}
-            <div className="bg-gradient-to-r from-[#A44A3F] to-[#C55A4E] text-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 group">
+            <div className="bg-[#fff] p-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 group">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-3">
-                  <div className="p-3 bg-white/20 backdrop-blur-sm rounded-xl group-hover:bg-white/30 transition-colors">
-                    <FiStar className="text-white" size={24} />
+                  <div className="p-3 bg-[#015B46]/10 backdrop-blur-sm rounded-lg group-hover:bg-[#015B46]/20 transition-colors">
+                    <FiStar className="text-[#015B46]" size={24} />
                   </div>
                   <div>
-                    <h3 className="text-sm font-bold text-white">
+                    <h3 className="text-sm font-bold text-[#015B46]">
                       Average Rating
                     </h3>
                   </div>
                 </div>
               </div>
-              <div className="text-3xl font-bold text-white mb-2 flex items-center gap-2">
+              <div className="text-3xl font-bold text-[#015B46] mb-2 flex items-center gap-2">
                 {averageRating.toFixed(1)}
-                <FiStar className="text-white" size={20} />
+                <FiStar className="text-[#015B46]" size={20} />
               </div>
-              <div className="text-sm text-white/80">
-                <span className="text-orange-300 font-medium">
+              <div className="text-sm text-[#015B46]/70">
+                <span className="text-orange-600 font-medium">
                   {reviews?.length} review{reviews?.length !== 1 ? "s" : ""}
                 </span>
               </div>
@@ -242,10 +242,10 @@ export default function HomeNav() {
 
           {/* Secondary Metrics */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-gradient-to-r from-[#015B46] to-[#017A5B] text-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 group">
+            <div className="bg-gradient-to-r from-[#015B46] to-[#017A5B] text-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 group">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-3">
-                  <div className="p-3 bg-white/20 backdrop-blur-sm rounded-xl group-hover:bg-white/30 transition-colors">
+                  <div className="p-3 bg-white/20 backdrop-blur-sm rounded-lg group-hover:bg-white/30 transition-colors">
                     <FiTrendingUp className="text-white" size={24} />
                   </div>
                   <div>
@@ -264,32 +264,32 @@ export default function HomeNav() {
               </div>
             </div>
 
-            <div className="bg-gradient-to-r from-[#A44A3F] to-[#C55A4E] text-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 group">
+            <div className="bg-[#fff] p-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 group">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-3">
-                  <div className="p-3 bg-white/20 backdrop-blur-sm rounded-xl group-hover:bg-white/30 transition-colors">
-                    <FiDollarSign className="text-white" size={24} />
+                  <div className="p-3 bg-[#015B46]/10 backdrop-blur-sm rounded-lg group-hover:bg-[#015B46]/20 transition-colors">
+                    <FiDollarSign className="text-[#015B46]" size={24} />
                   </div>
                   <div>
-                    <h3 className="text-sm font-bold text-white">
+                    <h3 className="text-sm font-bold text-[#015B46]">
                       Weekly Earnings
                     </h3>
                   </div>
                 </div>
               </div>
-              <div className="text-3xl font-bold text-white mb-2">
+              <div className="text-3xl font-bold text-[#015B46] mb-2">
                 ${(userData.balance || 0) * 7}
               </div>
-              <div className="text-sm text-white/80">
-                <span className="text-purple-300 font-medium">+12.3%</span> from
+              <div className="text-sm text-[#015B46]/70">
+                <span className="text-purple-600 font-medium">+12.3%</span> from
                 last week
               </div>
             </div>
 
-            <div className="bg-gradient-to-r from-[#015B46] to-[#017A5B] text-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 group">
+            <div className="bg-gradient-to-r from-[#015B46] to-[#017A5B] text-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 group">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-3">
-                  <div className="p-3 bg-white/20 backdrop-blur-sm rounded-xl group-hover:bg-white/30 transition-colors">
+                  <div className="p-3 bg-white/20 backdrop-blur-sm rounded-lg group-hover:bg-white/30 transition-colors">
                     <FiUsers className="text-white" size={24} />
                   </div>
                   <div>

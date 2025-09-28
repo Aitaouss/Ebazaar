@@ -131,10 +131,10 @@ export default function DashboardNav() {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
             {/* Total Revenue */}
-            <div className="bg-white text-gray-900 p-6 rounded-3xl shadow-lg hover:shadow-xl transition-all duration-300 group">
+            <div className="bg-white text-gray-900 p-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 group">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-3">
-                  <div className="p-3 bg-[#015B46] rounded-xl group-hover:bg-[#014239] transition-colors">
+                  <div className="p-3 bg-[#015B46] rounded-lg group-hover:bg-[#014239] transition-colors">
                     <FiDollarSign className="text-white" size={24} />
                   </div>
                   <div>
@@ -158,10 +158,10 @@ export default function DashboardNav() {
             </div>
 
             {/* Total Orders */}
-            <div className="bg-white text-gray-900 p-6 rounded-3xl shadow-lg hover:shadow-xl transition-all duration-300 group">
+            <div className="bg-white text-gray-900 p-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 group">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-3">
-                  <div className="p-3 bg-[#A44A3F] rounded-xl group-hover:bg-[#8B3E35] transition-colors">
+                  <div className="p-3 bg-[#A44A3F] rounded-lg group-hover:bg-[#8B3E35] transition-colors">
                     <FiShoppingCart className="text-white" size={24} />
                   </div>
                   <div>
@@ -185,10 +185,10 @@ export default function DashboardNav() {
             </div>
 
             {/* Active Customers */}
-            <div className="bg-white text-gray-900 p-6 rounded-3xl shadow-lg hover:shadow-xl transition-all duration-300 group">
+            <div className="bg-white text-gray-900 p-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 group">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-3">
-                  <div className="p-3 bg-[#015B46] rounded-xl group-hover:bg-[#014239] transition-colors">
+                  <div className="p-3 bg-[#015B46] rounded-lg group-hover:bg-[#014239] transition-colors">
                     <FiUsers className="text-white" size={24} />
                   </div>
                   <div>
@@ -212,10 +212,10 @@ export default function DashboardNav() {
             </div>
 
             {/* Total Products */}
-            <div className="bg-white text-gray-900 p-6 rounded-3xl shadow-lg hover:shadow-xl transition-all duration-300 group">
+            <div className="bg-white text-gray-900 p-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 group">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-3">
-                  <div className="p-3 bg-[#A44A3F] rounded-xl group-hover:bg-[#8B3E35] transition-colors">
+                  <div className="p-3 bg-[#A44A3F] rounded-lg group-hover:bg-[#8B3E35] transition-colors">
                     <FiPackage className="text-white" size={24} />
                   </div>
                   <div>
@@ -239,10 +239,10 @@ export default function DashboardNav() {
             </div>
 
             {/* Conversion Rate */}
-            <div className="bg-white text-gray-900 p-6 rounded-3xl shadow-lg hover:shadow-xl transition-all duration-300 group">
+            <div className="bg-white text-gray-900 p-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 group">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-3">
-                  <div className="p-3 bg-[#015B46] rounded-xl group-hover:bg-[#014239] transition-colors">
+                  <div className="p-3 bg-[#015B46] rounded-lg group-hover:bg-[#014239] transition-colors">
                     <FiTrendingUp className="text-white" size={24} />
                   </div>
                   <div>
@@ -266,10 +266,10 @@ export default function DashboardNav() {
             </div>
 
             {/* Average Order Value */}
-            <div className="bg-white text-gray-900 p-6 rounded-3xl shadow-lg hover:shadow-xl transition-all duration-300 group">
+            <div className="bg-white text-gray-900 p-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 group">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-3">
-                  <div className="p-3 bg-[#A44A3F] rounded-xl group-hover:bg-[#8B3E35] transition-colors">
+                  <div className="p-3 bg-[#A44A3F] rounded-lg group-hover:bg-[#8B3E35] transition-colors">
                     <FiStar className="text-white" size={24} />
                   </div>
                   <div>
@@ -297,7 +297,7 @@ export default function DashboardNav() {
         {/* Charts and Tables Section */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
           {/* Sales Chart */}
-          <div className="bg-white rounded-3xl shadow-lg p-6">
+          <div className="bg-white rounded-lg shadow-lg p-6">
             <div className="flex items-center justify-between mb-6">
               <h3 className="text-lg font-bold text-gray-900">
                 Sales Overview
@@ -332,7 +332,7 @@ export default function DashboardNav() {
           </div>
 
           {/* Top Products */}
-          <div className="bg-white rounded-3xl shadow-lg p-6">
+          <div className="bg-white rounded-lg shadow-lg p-6">
             <div className="flex items-center justify-between mb-6">
               <h3 className="text-lg font-bold text-gray-900">Top Products</h3>
               <button className="text-sm text-[#015B46] hover:underline font-medium">
@@ -343,7 +343,7 @@ export default function DashboardNav() {
               {topProducts.map((product, index) => (
                 <div
                   key={product.id}
-                  className="flex items-center justify-between p-3 hover:bg-gray-50 rounded-xl transition-colors"
+                  className="flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg transition-colors"
                 >
                   <div className="flex items-center gap-3">
                     <div className="w-8 h-8 bg-gradient-to-r from-[#015B46] to-[#017A5B] rounded-lg flex items-center justify-center">
@@ -384,7 +384,7 @@ export default function DashboardNav() {
         </div>
 
         {/* Recent Orders Table */}
-        <div className="bg-white rounded-3xl shadow-lg p-6 mb-8">
+        <div className="bg-white rounded-lg shadow-lg p-6 mb-8">
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-lg font-bold text-gray-900">Recent Orders</h3>
             <button className="text-sm text-[#015B46] hover:underline font-medium">
@@ -469,7 +469,7 @@ export default function DashboardNav() {
 
         {/* Quick Actions */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="bg-gradient-to-r from-[#015B46] to-[#017A5B] rounded-3xl p-6 text-white">
+          <div className="bg-gradient-to-r from-[#015B46] to-[#017A5B] rounded-lg p-6 text-white">
             <div className="flex items-center gap-3 mb-4">
               <FiPackage size={24} />
               <h3 className="text-lg font-bold">Add New Product</h3>
@@ -477,12 +477,12 @@ export default function DashboardNav() {
             <p className="text-sm opacity-90 mb-4">
               Create a new product listing to expand your inventory
             </p>
-            <button className="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-xl text-sm font-medium transition-colors">
+            <button className="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg text-sm font-medium transition-colors">
               Add Product
             </button>
           </div>
 
-          <div className="bg-gradient-to-r from-[#A44A3F] to-[#B55A4F] rounded-3xl p-6 text-white">
+          <div className="bg-gradient-to-r from-[#A44A3F] to-[#B55A4F] rounded-lg p-6 text-white">
             <div className="flex items-center gap-3 mb-4">
               <HiMail size={24} />
               <h3 className="text-lg font-bold">Customer Messages</h3>
@@ -490,12 +490,12 @@ export default function DashboardNav() {
             <p className="text-sm opacity-90 mb-4">
               You have 5 unread messages from customers
             </p>
-            <button className="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-xl text-sm font-medium transition-colors">
+            <button className="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg text-sm font-medium transition-colors">
               View Messages
             </button>
           </div>
 
-          <div className="bg-gradient-to-r from-[#015B46] to-[#017A5B] rounded-3xl p-6 text-white">
+          <div className="bg-gradient-to-r from-[#015B46] to-[#017A5B] rounded-lg p-6 text-white">
             <div className="flex items-center gap-3 mb-4">
               <FiCalendar size={24} />
               <h3 className="text-lg font-bold">Schedule Report</h3>
@@ -503,7 +503,7 @@ export default function DashboardNav() {
             <p className="text-sm opacity-90 mb-4">
               Generate and schedule automated reports
             </p>
-            <button className="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-xl text-sm font-medium transition-colors">
+            <button className="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg text-sm font-medium transition-colors">
               Schedule Now
             </button>
           </div>

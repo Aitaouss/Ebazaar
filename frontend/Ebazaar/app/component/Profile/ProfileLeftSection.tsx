@@ -13,7 +13,7 @@ export default function ProfileLeftSection({ userState, setEditOpen }: any) {
     <div className="flex flex-col gap-4 w-full max-w-full md:max-w-xs pt-6 md:sticky md:top-0 z-10">
       {/* Profile Card */}
       <div
-        className="bg-white bg-overlay rounded-4xl shadow relative flex flex-col items-center border border-gray-200 overflow-hidden pb-6 w-full max-w-full md:max-w-xs mx-auto"
+        className="bg-white bg-overlay rounded-lg shadow relative flex flex-col items-center border border-gray-200 overflow-hidden pb-6 w-full max-w-full md:max-w-xs mx-auto"
         style={{ minWidth: 0 }}
       >
         {/* Cover Image */}
@@ -22,7 +22,7 @@ export default function ProfileLeftSection({ userState, setEditOpen }: any) {
             src="/Background.jpg"
             alt="cover"
             fill
-            className="object-cover w-full h-full rounded-t-2xl"
+            className="object-cover w-full h-full rounded-t-lg"
           />
         </div>
         {/* Profile Image & Edit Button */}
